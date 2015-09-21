@@ -1,0 +1,21 @@
+Date			Milestone								Activities
+----------------------------------------------------------------------------------------------------
+16.09.2015		start BA 1								research, experiments, write exposé
+25.09.2015		exposé handed in
+02.10.2015		super simple prototype					(two browser clients connected via server - without e-mail invitation, hard-coded)
+09.10.2015		finished concept, client-server interfaces, process flow
+16.10.2015												server implementation, client client communication
+23.10.2015												server implementation, mail dispatch
+30.10.2015		server implementation finished			client implementation
+06.11.2015												client implementation
+13.11.2015		prototype finished						fine tuning, write thesis
+20.11.2015												fine tuning, write thesis
+27.11.2015												fine tuning, write thesis
+04.12.2015												write thesis
+11.12.2015												write thesis
+18.12.2015		initial version finished				write thesis
+25.12.2015
+01.01.2016
+08.01.2016
+17.01.2016		BA 1 finished
+31.01.2016		BA 1 handed in

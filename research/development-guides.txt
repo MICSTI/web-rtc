@@ -1,0 +1,14 @@
+Mozilla
+https://developer.mozilla.org/en-US/docs/Web/Guide/API/WebRTC
+
+	Peer-to-peer communications with WebRTC
+	https://developer.mozilla.org/en-US/docs/Web/Guide/API/WebRTC/Peer-to-peer_communications_with_WebRTC
+	
+	WebRTC connectivity
+	https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity
+	
+	WebRTC basics
+	https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/WebRTC_basics
+
+W3C
+http://www.w3.org/TR/webrtc/

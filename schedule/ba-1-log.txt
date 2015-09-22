@@ -1,0 +1,3 @@
+18.09.2015		01:00	initial meeting with Mr Feiner
+21.09.2015		00:20	git repository setup
+22.09.2015		01:00	research

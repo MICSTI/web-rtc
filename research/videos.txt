@@ -1,0 +1,49 @@
+(*) = watched
+
+Real-time communication with WebRTC: Google I/O 2013
+44:17 min
+19.05.2013
+https://www.youtube.com/watch?v=p2HzZkd2A40
+
+Building a WebRTC app - LIVE!
+25:09 min
+30.06.2014
+https://www.youtube.com/watch?v=d7NsiFXcc5A
+
+WebRTC tutorial
+20:18 min
+30.06.2014
+https://www.youtube.com/watch?v=5ci91dfKCyc
+
+Architectures for a kickass WebRTC application
+16:23 min
+30.06.2014
+https://www.youtube.com/watch?v=m9QxBc0OeoI
+
+WebRTC in the real world
+17:30 min
+30.06.2014
+https://www.youtube.com/watch?v=rb46OzNB1k4
+
+Integrating WebRTC with your app (*)
+13:29 min
+30.06.2014
+https://www.youtube.com/watch?v=YJgxbbvANRI
+Notes:
+	Jonathan Nolen of HipChat explains how they extended their app from text chat to video chat
+	Advantages: Platform support, API, UX
+	Issues: web developers suddenly have to worry about hardware, broken web-cams, bad video drivers, other applications stealing the camera; you're often at the mercy of the network, and users blame your app
+	Insights:
+		get stats on everything
+			calls attempted, completed, dropped
+			repeated short calls between two users
+			network quality during calls
+			video quality on each end
+			get user's feedback at the end of a call
+		
+		help users help themselves
+			self-diagnostic tools are super useful
+				a "test sound" button to test your speakers or headset
+				indicators that your mic is picking up sound
+				camera display so the user can see
+				detailed logging that the user can access

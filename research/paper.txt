@@ -1,0 +1,29 @@
+Scalable signaling protocol for Web real-time communication based on a distributed hash tableOriginal Research Article
+Computer Communications, In Press, Corrected Proof, Available online 3 June 2015
+Jung Ha Paik, Dong Hoon Lee
+
+Unified communications as a service and WebRTC: An identity-centric perspectiveOriginal Research Article
+Computer Communications, In Press, Corrected Proof, Available online 17 July 2015
+Victoria Beltran, Emmanuel Bertin
+
+Design, development and assessment of control schemes for IDMS in a standardized RTCP-based solutionOriginal Research Article
+Computer Networks, Volume 70, 9 September 2014, Pages 240-259
+Mario Montagud, Fernando Boronat, Hans Stokking, Pablo Cesar
+
+Design, development and assessment of control schemes for IDMS in a standardized RTCP-based solutionOriginal Research Article
+Computer Networks, Volume 70, 9 September 2014, Pages 240-259
+Mario Montagud, Fernando Boronat, Hans Stokking, Pablo Cesar
+
+Oracle: Delivering Enterprise - Class Communications with WebRTC
+http://www.oracle.com/us/industries/communications/oracle-enterprise-web-rtc-wp-2132263.pdf
+
+WebRTC: Reach the web with a new conversation experience
+http://www.tmcnet.com/tmc/whitepapers/documents/whitepapers/2013/9187-webrtc-reach-web-with-new-conversation-experience.pdf
+
+Case studies:
+https://s3.amazonaws.com/ahoy-assets.twilio.com/Whitepapers/WebRTC_White_Paper.pdf
+
+Possible:
+http://www.academia.edu/4293745/webrtc_whitepaper
+http://networkfuel.dialogic.com/webrtc-whitepaper
+http://www.yorktel.com/resources/whitepapers/webrtc/

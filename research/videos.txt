@@ -1,31 +1,134 @@
 (*) = watched
 
-Real-time communication with WebRTC: Google I/O 2013
+Real-time communication with WebRTC: Google I/O 2013 (VIDEO-1) (*)
 44:17 min
 19.05.2013
 https://www.youtube.com/watch?v=p2HzZkd2A40
+Notes:
+	Justin Uberti - WebRTC Tech Lead, Google
+	Sam Dutton - Developer Advocate, Google Chrome
 
-Building a WebRTC app - LIVE!
+	Three main tasks
+		Aquiring audio and video
+		Communicating audio and video
+		Communicating arbitrary data
+	
+	RTCPeerConnection tasks
+		Signal processing
+		Codec handling
+		Peer to Peer connection
+		Security
+		Bandwidth management
+		
+	RTCDataChannel
+		same API as web sockets
+		ultra-low latency
+		secure
+		unreliable or reliable (like UDP vs. TCP - is it important that data gets there quickly or that it definitely gets there - like game updates vs. file transfer)
+		
+		all data is transferred peer to peer - nothing via a server (example: file transfer)
+		
+	Signaling
+		abstract session description
+		
+	STUN server
+		tell me my public IP address
+		simple server, cheap to run
+		data flows peer-to-peer
+		
+	TURN
+		provides a cloud fallback if peer-to-peer communication fails
+		data is sent through server, uses server bandwidth
+		ensures that call works in almost all environments
+		
+	ICE
+		= a framework for connecting peers
+		tries to find the best path for each call, either STUN or TURN
+		vast majority of calls use STUN (webrtcstats.com)
+			2013: 86% P2P, 14% relayed
+			
+	Deploying STUN/TURN server
+		stun.l.google.com:19302
+		WebRTC stunserver, turnserver
+		rfc5766-turn-server	(Amazon VM images to download - all setup done)
+		restund
+		
+	Security
+		Mandatory encryption for media and data (standard AES encryption)
+		Secure UI, explicit opt-in
+		Sandboxed, no plugins
+		
+		as long as signalling goes over HTPPS, all data will be fully secured via SRTPC for media and DTLS for data
+		
+	Architecture for multi user calls
+		Mesh: small N-way call
+			each devices connects to every other device - high CPU, high bandwidth, with mobile device(s) probably difficult
+	
+		Star: medium N-way call
+			pick the most capable device, all other devices connect to that device
+			that device is called the "focus" of the call, responsible for getting all data and sending it to all other parties
+			
+		MCU: multi point controller unit
+			custom-made server for relaying large amounts of audio and video
+			
+	Beyond browsers
+		Easy to interoperate with non-browser devices
+			sipML5 - open source JavaScript SIP client
+			Phono - open source JavaScript phone API
+			Zingaya - embeddable phone widget
+			
+	Building a WebRTC app
+		chrome://webrtc-internals
+		
+		adapter.js
+			lets you use the same code in all browsers
+			removes vendor prefixes
+			abstracts Chrome/Firefox differences
+			 
+
+Building a WebRTC app - LIVE! (VIDEO-2)
 25:09 min
 30.06.2014
 https://www.youtube.com/watch?v=d7NsiFXcc5A
 
-WebRTC tutorial
+WebRTC tutorial (VIDEO-3)
 20:18 min
 30.06.2014
 https://www.youtube.com/watch?v=5ci91dfKCyc
+Notes:
+	Tsahi Levent-Levi
+	
+	"WebRTC offers real time communication natively from a web browser"
+	"WebRTC is a media engine with JavaScrip APIs"
+	"WebRTC is a technology, not a solution"
+	
+	History of WebRTC
+		May 2011: WebRTC announced - Google releases WebRTC source code for the first time under a permissive BSO license
+		Nov 2011: Chrome 23 adds WebRTC
+		Jan 2013: Firefox 20 adds WebRTC, for now only getUserMedia
+		Feb 2013: Interoperability - Firefox and Chrome work together - pretty much ;-)
+		Jun 2013: Firefox 22 released, now it is possible to make video calls as well as use the Data channel API
+		Jul 2013: Chrome for Android Beta with WebRTC
+		Aug 2013: Chrome for Android now fully supports WebRTC
+		Sep 2013: Firefox for Android support WebRTC
+		
+	Books
+		WebRTC book - "The Bible"
+		Rob Manson - Getting Started With WebRTC
+		Salvatore Loreto & Simon Pietro Romano - Real-time Communication with WebRTC (O'Reilly)
+		Andrii Sergiienko - WebRTC Blueprints
 
-Architectures for a kickass WebRTC application
+Architectures for a kickass WebRTC application (VIDEO-4)
 16:23 min
 30.06.2014
 https://www.youtube.com/watch?v=m9QxBc0OeoI
 
-WebRTC in the real world
+WebRTC in the real world (VIDEO-5)
 17:30 min
 30.06.2014
 https://www.youtube.com/watch?v=rb46OzNB1k4
 
-Integrating WebRTC with your app (*)
+Integrating WebRTC with your app (VIDEO-6) (*)
 13:29 min
 30.06.2014
 https://www.youtube.com/watch?v=YJgxbbvANRI

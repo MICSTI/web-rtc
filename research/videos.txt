@@ -86,12 +86,22 @@ Notes:
 			abstracts Chrome/Firefox differences
 			 
 
-Building a WebRTC app - LIVE! (VIDEO-2)
+Building a WebRTC app - LIVE! (VIDEO-2) (*)
 25:09 min
 30.06.2014
 https://www.youtube.com/watch?v=d7NsiFXcc5A
+Notes:
+	Tim Panton
+	Alex Thomas
+	
+	What not to do
+		don't replicate the PSTN (public switched telephone network) functionality
+		WebRTC's value is in the context and tailored UX
+	
+	hoodie.js
+	seriously.js
 
-WebRTC tutorial (VIDEO-3)
+WebRTC tutorial (VIDEO-3) (*)
 20:18 min
 30.06.2014
 https://www.youtube.com/watch?v=5ci91dfKCyc
@@ -118,15 +128,66 @@ Notes:
 		Salvatore Loreto & Simon Pietro Romano - Real-time Communication with WebRTC (O'Reilly)
 		Andrii Sergiienko - WebRTC Blueprints
 
-Architectures for a kickass WebRTC application (VIDEO-4)
+Architectures for a kickass WebRTC application (VIDEO-4) (*)
 16:23 min
 30.06.2014
 https://www.youtube.com/watch?v=m9QxBc0OeoI
+Notes:
+	Tom Moor, co-founder of Sqwiggle, co-founder of Buffer
+	
+	Sqwiggle is a video conference/chat app where you can see the faces of every team member all the time, updating every 15 seconds
+	
+	api.sqwiggle.com		rails-api
+	app.sqwiggle.com		node.js
+	www.sqwiggle.com		rails-api
+	desktop app				node-webkit
+	websockets				pusher PaaS / switchboard
 
-WebRTC in the real world (VIDEO-5)
+WebRTC in the real world (VIDEO-5) (*)
 17:30 min
 30.06.2014
 https://www.youtube.com/watch?v=rb46OzNB1k4
+Notes:
+	Badri Rajasekar
+	
+	valspar
+		consulting for painting your walls
+		can overlay recommended paint colors on the video stream
+		
+	Webcam controlled HTML5 slides (by Luigi Lo Iacono)
+		slide via gestures in front of webcam
+	
+	ustyme
+		engaging conversations (like reading a bedtime story via app - see the book on screen, hear the voice)
+		
+	PIPE
+		P2P file sharing
+		
+	AR Drone Parrot 2.0 (by Rohit Ghatol)
+		control quadcopter via webcam feed
+		
+	Net Medical Xpress
+		Telemedicine cart with touch screen for communicating with physicians, nurses and parents in real time
+		
+	Guitar Tuner (by Tom Hoddes)
+	
+	Fluke Connect
+		service industry
+		securely connect and collaborate with others, so they can see what you can see
+	
+	Capiche
+		Live interpreters
+		
+	rapt.fm
+		host live video rap battles - users can rap, watch and vote for their favorites
+		
+	Be My Eyes
+		an iPhone app that lets blind people contact a network of sighted volunteers for help with live video chat
+		e.g. read nutrition or medicine labels
+		non-profit organisation, volunteer based
+		
+	Double Robotics
+		Double Telepresence Robot lets you place your iPad on a moveable base that you can control remotely while carrying on a two-way conversation
 
 Integrating WebRTC with your app (VIDEO-6) (*)
 13:29 min
@@ -150,3 +211,8 @@ Notes:
 				indicators that your mic is picking up sound
 				camera display so the user can see
 				detailed logging that the user can access
+				
+A Practical Guide to Building WebRTC Apps (VIDEO-7)
+30:40 min
+18.10.2013
+https://www.youtube.com/watch?v=4KXABSYmKXs

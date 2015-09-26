@@ -2,4 +2,4 @@
 21.09.2015		00:20	git repository setup
 22.09.2015		01:00	research (VIDEO-6)
 24.09.2015		01:30	research (VIDEO-1, VIDEO-3, available books)
-26.09.2015		01:30	research (VIDEO-4, VIDEO-5, VIDEO-2)
+26.09.2015		01:30	research (VIDEO-4, VIDEO-5, VIDEO-2) and node.js setup

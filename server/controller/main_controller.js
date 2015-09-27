@@ -2,6 +2,9 @@
 var http = require('http');
 var fs = require('fs');
 
+// url parser
+var urlparser = require('../helper/urlparser');
+
 // read config file
 var config = require('../config');
 
@@ -16,6 +19,23 @@ var startup = function() {
 	// create server
 	http.createServer(function(request, response) {
 		console.log("Incoming request: " + request.url + "\n");
+		
+		// handle according to request method
+		switch (request.method) {
+			case "GET":
+				// parse url
+				var restUrl = new urlparser.UrlParser(request, {}, config.defaultResponseFormat);
+				console.log(restUrl);
+			
+				break;
+				
+			case "POST":
+			case "PUT":
+			case "DELETE":
+			default:
+				
+				break;
+		}
 		
 		response.writeHead(200, {'Content-Type': 'text/plain'} );
 		response.end("Hello dear friend! Nice of you to drop by.");

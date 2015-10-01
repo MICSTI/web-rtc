@@ -1,6 +1,9 @@
-18.09.2015		01:00	initial meeting with Mr Feiner
+18.09.2015		01:00	initial meeting with Mr Feiner (topic, outline of prototype, implementation possibilities)
 21.09.2015		00:20	git repository setup
 22.09.2015		01:00	research (VIDEO-6)
 24.09.2015		01:30	research (VIDEO-1, VIDEO-3, available books)
 26.09.2015		01:30	research (VIDEO-4, VIDEO-5, VIDEO-2) and node.js setup
 27.09.2015		04:30	basic node.js server, websocket demo
+
+01.10.2015		00:30	meeting with Mr Feiner (organisational topics, exposé, implementation details -> exposé to be finished within next week)
+				00:20	paper research (ACM, IEEE, Science Direct)

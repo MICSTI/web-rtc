@@ -1,3 +1,69 @@
+PAPER-1
+Evaluating two approaches for browser-based real-time multimedia communication
+Marcin Davies, Joachim Zeiss, Rene Gabner
+December 2012 		
+MoMM '12: Proceedings of the 10th International Conference on Advances in Mobile Computing & Multimedia
+
+PAPER-2
+WebRTC based remote collaborative online learning platform
+Hyeontaek Oh, Sanghong Ahn, JunKyun Choi, Jinhong Yang
+April 2015 		
+AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
+
+PAPER-3
+An API proposal for integrating sensor data into web apps and WebRTC
+João Azevedo, Ricardo Lopes Pereira, Paulo Chainho
+April 2015 		
+AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems 
+
+PAPER-4
+Specialized network services for WebRTC: TURN-based architecture proposal
+Ewa Janczukowicz, Arnaud Braud, Stéphane Tuffin, Gaël Fromentoux, Ahmed Bouabdallah, Jean-Marie Bonnin
+April 2015 		
+AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
+
+PAPER-5
+On embedded real time media communications
+Jean-Charles Grégoire
+April 2015 		
+AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
+
+PAPER-6
+P2P shared-caching model: using P2P to improve client-server application performance
+Luong Quy Tho, Ha Quoc Trung
+December 2013 		
+SoICT '13: Proceedings of the Fourth Symposium on Information and Communication Technology
+
+PAPER-7
+Determining the signalling overhead of two common WebRTC methods: JSON via XMLHttpRequest and SIP over WebSocket
+Adeyeye, M.; Makitla, I.; Fogwill, T.
+AFRICON, 2013
+Year: 2013
+
+PAPER-8
+WebRTC technology overview and signaling solution design and implementation
+Sredojev, B.; Samardzija, D.; Posarac, D.
+Information and Communication Technology, Electronics and Microelectronics (MIPRO), 2015 38th International Convention on
+Year: 2015
+
+PAPER-9
+WebRTC technology for mobile devices
+Togay, C.
+Signal Processing and Communications Applications Conference (SIU), 2014 22nd
+Year: 2014
+
+PAPER-10
+P2P live video streaming in WebRTC
+Rhinow, F.; Veloso, P.P.; Puyelo, C.; Barrett, S.; Nuallain, E.O.
+Computer Applications and Information Systems (WCCAIS), 2014 World Congress on
+Year: 2014
+
+PAPER-11
+WebRTC quality assessment: Dangers of black-box testing
+Cinar, Yusuf; Melvin, Hugh
+Digital Technologies (DT), 2014 10th International Conference on
+Year: 2014
+
 Scalable signaling protocol for Web real-time communication based on a distributed hash tableOriginal Research Article
 Computer Communications, In Press, Corrected Proof, Available online 3 June 2015
 Jung Ha Paik, Dong Hoon Lee

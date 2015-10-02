@@ -5,6 +5,7 @@ $(document).ready(function() {
 	var username = $("#username");
 	var mail = $("#mail");
 	var send = $("#send");
+	var setUserInfo = $("#set-user-info");
 	
 	// if user is running mozilla then use it's built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
@@ -17,36 +18,42 @@ $(document).ready(function() {
         return;
     }
 	
-	// open connection
-    var connection = new WebSocket('ws://127.0.0.1:1337');
+	// set user info
+	setUserInfo.on("click", function() {
+		// open connection
+		var connection = new WebSocket('ws://127.0.0.1:1337');
 
-    connection.onopen = function() {
-       console.log("WebSocket connection opened");
-    };
+		connection.onopen = function() {
+		   console.log("WebSocket connection opened");
+		   
+		   // send user info
+		   connection.send(JSON.stringify(getUserInfo()));
+		};
 
-    connection.onerror = function(error) {
-        // just in there were some problems with connection...
-        chat.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
-                                    + 'connection or the server is down.' } ));
-    };
+		connection.onerror = function(error) {
+			// just in there were some problems with connection...
+			chat.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
+										+ 'connection or the server is down.' } ));
+		};
 
-    // most important part - incoming messages
-    connection.onmessage = function(message) {
-		// message origin
-		var origin = message.origin;
+		// most important part - incoming messages
+		connection.onmessage = function(message) {
+			// message origin
+			var origin = message.origin;
+			
+			// parse message JSON data
+			var data = JSON.parse(message.data);
+			
+			// call onmessage handler
+			onMessageReceived(getMessageObject(data));
+		};
 		
-		// parse message JSON data
-		var data = JSON.parse(message.data);
-		
-		// call onmessage handler
-		onMessageReceived(getMessageObject(data));
-    };
-	
-	// submit button
-	send.on("click", function() {
-		connection.send(input.val());
-		
-		input.val("");
+		// submit button
+		send.on("click", function() {
+			connection.send(input.val());
+			
+			input.val("");
+		});
 	});
 	
 	/**
@@ -88,5 +95,16 @@ $(document).ready(function() {
 		html += "</div>";
 		
 		return html;
+	}
+	
+	/**
+		Returns a object containing the info provided by the user.
+		E.g. { "name": "ABC", "mail": "abc@example.com" }
+	*/
+	var getUserInfo = function() {
+		return {
+			name: username.val(),
+			mail: mail.val()
+		}
 	}
 });

@@ -19,17 +19,19 @@
 	<div id="page-content">
 		<div class="page-row">
 			<div id="login-container">
-				<div>
-					<input type="text" id="username" placeholder="User name" />
-				</div>
+				<span>
+					<label for="username">Name:</label>
+					<input type="text" id="username" placeholder="Name" />
+				</span>
 				
-				<div>
-					<input type="text" id="message" placeholder="Message" />
-				</div>
+				<span>
+					<label for="mail">E-Mail:</label>
+					<input type="text" id="mail" placeholder="E-Mail" />
+				</span>
 				
-				<div>
-					<button id="send">Send</button>
-				</div>
+				<span>
+					<button id="set-user-info">Ok</button>
+				</span>
 			</div>
 		</div>
 	
@@ -45,6 +47,15 @@
 			</div>
 			
 			<div id="chat-container">
+				<div>
+					<span>
+						<label for="message">Message:</label>
+						<input type="text" id="message" placeholder="Message" />
+					</span>
+					
+					<button id="send">Send</button>
+				</div>
+			
 				<div id="chat">
 				</div>
 			</div>

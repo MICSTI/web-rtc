@@ -35,6 +35,9 @@ var MainController = function() {
 		// handle according to request method
 		switch (request.method) {
 			case "GET":
+				// check url for redirection
+				request.url = routesController.checkForUrlRedirection(request);
+			
 				// parse url
 				var restUrl = new urlparser.UrlParser(request, {}, config.defaultResponseFormat);
 				

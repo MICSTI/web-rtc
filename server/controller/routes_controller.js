@@ -11,9 +11,9 @@ var RoutesController = function() {
 RoutesController.prototype.checkForUrlRedirection = function(request) {
 	var url = request.url;
 	
+	// if request url is empty, redirect to client page
 	if (url == "/" || url == "") {
-		// TODO: redirect to default landing page
-		url = "/index.php";
+		url = "/public/client.html";
 	}
 	
 	return url;

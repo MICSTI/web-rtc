@@ -72,8 +72,7 @@ UrlParser.prototype.parseUrl = function() {
 			// remove the last "." - it doesn't belong here
 			this.id = this.id.substr(0, this.id.length - 1);
 		} else {
-			// there's only one element in the array
-			
+			// there's only one element in the array		
 			this.id = idAndFormatParts[0];
 		}
 		

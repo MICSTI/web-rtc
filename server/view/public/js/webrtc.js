@@ -7,6 +7,8 @@ $(document).ready(function() {
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
 	
+	var user = new User();
+	
 	// if user is running mozilla then use it's built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 	
@@ -20,14 +22,23 @@ $(document).ready(function() {
 	
 	// set user info
 	setUserInfo.on("click", function() {
+		// set user info
+		user.name = username.val();
+		user.mail = mail.val();
+		
 		// open connection
 		var connection = new WebSocket('ws://127.0.0.1:1337');
 
 		connection.onopen = function() {
 		   console.log("WebSocket connection opened");
 		   
-		   // send user info
-		   connection.send(JSON.stringify(getUserInfo()));
+		   // send user info message
+		   var message = new Message();
+		   
+		   message.sender = user;
+		   message.type = message.type.SERVER;
+		   
+		   connection.send(JSON.stringify(message));
 		};
 
 		connection.onerror = function(error) {
@@ -95,16 +106,5 @@ $(document).ready(function() {
 		html += "</div>";
 		
 		return html;
-	}
-	
-	/**
-		Returns a object containing the info provided by the user.
-		E.g. { "name": "ABC", "mail": "abc@example.com" }
-	*/
-	var getUserInfo = function() {
-		return {
-			name: username.val(),
-			mail: mail.val()
-		}
 	}
 });

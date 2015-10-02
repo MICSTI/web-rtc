@@ -1,6 +1,6 @@
 var Message = function() {
 	// Timestamp
-	this.timestamp = "";
+	this.timestamp = new Date();
 	
 	// Content
 	this.content = "";

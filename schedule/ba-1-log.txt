@@ -8,3 +8,4 @@
 01.10.2015		00:30	meeting with Mr Feiner (organisational topics, exposé, implementation details -> exposé to be finished within next week)
 				00:20	paper research (ACM, IEEE, Science Direct)
 02.10.2015		01:30	server refactoring, consistent controller structure
+				01:00	client frontend

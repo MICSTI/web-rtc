@@ -1,5 +1,5 @@
 $(function() {
-	var content = $("#content");
+	var chat = $("#chat");
 	var input = $("#message");
 	var username = $("#username");
 	var send = $("#send");
@@ -9,7 +9,7 @@ $(function() {
 	
 	// if browser doesn't support WebSocket, just show some notification and exit
     if (!window.WebSocket) {
-        content.html($('<p>', { text: 'Sorry, but your browser doesn\'t '
+        chat.html($('<p>', { text: 'Sorry, but your browser doesn\'t '
                                     + 'support WebSockets.'} ));
         input.hide();
         return;
@@ -24,7 +24,7 @@ $(function() {
 
     connection.onerror = function (error) {
         // just in there were some problems with conenction...
-        content.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
+        chat.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
                                     + 'connection or the server is down.' } ));
     };
 

@@ -1,0 +1,17 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: cornflowerblue;
+	font-size: 12pt;
+}
+
+input[type=text] {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.page-row {
+	margin: 8px 0px;
+}
+
+#footer {
+	font-size: 0.75em;
+}

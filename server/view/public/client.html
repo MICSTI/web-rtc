@@ -5,26 +5,54 @@
   <meta charset="utf-8">
 
   <title>WebRTC</title>
+  
+  <link href="http://fonts.googleapis.com/css?family=Open%20Sans" rel="stylesheet" type="text/css">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/webrtc.css">
 </head>
 
 <body>
-	<h2>WebRTC</h2>
-	
-	<div>
-		<input type="text" id="username" placeholder="User name" />
+	<div id="header">
+		<h2>WebRTC</h2>
 	</div>
 	
-	<div>
-		<input type="text" id="message" placeholder="Message" />
+	<div id="page-content">
+		<div class="page-row">
+			<div id="login-container">
+				<div>
+					<input type="text" id="username" placeholder="User name" />
+				</div>
+				
+				<div>
+					<input type="text" id="message" placeholder="Message" />
+				</div>
+				
+				<div>
+					<button id="send">Send</button>
+				</div>
+			</div>
+		</div>
+	
+		<div class="page-row">
+			<div id="video-container">
+			
+			</div>
+		</div>
+		
+		<div class="page-row">
+			<div id="available-container">
+				
+			</div>
+			
+			<div id="chat-container">
+				<div id="chat">
+				</div>
+			</div>
+		</div>
 	</div>
 	
-	<div>
-		<button id="send">Send</button>
-	</div>
-	
-	<div id="content">
+	<div id="footer">
+		&copy; Michael Stifter 2015
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>

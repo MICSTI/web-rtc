@@ -2,11 +2,16 @@ var fs = require('fs');
 
 var StaticFilesController = function(){
 	
-}
+};
 
+/**
+	Serves a static file from the file static, according to the file type in the restUrl object.
+*/
 StaticFilesController.prototype.handle = function(response, restUrl){
+	// access to this
+	var self = this;
 
-	var filename = '../view' + restUrl.url;
+	var filename = './view/' + restUrl.url;
 	
 	fs.readFile(filename, function(err, filedata) {
 		if (err === null ){
@@ -26,19 +31,17 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 				response.writeHead(200, {'Content-Type': 'text/css'} );
 				response.end( filedata.toString('UTF-8') );
 			} else
-				returnErr(response, "Unsupported file type: '" + restUrl.format + "'");
-		}else
-			returnErr(response, "Error reading file '" + filename + "': " + err);
+				self.returnError(response, "Unsupported file type: '" + restUrl.format + "'");
+		} else
+			self.returnError(response, "Error reading file '" + filename + "': " + err);
 		}
 	)
-}
+};
 
-var staticFileController = new StaticFilesController();
-module.exports = staticFileController;
-
-// helper Errors for static files:
-StaticFilesController.prototype.returnErr = function(response,msg) {
-	console.log("DEBUG: serving static files " + msg);
+// error response
+StaticFilesController.prototype.returnError = function(response, msg) {
   	response.writeHead(503, {'Content-Type': 'text/plain'});
   	response.end("ERROR: '" + msg + "'\n");
 }
+
+module.exports = new StaticFilesController();

@@ -51,17 +51,34 @@ UrlParser.prototype.parseUrl = function() {
 	// id and format (e.g. available.json)
 	var idAndFormat = idParts[0];
 	
-	// the first element equals the filename ("availabe.json")
+	// the first element equals the filename ("available.json")
 	this.filename = idAndFormat;
 	
 	// split it by "."
 	var idAndFormatParts = idAndFormat.split(".");
-
 	
-	if (idAndFormatParts.length > 1) {
+	// get length of idAndFormatParts array
+	var idAndFormatPartsLength = idAndFormatParts.length;
+	
+	if (idAndFormatPartsLength > 1) {
 		// id and format were passed
-		this.id = idAndFormatParts[0];
-		this.format = idAndFormatParts[1];
+		
+		// is there more than ".", like in "jquery.min.js"?
+		if (idAndFormatPartsLength > 2) {
+			for (var i = 0; i < (idAndFormatPartsLength - 2); i++) {
+				this.id += idAndFormatParts[i] + ".";
+			}
+			
+			// remove the last "." - it doesn't belong here
+			this.id = this.id.substr(0, this.id.length - 1);
+		} else {
+			// there's only one element in the array
+			
+			this.id = idAndFormatParts[0];
+		}
+		
+		// format is the very last element in the array (in case there is more than ".", like in "jquery.min.js")
+		this.format = idAndFormatParts[idAndFormatParts.length - 1];
 	} else {
 		// no format was passed - we use the default format
 		this.id = idAndFormatParts[0];

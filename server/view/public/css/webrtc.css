@@ -7,10 +7,50 @@ input[type=text] {
 	font-family: 'Open Sans', sans-serif;
 }
 
+#page-container {
+	width: 1000px;
+}
+
+#page-header {
+	padding: 4px;
+	text-align: center;
+}
+
 .page-row {
 	margin: 8px 0px;
 }
 
-#footer {
+#page-footer {
 	font-size: 0.75em;
 }
+
+#after-login {
+	display: none;
+}
+
+/* --------------- LOGIN CONTAINER ------------- */
+#login-container {
+	text-align: center;
+}
+/* --------------------------------------------- */
+
+/* --------------- VIDEO CONTAINER ------------- */
+#video-container {
+	position: relative;
+	left: 100px;
+}
+/* --------------------------------------------- */
+
+/* ------------- AVAILABLE CONTAINER ----------- */
+#available-container {
+	display: inline-block;
+	width: 496px;
+}
+/* --------------------------------------------- */
+
+/* --------------- CHAT CONTAINER -------------- */
+#chat-container {
+	display: inline-block;
+	width: 496px;
+}
+/* --------------------------------------------- */

@@ -12,63 +12,69 @@
 </head>
 
 <body>
-	<div id="header">
-		<h2>WebRTC</h2>
-	</div>
-	
-	<div id="page-content">
-		<div class="page-row">
-			<div id="login-container">
-				<span>
-					<label for="username">Name:</label>
-					<input type="text" id="username" placeholder="Name" />
-				</span>
-				
-				<span>
-					<label for="mail">E-Mail:</label>
-					<input type="text" id="mail" placeholder="E-Mail" />
-				</span>
-				
-				<span>
-					<button id="set-user-info">Ok</button>
-				</span>
-			</div>
+	<div id="page-container">
+		<div id="page-header">
+			<h2>WebRTC</h2>
 		</div>
-	
-		<div class="page-row">
-			<div id="video-container">
-			
+		
+		<div id="page-content">
+			<div class="page-row">
+				<div id="login-container">
+					<span>
+						<label for="username">Name:</label>
+						<input type="text" id="username" placeholder="Name" />
+					</span>
+					
+					<span>
+						<label for="mail">E-Mail:</label>
+						<input type="text" id="mail" placeholder="E-Mail" />
+					</span>
+					
+					<span>
+						<button id="set-user-info">Ok</button>
+					</span>
+				</div>
+			</div>
+		
+			<div id="after-login">
+				<div class="page-row">
+					<div id="video-container">
+					
+					</div>
+				</div>
+				
+				<div class="page-row">
+					<div id="available-container">
+						
+					</div>
+					
+					<div id="chat-container">
+						<div>
+							<span>
+								<label for="message">Message:</label>
+								<input type="text" id="message" placeholder="Message" />
+							</span>
+							
+							<button id="send">Send</button>
+						</div>
+					
+						<div id="chat">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
-		<div class="page-row">
-			<div id="available-container">
-				
-			</div>
-			
-			<div id="chat-container">
-				<div>
-					<span>
-						<label for="message">Message:</label>
-						<input type="text" id="message" placeholder="Message" />
-					</span>
-					
-					<button id="send">Send</button>
-				</div>
-			
-				<div id="chat">
-				</div>
-			</div>
+		<div id="page-footer">
+			<!--&copy; Michael Stifter 2015-->
 		</div>
-	</div>
-	
-	<div id="footer">
-		&copy; Michael Stifter 2015
 	</div>
 
 	<script src="public/js/jquery-2.1.4.min.js"></script>
+	
 	<script src="public/model/User.js"></script>
 	<script src="public/model/Message.js"></script>
+	
 	<script src="public/js/webrtc.js"></script>
 </body>
 </html>

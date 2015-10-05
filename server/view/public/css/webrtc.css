@@ -20,6 +20,15 @@ input[type=text] {
 	margin: 8px 0px;
 }
 
+.section-header {
+	font-weight: bold;
+	background-color: #777;
+	color: #ddd;
+	text-align: center;
+	padding: 4px 0px;
+	text-transform: uppercase;
+}
+
 #page-footer {
 	font-size: 0.75em;
 }
@@ -45,6 +54,7 @@ input[type=text] {
 #available-container {
 	display: inline-block;
 	width: 496px;
+	vertical-align: top;
 }
 /* --------------------------------------------- */
 
@@ -52,5 +62,6 @@ input[type=text] {
 #chat-container {
 	display: inline-block;
 	width: 496px;
+	vertical-align: top;
 }
 /* --------------------------------------------- */

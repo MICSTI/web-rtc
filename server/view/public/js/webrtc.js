@@ -6,7 +6,12 @@ $(document).ready(function() {
 	var mail = $("#mail");
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
+	var afterLogin = $("#after-login");
 	
+	// set ofcus to username field
+	username.focus();
+	
+	// current user
 	var user = new User();
 	
 	// if user is running mozilla then use it's built-in WebSocket
@@ -39,6 +44,9 @@ $(document).ready(function() {
 		   message.type = message.type.SERVER;
 		   
 		   connection.send(JSON.stringify(message));
+		   
+		   // show video and chat elements
+		   afterLogin.show();	
 		};
 
 		connection.onerror = function(error) {
@@ -82,10 +90,10 @@ $(document).ready(function() {
 		
 		// sender
 		// TODO: remove fake data
-		messageObject.sender = {
-			id: 0,
-			name: "Server"
-		};
+		var fakeSender = new User();
+		fakeSender.name = "Server";
+		
+		messageObject.sender = fakeSender;
 		
 		// content
 		messageObject.content = messageJson.message;

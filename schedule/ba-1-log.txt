@@ -10,3 +10,4 @@
 02.10.2015		01:30	server refactoring, consistent controller structure
 				01:00	client frontend
 04.10.2015		01:00	exposé
+05.10.2015		00:30	client frontend (CSS styling)

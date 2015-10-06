@@ -66,7 +66,10 @@ $(document).ready(function() {
 			// parse message JSON data
 			var messageData = JSON.parse(message.data);
 			
-			// TODO: cast to Message object (maybe by iterating over attributes?)
+			// cast it to message object
+			var messageObject = castObject(messageData, "Message");
+			
+			console.log(messageObject);
 			
 			// call onmessage handler
 			onMessageReceived(messageData);
@@ -118,5 +121,32 @@ $(document).ready(function() {
 		}
 		
 		return html;
+	}
+	
+	var castObject = function(object, type) {
+		var returnObject = null;
+		
+		switch (type) {
+			case "Message":
+				returnObject = new Message();
+				break;
+				
+			case "User":
+				returnObject = new User();
+				break;
+				
+			default:
+				break;
+		}
+		
+		if (returnObject !== null) {
+			for (var property in object) {
+				if (object.hasOwnProperty(property)) {
+					returnObject[property] = object[property];
+				}
+			}
+		}
+		
+		return returnObject;
 	}
 });

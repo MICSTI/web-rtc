@@ -108,8 +108,13 @@ var MainController = function() {
 		
 		// TODO: check if id is unique
 		
-		// add client to clients array
-		clients[clientId] = connection;
+		// build client object
+		var client = new clientModel.Client();
+		client.id = clientId;
+		client.webSocketConnection = connection;
+		
+		// add client object to clients array
+		clients[clientId] = client;
 		
 		console.log((new Date()) + ' Connection accepted, assigned id ' + clientId);
 		

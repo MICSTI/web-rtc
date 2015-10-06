@@ -137,9 +137,6 @@ var MainController = function() {
 			// we accept only text
 			if (message.type === 'utf8') {
 				console.log((new Date()) + ' Received Message: ' + message.utf8Data);
-				
-				// store user properties
-				
 			}
 		});
 		

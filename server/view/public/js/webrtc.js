@@ -56,12 +56,7 @@ $(document).ready(function() {
 		};
 
 		connection.onerror = function(error) {
-			var errorMessage = new Message();
-			
-			errorMessage.content = "We are now disconnected";
-			errorMessage.type = errorMessage.types.SERVER;
-			
-			onMessageReceived(errorMessage);
+			addServerConnectionError();
 		};
 
 		// most important part - incoming messages
@@ -81,8 +76,20 @@ $(document).ready(function() {
 		
 		// submit button
 		send.on("click", function() {
-			connection.send(input.val());
+			// build message
+			var message = new Message();
+			message.sender = user;
+			message.recipient = server;
+			message.type = message.types.P2P;
+			message.content = input.val();
 			
+			// send stringified message
+			connection.send(JSON.stringify(message));
+			
+			// append message to chat
+			chat.append(getMessageHtml(message));
+			
+			// clear input for future messages
 			input.val("");
 		});
 	});
@@ -144,6 +151,18 @@ $(document).ready(function() {
 	}
 	
 	/**
+		Adds a server message to the chat showing that there was an error with the server connection
+	*/
+	var addServerConnectionError = function() {
+		var errorMessage = new Message();
+		errorMessage.type = errorMessage.types.SERVER;
+		errorMessage.content = "Connection lost";
+		
+		// append message to chat
+		chat.append(getMessageHtml(errorMessage));
+	}
+	
+	/**
 		Returns the HTML content for a message.
 	*/
 	var getMessageHtml = function(message) {
@@ -159,7 +178,7 @@ $(document).ready(function() {
 				break;
 				
 			case message.types.P2P:
-			default:
+			default:			
 				html += "<div class='message'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-sender'>" + message.sender.name + "</div>";

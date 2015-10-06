@@ -16,6 +16,9 @@ var MainController = function() {
 	// static files controllers
 	var staticFilesController = require('./static_files_controller');
 	
+	// util
+	var util = require('../view/public/js/Util');
+	
 	// models
 	var userModel = require('../model/User');
 	var messageModel = require('../model/Message');
@@ -99,15 +102,18 @@ var MainController = function() {
 		// accept origin
 		var connection = request.accept(null, request.origin);
 		
-		// keep track of client index to remove them on 'close' event
-		var index = clients.push(connection) - 1;
+		// assign client a new id
+		var clientId = util.generateId();
 		
-		console.log((new Date()) + ' Connection accepted.');
+		// add client to clients array
+		clients[clientId] = connection;
+		
+		console.log((new Date()) + ' Connection accepted, assigned id ' + clientId);
 		
 		// send welcome message
 		var welcomeMessage = new messageModel.Message();
 		
-		welcomeMessage.content = "Hi, we are now connected!";
+		welcomeMessage.content = clientId;
 		welcomeMessage.sender = serverUser;
 		welcomeMessage.type = welcomeMessage.type.SERVER;
 		
@@ -118,6 +124,9 @@ var MainController = function() {
 			// we accept only text
 			if (message.type === 'utf8') {
 				console.log((new Date()) + ' Received Message: ' + message.utf8Data);
+				
+				// store user properties
+				
 			}
 		});
 		
@@ -125,10 +134,21 @@ var MainController = function() {
 		connection.on('close', function(connection) {
 			console.log((new Date()) + " " + connection.remoteAddress + " disconnected.");
 			
-			// remove from client array
-			clients.splice(index, 1);
+			// TODO: fix splice bug
+			// remove from clients array
+			for (var i = 0; i < clients.length; i++) {
+				if (clients[i] === connection) {
+					clients.splice(i, 1);
+				}
+			}
+			
+			logClients();
 		});
 	});
+	
+	var logClients = function() {
+		console.log(clients);
+	}
 }
 
 module.exports.startup = new MainController();

@@ -125,9 +125,10 @@ var MainController = function() {
 		// send welcome message
 		var welcomeMessage = new messageModel.Message();
 		
+		welcomeMessage.topic = welcomeMessage.topics.USER_ID;
 		welcomeMessage.content = clientId;
 		welcomeMessage.sender = serverUser;
-		welcomeMessage.type = welcomeMessage.type.SERVER;
+		welcomeMessage.type = welcomeMessage.types.SERVER;
 		
 		connection.sendUTF(JSON.stringify(welcomeMessage));
 		

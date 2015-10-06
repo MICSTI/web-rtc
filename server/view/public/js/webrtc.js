@@ -47,7 +47,7 @@ $(document).ready(function() {
 		   
 		   message.sender = user;
 		   message.recipient = server;
-		   message.type = message.type.SERVER;
+		   message.type = message.types.SERVER;
 		   
 		   connection.send(JSON.stringify(message));
 		   
@@ -59,7 +59,7 @@ $(document).ready(function() {
 			var errorMessage = new Message();
 			
 			errorMessage.content = "We are now disconnected";
-			errorMessage.type = errorMessage.type.SERVER;
+			errorMessage.type = errorMessage.types.SERVER;
 			
 			onMessageReceived(errorMessage);
 		};
@@ -76,7 +76,7 @@ $(document).ready(function() {
 			var messageObject = castObject(messageData, "Message");
 			
 			// call onmessage handler
-			onMessageReceived(messageData);
+			onMessageReceived(messageObject);
 		};
 		
 		// submit button
@@ -91,8 +91,56 @@ $(document).ready(function() {
 		Handler that will be executed when a new message is received.
 	*/
 	var onMessageReceived = function(message) {
-		// add the message to the chat
-		chat.append(getMessageHtml(message));
+		// handle message according to message type
+		switch (message.type) {
+			case message.types.SERVER:
+				// handle internal server message
+				handleServerMessage(message);
+				
+				break;
+				
+			case message.types.P2P:
+				// add the message to the chat
+				chat.append(getMessageHtml(message));
+				
+				break;
+				
+			default:
+			
+				break;
+		}
+	}
+	
+	/**
+		Handles incoming messages from the management server.
+	*/
+	var handleServerMessage = function(message) {
+		// handle according to message topic
+		switch (message.topic) {
+			case message.topics.USER_ID:
+				// assign user id
+				user.id = message.content;
+				
+				// add successfully connected message
+				addServerConnectionSuccessful();
+				
+				break;
+				
+			default:
+				break;
+		}
+	}
+	
+	/**
+		Adds a server message to the chat showing that the server connection has been successfully established.
+	*/
+	var addServerConnectionSuccessful = function() {
+		var successMessage = new Message();
+		successMessage.type = successMessage.types.SERVER;
+		successMessage.content = "Connection established";
+		
+		// append message to chat
+		chat.append(getMessageHtml(successMessage));
 	}
 	
 	/**
@@ -105,7 +153,7 @@ $(document).ready(function() {
 		var m = new Message();
 		
 		switch (message.type) {
-			case m.type.SERVER:
+			case m.types.SERVER:
 				html += "<div class='message message-server'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-content'>" + message.content + "</div>";
@@ -113,7 +161,7 @@ $(document).ready(function() {
 				
 				break;
 				
-			case m.type.P2P:
+			case m.types.P2P:
 			default:
 				html += "<div class='message'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
@@ -127,6 +175,9 @@ $(document).ready(function() {
 		return html;
 	}
 	
+	/**
+		Casts a generic JS object to the specified object type.
+	*/
 	var castObject = function(object, type) {
 		var returnObject = null;
 		

@@ -79,8 +79,24 @@ input[type=text] {
 	margin-bottom: 0px;
 }
 
+.message-timestamp {
+	float: right;
+	color: #777;
+	font-size: 0.8em;
+}
+
+.message-sender {
+	font-weight: bold;
+	margin-bottom: 4px;
+	color: #555;
+}
+
+.message-content {
+	margin-left: 2px;
+}
+
 #send-message {
-	padding: 3px 5px;
+	padding: 6px;
 	background-color: #eee;
 }
 

@@ -42,7 +42,7 @@ RoutesController.prototype.getController = function(restUrl) {
 	
 	// model JS files
 	if (restUrl.path == "model") {
-		controller = "model";
+		controller = "static";
 	}
 	
 	return controller;

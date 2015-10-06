@@ -1,15 +1,15 @@
 var Message = function() {
-	// Timestamp
+	// Timestamp (defaults to now)
 	this.timestamp = new Date();
 	
 	// Content
-	this.content = "";
+	this.content = null;
 	
 	// Sender
-	this.sender = {};
+	this.sender = null;
 	
 	// Receiver
-	this.receiver = {};
+	this.receiver = null;
 	
 	// Type enum
 	this.type = {

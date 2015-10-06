@@ -16,9 +16,6 @@ var MainController = function() {
 	// static files controllers
 	var staticFilesController = require('./static_files_controller');
 	
-	// model files controllers
-	var modelFilesController = require('./model_files_controller');
-	
 	// models
 	var userModel = require('../model/User');
 	var messageModel = require('../model/Message');
@@ -60,10 +57,6 @@ var MainController = function() {
 				switch (controller) {
 					case "static": 
 						staticFilesController.handle(response, restUrl);
-						break;
-						
-					case "model":
-						modelFilesController.handle(response, restUrl);
 						break;
 						
 					default:

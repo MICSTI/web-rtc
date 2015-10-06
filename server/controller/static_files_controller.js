@@ -11,7 +11,12 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 	// access to this
 	var self = this;
 
-	var filename = './view/' + restUrl.url;
+	// special case: JS model files (they are used on the server and on the frontend in the browser
+	if (restUrl.path == "model") {
+		var filename = './model/' + restUrl.filename;
+	} else {
+		var filename = './view/' + restUrl.url;
+	}
 	
 	fs.readFile(filename, function(err, filedata) {
 		if (err === null ){

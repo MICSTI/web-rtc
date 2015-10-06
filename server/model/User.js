@@ -1,12 +1,12 @@
 var User = function() {
 	// Id
-	this.id = "";
+	this.id = null;
 	
 	// Name
-	this.name = "";
+	this.name = null;
 	
 	// E-Mail
-	this.mail = "";
+	this.mail = null;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

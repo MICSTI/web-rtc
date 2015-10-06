@@ -149,11 +149,8 @@ $(document).ready(function() {
 	var getMessageHtml = function(message) {
 		var html = "";
 		
-		// TODO: find better solution
-		var m = new Message();
-		
 		switch (message.type) {
-			case m.types.SERVER:
+			case message.types.SERVER:
 				html += "<div class='message message-server'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-content'>" + message.content + "</div>";
@@ -161,7 +158,7 @@ $(document).ready(function() {
 				
 				break;
 				
-			case m.types.P2P:
+			case message.types.P2P:
 			default:
 				html += "<div class='message'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";

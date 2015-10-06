@@ -68,4 +68,38 @@ input[type=text] {
 #chat {
 	background-color: #eaeaea;
 }
+
+.message {
+	background-color: #ccc;
+	padding: 3px 5px;
+	margin-bottom: 4px;
+}
+
+.message:last-child {
+	margin-bottom: 0px;
+}
+
+#send-message {
+	padding: 3px 5px;
+	background-color: #eee;
+}
+
+#send-message span {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#send-message span:first-child {
+	width: 80%;
+}
+
+#send-message span:last-child {
+	width: 19%;
+	text-align: center;
+}
+
+#chat-message {
+	resize: none;
+	width: 100%;
+}
 /* --------------------------------------------- */

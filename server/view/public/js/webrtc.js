@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	// references to input elements
 	var chat = $("#chat");
-	var input = $("#message");
+	var input = $("#chat-message");
 	var username = $("#username");
 	var mail = $("#mail");
 	var send = $("#send");

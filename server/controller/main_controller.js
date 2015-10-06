@@ -22,6 +22,7 @@ var MainController = function() {
 	// models
 	var userModel = require('../model/User');
 	var messageModel = require('../model/Message');
+	var clientModel = require('../model/Client');
 
 	// read config file
 	var config = require('../config');

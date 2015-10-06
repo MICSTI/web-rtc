@@ -103,10 +103,14 @@ var MainController = function() {
 		// accept origin
 		var connection = request.accept(null, request.origin);
 		
-		// assign client a new id
-		var clientId = util.generateId();
+		// assign client a unique id
+		var unique = false;
 		
-		// TODO: check if id is unique
+		while (!unique) {
+			var clientId = util.generateId();
+			
+			unique = clients.indexOf(clientId) < 0;
+		}
 		
 		// build client object
 		var client = new clientModel.Client();

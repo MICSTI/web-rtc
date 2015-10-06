@@ -14,6 +14,11 @@ $(document).ready(function() {
 	// current user
 	var user = new User();
 	
+	// server "user"
+	var serverUser = new User();
+	serverUser.id = 1;
+	serverUser.name = "Server";
+	
 	// if user is running mozilla then use it's built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 	
@@ -41,6 +46,7 @@ $(document).ready(function() {
 		   var message = new Message();
 		   
 		   message.sender = user;
+		   message.recipient = server;
 		   message.type = message.type.SERVER;
 		   
 		   connection.send(JSON.stringify(message));

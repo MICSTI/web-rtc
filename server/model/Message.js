@@ -8,8 +8,8 @@ var Message = function() {
 	// Sender
 	this.sender = null;
 	
-	// Receiver
-	this.receiver = null;
+	// Recipient
+	this.recipient = null;
 	
 	// Type enum
 	this.type = {

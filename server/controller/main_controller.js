@@ -34,6 +34,12 @@ var MainController = function() {
 
 	// web socket clients
 	var clients = [];
+	
+	// user "server"
+	var serverUser = new userModel.User();
+	serverUser.id = 1;
+	serverUser.name = "Server";
+	serverUser.mail = "server@webrtc.com";
 
 	// server startup
 	var server = http.createServer(function(request, response) {
@@ -106,7 +112,12 @@ var MainController = function() {
 		console.log((new Date()) + ' Connection accepted.');
 		
 		// send welcome message
-		// TODO: real message object
+		var welcomeMessage = new messageModel.Message();
+		
+		welcomeMessage.content = "Hello!!";
+		welcomeMessage.sender = serverUser;
+		welcomeMessage.type = welcomeMessage.type.SERVER;
+		
 		connection.sendUTF(JSON.stringify( { message: "Hello!!!" } ));
 		
 		// user sent a message

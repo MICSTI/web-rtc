@@ -8,3 +8,7 @@ var User = function() {
 	// E-Mail
 	this.mail = "";
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports.User = User;
+}

@@ -17,3 +17,7 @@ var Message = function() {
 		P2P: 2
 	}
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports.Message = Message;
+}

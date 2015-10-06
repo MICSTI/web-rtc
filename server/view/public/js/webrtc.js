@@ -15,9 +15,9 @@ $(document).ready(function() {
 	var user = new User();
 	
 	// server "user"
-	var serverUser = new User();
-	serverUser.id = 1;
-	serverUser.name = "Server";
+	var server = new User();
+	server.id = 1;
+	server.name = "Server";
 	
 	// if user is running mozilla then use it's built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
@@ -74,8 +74,6 @@ $(document).ready(function() {
 			
 			// cast it to message object
 			var messageObject = castObject(messageData, "Message");
-			
-			console.log(messageObject);
 			
 			// call onmessage handler
 			onMessageReceived(messageData);

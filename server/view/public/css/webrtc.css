@@ -64,4 +64,8 @@ input[type=text] {
 	width: 496px;
 	vertical-align: top;
 }
+
+#chat {
+	background-color: #eaeaea;
+}
 /* --------------------------------------------- */

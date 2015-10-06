@@ -18,6 +18,10 @@ var MainController = function() {
 	
 	// model files controllers
 	var modelFilesController = require('./model_files_controller');
+	
+	// models
+	var userModel = require('../model/User');
+	var messageModel = require('../model/Message');
 
 	// read config file
 	var config = require('../config');
@@ -48,7 +52,7 @@ var MainController = function() {
 				var controller = routesController.getController(restUrl);
 				
 				switch (controller) {
-					case "static":
+					case "static": 
 						staticFilesController.handle(response, restUrl);
 						break;
 						
@@ -102,6 +106,7 @@ var MainController = function() {
 		console.log((new Date()) + ' Connection accepted.');
 		
 		// send welcome message
+		// TODO: real message object
 		connection.sendUTF(JSON.stringify( { message: "Hello!!!" } ));
 		
 		// user sent a message

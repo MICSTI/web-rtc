@@ -14,8 +14,11 @@ var Message = function() {
 	// Recipient
 	this.recipient = null;
 	
-	// Type enum
+	// Type
 	this.type = null;
+	
+	// Status
+	this.status = null;
 }
 
 // possible topic values
@@ -28,6 +31,14 @@ Message.prototype.types = {
 	SERVER: 1,
 	P2P: 2
 };
+
+// possbile status values
+Message.prototype.statuses = {
+	SUCCESS: 1,
+	INFO: 2,
+	WARNING: 3,
+	ERROR: 4
+}
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports.Message = Message;

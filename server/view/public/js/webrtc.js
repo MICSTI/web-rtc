@@ -144,6 +144,7 @@ $(document).ready(function() {
 	var addServerConnectionSuccessful = function() {
 		var successMessage = new Message();
 		successMessage.type = successMessage.types.SERVER;
+		successMessage.status = successMessage.statuses.SUCCESS;
 		successMessage.content = "Connection established";
 		
 		// append message to chat
@@ -156,6 +157,7 @@ $(document).ready(function() {
 	var addServerConnectionError = function() {
 		var errorMessage = new Message();
 		errorMessage.type = errorMessage.types.SERVER;
+		errorMessage.status = errorMessage.statuses.SUCCESS;
 		errorMessage.content = "Connection lost";
 		
 		// append message to chat

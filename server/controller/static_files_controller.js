@@ -5,7 +5,7 @@ var StaticFilesController = function(){
 };
 
 /**
-	Serves a static file from the file static, according to the file type in the restUrl object.
+	Serves a static file from the file system, according to the file type in the restUrl object.
 */
 StaticFilesController.prototype.handle = function(response, restUrl){
 	// access to this

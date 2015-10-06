@@ -52,7 +52,7 @@ $(document).ready(function() {
 		   connection.send(JSON.stringify(message));
 		   
 		   // show video and chat elements
-		   afterLogin.show();	
+		   afterLogin.show();
 		};
 
 		connection.onerror = function(error) {

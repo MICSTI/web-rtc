@@ -45,6 +45,11 @@ RoutesController.prototype.getController = function(restUrl) {
 		controller = "static";
 	}
 	
+	// favicon
+	if (restUrl.filename.indexOf("favicon") >= 0) {
+		controller = "static";
+	}
+	
 	return controller;
 }
 

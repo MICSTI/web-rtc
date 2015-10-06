@@ -11,9 +11,12 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 	// access to this
 	var self = this;
 
-	// special case: JS model files (they are used on the server and on the frontend in the browser
 	if (restUrl.path == "model") {
+		// special case: JS model files (they are used on the server and on the frontend in the browser)
 		var filename = './model/' + restUrl.filename;
+	} else if (restUrl.filename == "favicon.ico") {
+		// special case: favicon
+		var filename = './view/public/img/favicon.ico';
 	} else {
 		var filename = './view/' + restUrl.url;
 	}
@@ -22,6 +25,9 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 		if (err === null ){
 			if (restUrl.format.indexOf('png') >= 0 ){
 				response.writeHead(200, {'Content-Type': 'image/png'} );
+				response.end(filedata);
+			} else if (restUrl.format.indexOf('ico') >= 0){
+				response.writeHead(200, {'Content-Type': 'image/x-icon'} );
 				response.end(filedata);
 			} else if (restUrl.format.indexOf('jpg') >= 0){
 				response.writeHead(200, {'Content-Type': 'image/jpeg'} );

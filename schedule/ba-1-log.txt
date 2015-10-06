@@ -12,3 +12,4 @@
 04.10.2015		01:00	exposé
 05.10.2015		00:30	client frontend (CSS styling)
 06.10.2015		00:35	model classes in main controller, client frontend (CSS styling of chat)
+				01:15	server (web socket connection handling)

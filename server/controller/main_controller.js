@@ -105,6 +105,8 @@ var MainController = function() {
 		// assign client a new id
 		var clientId = util.generateId();
 		
+		// TODO: check if id is unique
+		
 		// add client to clients array
 		clients[clientId] = connection;
 		

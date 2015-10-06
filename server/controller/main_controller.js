@@ -136,18 +136,14 @@ var MainController = function() {
 		connection.on('close', function(connection) {
 			console.log((new Date()) + " " + connection.remoteAddress + " disconnected.");
 			
-			// TODO: fix splice bug
-			// remove from clients array
-			for (var i = 0; i < clients.length; i++) {
-				if (clients[i] === connection) {
-					clients.splice(i, 1);
-				}
-			}
-			
-			logClients();
+			// remove client from clients array
+			delete clients[clientId];
 		});
 	});
 	
+	/**
+		Outputs all currently connected clients to the console.
+	*/
 	var logClients = function() {
 		console.log(clients);
 	}

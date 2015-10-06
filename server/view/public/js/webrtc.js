@@ -50,9 +50,12 @@ $(document).ready(function() {
 		};
 
 		connection.onerror = function(error) {
-			// just in there were some problems with connection...
-			chat.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
-										+ 'connection or the server is down.' } ));
+			var errorMessage = new Message();
+			
+			errorMessage.content = "We are now disconnected";
+			errorMessage.type = errorMessage.type.SERVER;
+			
+			onMessageReceived(errorMessage);
 		};
 
 		// most important part - incoming messages
@@ -62,6 +65,8 @@ $(document).ready(function() {
 			
 			// parse message JSON data
 			var messageData = JSON.parse(message.data);
+			
+			// TODO: cast to Message object (maybe by iterating over attributes?)
 			
 			// call onmessage handler
 			onMessageReceived(messageData);
@@ -89,11 +94,28 @@ $(document).ready(function() {
 	var getMessageHtml = function(message) {
 		var html = "";
 		
-		html += "<div class='message'>";
-			html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
-			html += "<div class='message-sender'>" + message.sender.name + "</div>";
-			html += "<div class='message-content'>" + message.content + "</div>";
-		html += "</div>";
+		// TODO: find better solution
+		var m = new Message();
+		
+		switch (message.type) {
+			case m.type.SERVER:
+				html += "<div class='message message-server'>";
+					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
+					html += "<div class='message-content'>" + message.content + "</div>";
+				html += "</div>";
+				
+				break;
+				
+			case m.type.P2P:
+			default:
+				html += "<div class='message'>";
+					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
+					html += "<div class='message-sender'>" + message.sender.name + "</div>";
+					html += "<div class='message-content'>" + message.content + "</div>";
+				html += "</div>";
+				
+				break;
+		}
 		
 		return html;
 	}

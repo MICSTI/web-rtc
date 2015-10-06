@@ -107,7 +107,7 @@ var MainController = function() {
 		// send welcome message
 		var welcomeMessage = new messageModel.Message();
 		
-		welcomeMessage.content = "Hello!!!";
+		welcomeMessage.content = "Hi, we are now connected!";
 		welcomeMessage.sender = serverUser;
 		welcomeMessage.type = welcomeMessage.type.SERVER;
 		

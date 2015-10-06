@@ -95,6 +95,11 @@ input[type=text] {
 	margin-left: 2px;
 }
 
+.message-server {
+	background-color: #999 !important;
+	color: #dfdfdf !important;
+}
+
 #send-message {
 	padding: 6px;
 	background-color: #eee;

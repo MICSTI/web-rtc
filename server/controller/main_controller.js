@@ -107,11 +107,11 @@ var MainController = function() {
 		// send welcome message
 		var welcomeMessage = new messageModel.Message();
 		
-		welcomeMessage.content = "Hello!!";
+		welcomeMessage.content = "Hello!!!";
 		welcomeMessage.sender = serverUser;
 		welcomeMessage.type = welcomeMessage.type.SERVER;
 		
-		connection.sendUTF(JSON.stringify( { message: "Hello!!!" } ));
+		connection.sendUTF(JSON.stringify(welcomeMessage));
 		
 		// user sent a message
 		connection.on('message', function(message) {

@@ -61,10 +61,10 @@ $(document).ready(function() {
 			var origin = message.origin;
 			
 			// parse message JSON data
-			var data = JSON.parse(message.data);
+			var messageData = JSON.parse(message.data);
 			
 			// call onmessage handler
-			onMessageReceived(getMessageObject(data));
+			onMessageReceived(messageData);
 		};
 		
 		// submit button
@@ -79,26 +79,8 @@ $(document).ready(function() {
 		Handler that will be executed when a new message is received.
 	*/
 	var onMessageReceived = function(message) {
+		// add the message to the chat
 		chat.append(getMessageHtml(message));
-	}
-	
-	var getMessageObject = function(messageJson) {
-		var messageObject = {};
-		
-		// timestamp
-		messageObject.timestamp = new Date();
-		
-		// sender
-		// TODO: remove fake data
-		var fakeSender = new User();
-		fakeSender.name = "Server";
-		
-		messageObject.sender = fakeSender;
-		
-		// content
-		messageObject.content = messageJson.message;
-		
-		return messageObject;
 	}
 	
 	/**

@@ -45,8 +45,10 @@ $(document).ready(function() {
 		   // send user info message
 		   var message = new Message();
 		   
+		   message.topic = message.topics.USER_INFO;
 		   message.sender = user;
 		   message.recipient = server;
+		   message.content = user;
 		   message.type = message.types.SERVER;
 		   
 		   connection.send(JSON.stringify(message));
@@ -206,6 +208,10 @@ $(document).ready(function() {
 				
 			case "User":
 				returnObject = new User();
+				break;
+				
+			case "Client":
+				returnObject = new Client();
 				break;
 				
 			default:

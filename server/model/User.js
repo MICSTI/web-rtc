@@ -7,6 +7,9 @@ var User = function() {
 	
 	// E-Mail
 	this.mail = null;
+	
+	// Color
+	this.color = null;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -41,6 +41,9 @@ var MainController = function() {
 	serverUser.id = 1;
 	serverUser.name = "Server";
 	serverUser.mail = "server@webrtc.com";
+	
+	// color array (to assign to users)
+	var colors = ["cadetblue", "coral", "cornflowerblue", "crimson", "darkgoldenrod", "darkkhaki", "darkseagreen", "dodgerblue", "firebrick", "forestgreen", "gold", "indianred", "lightcyan", "lightsteelblue", "limegreen", "moccasin", "olivedrab", "orange", "orangered", "rosybrown", "saddlebrown", "salmon", "whitesmoke"];
 
 	// server startup
 	var server = http.createServer(function(request, response) {
@@ -117,6 +120,9 @@ var MainController = function() {
 		client.id = clientId;
 		client.webSocketConnection = connection;
 		
+		client.user = new userModel.User();
+		client.user.id = clientId;
+		
 		// add client object to clients array
 		clients[clientId] = client;
 		
@@ -136,7 +142,16 @@ var MainController = function() {
 		connection.on('message', function(message) {
 			// we accept only text
 			if (message.type === 'utf8') {
-				console.log((new Date()) + ' Received Message: ' + message.utf8Data);
+				// console.log((new Date()) + ' Received Message: ' + message.utf8Data);
+				
+				// parse message JSON data
+				var messageData = JSON.parse(message.utf8Data);
+				
+				// cast it to message object
+				var messageObject = castObject(messageData, "Message");
+				
+				// call onmessage handler
+				onMessageReceived(clientId, messageObject);
 			}
 		});
 		
@@ -150,10 +165,92 @@ var MainController = function() {
 	});
 	
 	/**
+		Handler that will be executed when a new message is received.
+	*/
+	var onMessageReceived = function(clientId, message) {
+		// handle message according to message type
+		switch (message.type) {
+			case message.types.SERVER:
+				// we only handle messages to the server
+				handleServerMessage(clientId, message);
+				
+				break;
+				
+			default:
+			
+				break;
+		}
+	}
+	
+	/**
+		Handles incoming messages to the management server.
+	*/
+	var handleServerMessage = function(clientId, message) {
+		switch (message.topic) {
+			case message.topics.USER_INFO:
+				var userObject = castObject(message.content, "User");
+				
+				// assign a random color
+				userObject.color = getRandomItem(colors);
+				
+				// add user object to client
+				clients[clientId].user.name = userObject.name;
+				clients[clientId].user.mail = userObject.mail;
+				clients[clientId].user.color = userObject.color;
+				
+				break;
+				
+			default:
+				break;
+		}
+	}
+	
+	/**
 		Outputs all currently connected clients to the console.
 	*/
 	var logClients = function() {
 		console.log(clients);
+	}
+	
+	/**
+		Returns a random element from an array.
+	*/
+	var getRandomItem = function(_array) {
+		return _array[Math.round(Math.random() * (_array.length - 1))];
+	}
+	
+	/**
+		Casts a generic JS object to the specified object type.
+	*/
+	var castObject = function(object, type) {
+		var returnObject = null;
+		
+		switch (type) {
+			case "Message":
+				returnObject = new messageModel.Message();
+				break;
+				
+			case "User":
+				returnObject = new userModel.User();
+				break;
+				
+			case "Client":
+				returnObject = new clientModel.Client();
+				break;
+				
+			default:
+				break;
+		}
+		
+		if (returnObject !== null) {
+			for (var property in object) {
+				if (object.hasOwnProperty(property)) {
+					returnObject[property] = object[property];
+				}
+			}
+		}
+		
+		return returnObject;
 	}
 }
 

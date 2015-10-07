@@ -56,6 +56,18 @@ input[type=text] {
 	width: 496px;
 	vertical-align: top;
 }
+
+.user {
+	padding: 6px 8px;
+}
+
+.user:not(.user-myself):hover {
+	color: orange;
+}
+
+.user-myself {
+	font-weight: bold;
+}
 /* --------------------------------------------- */
 
 /* --------------- CHAT CONTAINER -------------- */

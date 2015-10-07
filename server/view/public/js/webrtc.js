@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
 	var afterLogin = $("#after-login");
+	var availableUsers = $("#available-users");
 	
 	// set ofcus to username field
 	username.focus();
@@ -138,6 +139,7 @@ $(document).ready(function() {
 				
 			// user broadcast
 			case message.topics.USER_BROADCAST:
+				updateAvailableUsers(message.content);
 			
 				break;
 				
@@ -173,6 +175,22 @@ $(document).ready(function() {
 	}
 	
 	/**
+		Updates the available users.
+	*/
+	var updateAvailableUsers = function(users) {
+		// empty div
+		availableUsers.empty();
+		
+		// display all users
+		users.forEach(function(item, idx, array) {
+			// check if user is actually "us"
+			var us = user.id === item.id;
+			
+			availableUsers.append(getUserHtml(item, us));
+		});
+	}
+	
+	/**
 		Returns the HTML content for a message.
 	*/
 	var getMessageHtml = function(message) {
@@ -197,6 +215,23 @@ $(document).ready(function() {
 				
 				break;
 		}
+		
+		return html;
+	}
+	
+	/**
+		Returns the HTML content for a user.
+		If the myself flag is set to true, "You" is displayed instead of the name and no "Call" button will be displayed.
+	*/
+	var getUserHtml = function(user, myself) {
+		var html = "";
+		
+		var userClass = myself ? "user user-myself" : "user";
+		var userName = myself ? "You" : user.name;
+		
+		html += "<div class='" + userClass + "' style='background-color: " + user.color + ";'>";
+			html += "<div class='user-name'>" + userName + "</div>";
+		html += "</div>";
 		
 		return html;
 	}

@@ -186,6 +186,11 @@ var MainController = function() {
 		Handles incoming messages to the management server.
 	*/
 	var handleServerMessage = function(clientId, message) {
+		if (clients[clientId].user.id !== clientId) {
+			// Something is wrong! An error maybe, or an attempt to break in?
+			return;
+		}
+		
 		switch (message.topic) {
 			case message.topics.USER_INFO:
 				var userObject = castObject(message.content, "User");
@@ -198,10 +203,36 @@ var MainController = function() {
 				clients[clientId].user.mail = userObject.mail;
 				clients[clientId].user.color = userObject.color;
 				
+				// send back an info about all available users
+				broadcastUserInfo();
+				
 				break;
 				
 			default:
 				break;
+		}
+	}
+	
+	/**
+		Broadcasts info about all users to all clients
+	*/
+	var broadcastUserInfo = function() {
+		var messageContent = [];
+		
+		for (var idx in clients) {
+			messageContent.push(clients[idx].user);
+		}
+		
+		for (var idx in clients) {
+			var broadcastMessage = new messageModel.Message();
+			
+			broadcastMessage.topic = broadcastMessage.topics.USER_BROADCAST;
+			broadcastMessage.sender = serverUser;
+			broadcastMessage.recipient = clients[idx].user;
+			broadcastMessage.type = broadcastMessage.types.SERVER;
+			broadcastMessage.content = messageContent;
+			
+			clients[idx].webSocketConnection.sendUTF(JSON.stringify(broadcastMessage));
 		}
 	}
 	

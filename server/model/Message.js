@@ -24,7 +24,8 @@ var Message = function() {
 // possible topic values
 Message.prototype.topics = {
 	USER_ID: "userId",
-	USER_INFO: "userInfo"
+	USER_INFO: "userInfo",
+	USER_BROADCAST: "userBroadcast"
 };
 
 // possible type values

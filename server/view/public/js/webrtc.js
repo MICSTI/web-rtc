@@ -126,6 +126,7 @@ $(document).ready(function() {
 	var handleServerMessage = function(message) {
 		// handle according to message topic
 		switch (message.topic) {
+			// user id assigned by server (= also the client identifier)
 			case message.topics.USER_ID:
 				// assign user id
 				user.id = message.content;
@@ -133,6 +134,11 @@ $(document).ready(function() {
 				// add successfully connected message
 				addServerConnectionSuccessful();
 				
+				break;
+				
+			// user broadcast
+			case message.topics.USER_BROADCAST:
+			
 				break;
 				
 			default:

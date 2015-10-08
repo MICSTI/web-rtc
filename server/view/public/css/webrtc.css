@@ -58,7 +58,7 @@ input[type=text] {
 }
 
 .user {
-	padding: 6px 8px;
+	padding: 12px 16px;
 }
 
 .user:not(.user-myself):hover {
@@ -67,6 +67,22 @@ input[type=text] {
 
 .user-myself {
 	font-weight: bold;
+	background-color: #bbb;
+}
+
+.user-avatar {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	position: relative;
+	top: 2px;
+}
+
+.user-name {
+	display: inline-block;
+	margin-left: 12px;
+	position: relative;
+	top: -3px;
 }
 /* --------------------------------------------- */
 

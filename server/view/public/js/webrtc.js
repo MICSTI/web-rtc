@@ -226,8 +226,9 @@ $(document).ready(function() {
 		var userClass = myself ? "user user-myself" : "user";
 		var userName = myself ? "You" : user.name;
 		
-		html += "<div class='" + userClass + "' style='background-color: " + user.color + ";'>";
-			html += "<div class='user-name'>" + userName + "</div>";
+		html += "<div class='" + userClass + "'>";
+			html += "<span class='user-avatar' style='background-color: " + user.color + ";'></span>";
+			html += "<span class='user-name'>" + userName + "</span>";
 		html += "</div>";
 		
 		return html;

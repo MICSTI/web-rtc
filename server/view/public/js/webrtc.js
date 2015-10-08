@@ -20,6 +20,9 @@ $(document).ready(function() {
 	server.id = 1;
 	server.name = "Server";
 	
+	// WebSocker connection
+	var connection = null;
+	
 	// if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 	
@@ -37,22 +40,46 @@ $(document).ready(function() {
 		user.name = username.val();
 		user.mail = mail.val();
 		
+		if (connection === null) {
+			// open connection
+			openWebSocketConnection();
+		} else {
+			// update user info
+			updateUserInfo();
+		}
+		
+		// submit button
+		// TODO: implement when WebRTC is here
+		/*send.on("click", function() {
+			// build message
+			var message = new Message();
+			message.sender = user;
+			message.recipient = server;
+			message.type = message.types.P2P;
+			message.content = input.val();
+			
+			// send stringified message
+			connection.send(JSON.stringify(message));
+			
+			// append message to chat
+			chat.append(getMessageHtml(message));
+			
+			// clear input for future messages
+			input.val("");
+		});*/
+	});
+	
+	/**
+		Opens a web socket connection to th	e management server.
+	*/
+	var openWebSocketConnection = function() {
 		// open connection
-		var connection = new WebSocket('ws://127.0.0.1:1337');
+		connection = new WebSocket('ws://127.0.0.1:1337');
 
 		connection.onopen = function() {
 		   console.log("WebSocket connection opened");
 		   
-		   // send user info message
-		   var message = new Message();
-		   
-		   message.topic = message.topics.USER_INFO;
-		   message.sender = user;
-		   message.recipient = server;
-		   message.content = user;
-		   message.type = message.types.SERVER;
-		   
-		   connection.send(JSON.stringify(message));
+		   updateUserInfo();
 		   
 		   // show video and chat elements
 		   afterLogin.show();
@@ -76,26 +103,26 @@ $(document).ready(function() {
 			// call onmessage handler
 			onMessageReceived(messageObject);
 		};
+	}
+	
+	/**
+		Sends an updated user info message to the management server
+	*/
+	var updateUserInfo = function() {
+		if (connection === null)
+			return;
 		
-		// submit button
-		send.on("click", function() {
-			// build message
-			var message = new Message();
-			message.sender = user;
-			message.recipient = server;
-			message.type = message.types.P2P;
-			message.content = input.val();
-			
-			// send stringified message
-			connection.send(JSON.stringify(message));
-			
-			// append message to chat
-			chat.append(getMessageHtml(message));
-			
-			// clear input for future messages
-			input.val("");
-		});
-	});
+		// send user info message
+	   var message = new Message();
+	   
+	   message.topic = message.topics.USER_INFO;
+	   message.sender = user;
+	   message.recipient = server;
+	   message.content = user;
+	   message.type = message.types.SERVER;
+	   
+	   connection.send(JSON.stringify(message));
+	}
 	
 	/**
 		Handler that will be executed when a new message is received.

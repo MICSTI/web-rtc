@@ -161,6 +161,9 @@ var MainController = function() {
 			
 			// remove client from clients array
 			delete clients[clientId];
+			
+			// broadcast user info to all connected clients
+			broadcastUserInfo();
 		});
 	});
 	
@@ -195,13 +198,16 @@ var MainController = function() {
 			case message.topics.USER_INFO:
 				var userObject = castObject(message.content, "User");
 				
-				// assign a random color
-				userObject.color = getRandomItem(colors);
+				if (clients[clientId].user.color === null) {
+					// assign a random color
+					userObject.color = getRandomItem(colors);
+					clients[clientId].user.color = userObject.color;
+				}
 				
-				// add user object to client
+				// set user info
 				clients[clientId].user.name = userObject.name;
 				clients[clientId].user.mail = userObject.mail;
-				clients[clientId].user.color = userObject.color;
+				
 				
 				// send back an info about all available users
 				broadcastUserInfo();

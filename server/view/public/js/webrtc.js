@@ -193,9 +193,14 @@ $(document).ready(function() {
 	var getMessageHtml = function(message) {
 		var html = "";
 		
+		if (message.status !== undefined)
+			var msgClass = "message-" + message.status;
+		else
+			var msgClass = "";
+		
 		switch (message.type) {
 			case message.types.SERVER:
-				html += "<div class='message message-server'>";
+				html += "<div class='message message-server " + msgClass + "'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-content'>" + message.content + "</div>";
 				html += "</div>";
@@ -204,11 +209,6 @@ $(document).ready(function() {
 				
 			case message.types.P2P:
 			default:			
-				if (message.status !== undefined)
-					var msgClass = "message-" . message.status;
-				else
-					var msgClass = "";
-			
 				html += "<div class='message " + msgClass + "'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-sender'>" + message.sender.name + "</div>";

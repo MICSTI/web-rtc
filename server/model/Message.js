@@ -36,10 +36,10 @@ Message.prototype.types = {
 
 // possbile status values
 Message.prototype.statuses = {
-	SUCCESS: 1,
-	INFO: 2,
-	WARNING: 3,
-	ERROR: 4
+	SUCCESS: "success",
+	INFO: "info",
+	WARNING: "warning",
+	ERROR: "error"
 }
 
 if (typeof module !== 'undefined' && module.exports) {

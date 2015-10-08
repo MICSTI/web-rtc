@@ -124,12 +124,12 @@ input[type=text] {
 }
 
 .message-server {
-	background-color: #999 !important;
-	color: #dfdfdf !important;
+	background-color: #999;
+	color: #dfdfdf;
 }
 
 .message-error {
-	background-color: crimson;
+	background-color: crimson !important;
 }
 
 #send-message {

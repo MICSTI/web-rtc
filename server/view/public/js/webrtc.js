@@ -247,7 +247,11 @@ $(document).ready(function() {
 		var userClass = myself ? "user user-myself" : "user";
 		var userName = myself ? "You" : user.name;
 		
+		// "Call" span is only displayed for user that are not ourselves
+		var callSpan = myself ? "" : "<span class='user-call right'>Call</span>";
+		
 		html += "<div class='" + userClass + "'>";
+			html += callSpan;
 			html += "<span class='user-avatar' style='background-color: " + user.color + ";'></span>";
 			html += "<span class='user-name'>" + userName + "</span>";
 		html += "</div>";

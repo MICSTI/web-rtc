@@ -29,6 +29,10 @@ input[type=text] {
 	text-transform: uppercase;
 }
 
+.right {
+	float: right;
+}
+
 #page-footer {
 	font-size: 0.75em;
 }
@@ -62,7 +66,16 @@ input[type=text] {
 }
 
 .user:not(.user-myself):hover {
-	color: orange;
+	color: #ddd;
+}
+
+.user:not(.user-myself):hover .user-call {
+	display: inline-block;
+}
+
+.user:not(.user-myself):hover .user-call:hover {
+	cursor: pointer;
+	color: #fff;
 }
 
 .user-myself {
@@ -84,6 +97,12 @@ input[type=text] {
 	margin-left: 12px;
 	position: relative;
 	top: -3px;
+}
+
+.user-call {
+	display: none;
+	background-color: orange;
+	padding: 4px 6px;
 }
 /* --------------------------------------------- */
 

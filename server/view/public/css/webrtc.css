@@ -76,6 +76,7 @@ input[type=text] {
 	height: 22px;
 	position: relative;
 	top: 2px;
+	border-radius: 12px;
 }
 
 .user-name {

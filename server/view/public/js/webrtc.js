@@ -20,7 +20,7 @@ $(document).ready(function() {
 	server.id = 1;
 	server.name = "Server";
 	
-	// if user is running mozilla then use it's built-in WebSocket
+	// if user is running mozilla then use its built-in WebSocket
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 	
 	// if browser doesn't support WebSocket, just show some notification and exit
@@ -131,9 +131,6 @@ $(document).ready(function() {
 			case message.topics.USER_ID:
 				// assign user id
 				user.id = message.content;
-				
-				// add successfully connected message
-				addServerConnectionSuccessful();
 				
 				break;
 				

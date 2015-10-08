@@ -164,7 +164,7 @@ $(document).ready(function() {
 	var addServerConnectionError = function() {
 		var errorMessage = new Message();
 		errorMessage.type = errorMessage.types.SERVER;
-		errorMessage.status = errorMessage.statuses.SUCCESS;
+		errorMessage.status = errorMessage.statuses.ERROR;
 		errorMessage.content = "Connection lost";
 		
 		// append message to chat
@@ -204,7 +204,12 @@ $(document).ready(function() {
 				
 			case message.types.P2P:
 			default:			
-				html += "<div class='message'>";
+				if (message.status !== undefined)
+					var msgClass = "message-" . message.status;
+				else
+					var msgClass = "";
+			
+				html += "<div class='message " + msgClass + "'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
 					html += "<div class='message-sender'>" + message.sender.name + "</div>";
 					html += "<div class='message-content'>" + message.content + "</div>";

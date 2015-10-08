@@ -14,3 +14,4 @@
 06.10.2015		00:35	model classes in main controller, client frontend (CSS styling of chat)
 				02:15	server (web socket connection handling)
 07.10.2015		01:30	client - server user connection communication, user broadcast
+08.10.2015		01:15	client - server user connection communication

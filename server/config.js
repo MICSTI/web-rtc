@@ -1,5 +1,4 @@
-module.exports = {
-	
+var appConfig = {
 	title: "WebRTC",
 	version: 0.1,
 	author: "Michael Stifter",
@@ -8,5 +7,8 @@ module.exports = {
 	server: '127.0.0.1',
 	
 	defaultResponseFormat: "json"
-	
 };
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = appConfig;
+}

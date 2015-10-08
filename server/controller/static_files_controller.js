@@ -17,6 +17,9 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 	} else if (restUrl.filename == "favicon.ico") {
 		// special case: favicon
 		var filename = './view/public/img/favicon.ico';
+	} else if (restUrl.filename == "config.js") {
+		// special case: config
+		var filename = './config.js';
 	} else {
 		var filename = './view/' + restUrl.url;
 	}

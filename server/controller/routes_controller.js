@@ -40,6 +40,11 @@ RoutesController.prototype.getController = function(restUrl) {
 		controller = "static";
 	}
 	
+	// config file
+	if (restUrl.filename == "config.js") {
+		controller = "static";
+	}
+	
 	// model JS files
 	if (restUrl.path == "model") {
 		controller = "static";

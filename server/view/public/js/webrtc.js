@@ -74,7 +74,7 @@ $(document).ready(function() {
 	*/
 	var openWebSocketConnection = function() {
 		// open connection
-		connection = new WebSocket('ws://127.0.0.1:1337');
+		connection = new WebSocket('ws://' + appConfig.server + ':' + appConfig.port);
 
 		connection.onopen = function() {
 		   console.log("WebSocket connection opened");

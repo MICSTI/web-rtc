@@ -8,6 +8,7 @@ $(document).ready(function() {
 	var setUserInfo = $("#set-user-info");
 	var afterLogin = $("#after-login");
 	var availableUsers = $("#available-users");
+	var sendMessage = $("#send-message");
 	
 	// set ofcus to username field
 	username.focus();
@@ -87,6 +88,8 @@ $(document).ready(function() {
 
 		connection.onerror = function(error) {
 			addServerConnectionError();
+			
+			disableCommunicationSections();
 		};
 
 		// most important part - incoming messages
@@ -196,6 +199,15 @@ $(document).ready(function() {
 		
 		// append message to chat
 		chat.append(getMessageHtml(errorMessage));
+	}
+	
+	/**
+		Disables the communication sections on the web page.
+		Includes available users, chat.
+	*/
+	var disableCommunicationSections = function() {
+		availableUsers.empty();
+		sendMessage.empty();
 	}
 	
 	/**

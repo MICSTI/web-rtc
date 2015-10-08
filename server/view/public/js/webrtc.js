@@ -178,12 +178,28 @@ $(document).ready(function() {
 		// empty div
 		availableUsers.empty();
 		
+		// temp variables to determine which user is "us"
+		var tempUsers = [];
+		var myself = null;
+		
 		// display all users
 		users.forEach(function(item, idx, array) {
-			// check if user is actually "us"
+			// check if user is "us"
 			var us = user.id === item.id;
 			
-			availableUsers.append(getUserHtml(item, us));
+			if (us) {
+				myself = item;
+			} else {
+				tempUsers.push(item);
+			}
+		});
+		
+		// display ourselves first
+		availableUsers.append(getUserHtml(myself, true));
+		
+		// add other users
+		tempUsers.forEach(function(item, idx, array) {
+			availableUsers.append(getUserHtml(item, false));
 		});
 	}
 	

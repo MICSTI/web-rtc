@@ -89,7 +89,7 @@ $(document).ready(function() {
 		connection.onerror = function(error) {
 			addServerConnectionError();
 			
-			disableCommunicationSections();
+			clearCommunicationSections();
 		};
 
 		// most important part - incoming messages
@@ -205,7 +205,7 @@ $(document).ready(function() {
 		Disables the communication sections on the web page.
 		Includes available users, chat.
 	*/
-	var disableCommunicationSections = function() {
+	var clearCommunicationSections = function() {
 		availableUsers.empty();
 		sendMessage.empty();
 	}

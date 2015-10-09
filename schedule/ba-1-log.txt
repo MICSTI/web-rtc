@@ -9,9 +9,10 @@
 				00:20	paper research (ACM, IEEE, Science Direct)
 02.10.2015		01:30	server refactoring, consistent controller structure
 				01:00	client frontend
-04.10.2015		01:00	exposé
+04.10.2015		01:00	exposé draft
 05.10.2015		00:30	client frontend (CSS styling)
 06.10.2015		00:35	model classes in main controller, client frontend (CSS styling of chat)
 				02:15	server (web socket connection handling)
 07.10.2015		01:30	client - server user connection communication, user broadcast
 08.10.2015		01:15	client - server user connection communication
+09.10.2015		01:00	finished exposé draft, small client frontend improvements

@@ -157,7 +157,7 @@ var MainController = function() {
 		
 		// on close event
 		connection.on('close', function(connection) {
-			console.log((new Date()) + " " + connection.remoteAddress + " disconnected.");
+			console.log((new Date()) + " " + clients[clientId].user.name + " disconnected.");
 			
 			// remove client from clients array
 			delete clients[clientId];

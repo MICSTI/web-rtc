@@ -130,7 +130,7 @@ input[type=text] {
 
 .message-timestamp {
 	float: right;
-	color: #777;
+	color: #333;
 	font-size: 0.8em;
 }
 
@@ -150,7 +150,7 @@ input[type=text] {
 }
 
 .message-error {
-	background-color: crimson !important;
+	background-color: #d91e18 !important;
 }
 
 #send-message {

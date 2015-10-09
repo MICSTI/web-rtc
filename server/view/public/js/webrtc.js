@@ -128,6 +128,24 @@ $(document).ready(function() {
 	}
 	
 	/**
+		Sends a request to get a new user color to the management server
+	*/
+	var requestNewColor = function() {
+		if (connection === null)
+			return;
+		
+		// send message
+	   var message = new Message();
+	   
+	   message.topic = message.topics.CHANGE_USER_COLOR;
+	   message.sender = user;
+	   message.recipient = server;
+	   message.type = message.types.SERVER;
+	   
+	   connection.send(JSON.stringify(message));
+	}
+	
+	/**
 		Handler that will be executed when a new message is received.
 	*/
 	var onMessageReceived = function(message) {
@@ -239,6 +257,13 @@ $(document).ready(function() {
 		// add other users
 		tempUsers.forEach(function(item, idx, array) {
 			availableUsers.append(getUserHtml(item, false));
+		});
+		
+		// attach double click handler for color span (and delete attached handlers first)
+		$("span.user-avatar").off("dblclick");
+		
+		$(".user-myself .user-avatar").on("dblclick", function() {
+			requestNewColor();
 		});
 	}
 	

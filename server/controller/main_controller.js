@@ -208,6 +208,20 @@ var MainController = function() {
 				clients[clientId].user.name = userObject.name;
 				clients[clientId].user.mail = userObject.mail;
 				
+				// send back an info about all available users
+				broadcastUserInfo();
+				
+				break;
+				
+			case message.topics.CHANGE_USER_COLOR:
+				var requestedColor = message.content;
+				
+				// if no color was requested, a random color is assigned
+				if (requestedColor === null) {
+					requestedColor = getRandomItem(colors);
+				}
+				
+				clients[clientId].user.color = requestedColor;
 				
 				// send back an info about all available users
 				broadcastUserInfo();

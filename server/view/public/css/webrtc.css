@@ -66,7 +66,7 @@ input[type=text] {
 }
 
 .user:not(.user-myself):hover {
-	color: #ddd;
+	background-color: #eee;
 }
 
 .user:not(.user-myself):hover .user-call {

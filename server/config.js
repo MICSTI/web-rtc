@@ -1,6 +1,6 @@
 var appConfig = {
 	title: "WebRTC",
-	version: 0.1,
+	version: 0.2,
 	author: "Michael Stifter",
 	
 	port: 1337,

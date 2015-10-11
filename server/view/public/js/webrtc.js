@@ -364,11 +364,9 @@ $(document).ready(function() {
 		audio: false, video: true
 	};
 	
-	userMedia.video = document.getElementById('video');
+	userMedia.video = document.getElementById("local-video");
 	
 	userMedia.onSuccess = function(stream) {
-		console.log(stream);
-		
 		if (window.URL) {
 			userMedia.video.src = window.URL.createObjectURL(stream);
 		} else {

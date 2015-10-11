@@ -357,14 +357,36 @@ $(document).ready(function() {
 		return returnObject;
 	}
 	
-	// getUserMedia init
+	// WebRTC setup
+	var localStream;
+	var remoteStream;
+	
+	var localVideo = document.getElementById("local-video");
+	var remoteVideo = document.getElementById("remote-video");
+	
+	// peer connection
+	var peerConnection = null;
+	
+	var pcConfig = webrtcDetectedBrowser === 'firefox' ?
+		{'iceServers': [{'url': 'stun:23.21.150.121'}]} :
+		{'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]};
+		
+	var pcConstraints = {
+		'optional': [
+			{'DtlsSrtpKeyAgreement': true}
+		]
+	};
+	
+	var sdpConstraints = {};
+	
+	// init getUserMedia
 	var userMedia = new UserMedia();
 	
 	userMedia.constraints = {
 		audio: false, video: true
 	};
 	
-	userMedia.video = document.getElementById("local-video");
+	userMedia.video = localVideo;
 	
 	userMedia.onSuccess = function(stream) {
 		if (window.URL) {
@@ -381,4 +403,5 @@ $(document).ready(function() {
 	}
 	
 	userMedia.init();
+	
 });

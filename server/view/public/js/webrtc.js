@@ -326,7 +326,7 @@ $(document).ready(function() {
 		var userClass = myself ? "user user-myself" : "user";
 		var userName = myself ? "You" : _user.name;
 		
-		// "Call" span is only displayed for user that can be called (i.e. have accepted navigator.getUserMedia)
+		// "Call" span is only displayed for users that can be called (i.e. have accepted navigator.getUserMedia)
 		if (callable)
 			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "'>Call</span>";
 		else

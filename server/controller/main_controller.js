@@ -66,6 +66,11 @@ var MainController = function() {
 						staticFilesController.handle(response, restUrl);
 						break;
 						
+					case "media":
+						console.log("Serving media stream");
+						
+						break;
+						
 					default:
 						console.log("No appropriate controller for this request:", restUrl);
 						

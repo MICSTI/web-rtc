@@ -356,4 +356,31 @@ $(document).ready(function() {
 		
 		return returnObject;
 	}
+	
+	// getUserMedia init
+	var userMedia = new UserMedia();
+	
+	userMedia.constraints = {
+		audio: false, video: true
+	};
+	
+	userMedia.video = document.getElementById('video');
+	
+	userMedia.onSuccess = function(stream) {
+		console.log(stream);
+		
+		if (window.URL) {
+			userMedia.video.src = window.URL.createObjectURL(stream);
+		} else {
+			userMedia.video.src = stream;
+		}
+		
+		userMedia.video.play();
+	};
+	
+	userMedia.onError = function(error) {
+		console.log("navigator.getUserMedia error: ", error);
+	}
+	
+	userMedia.init();
 });

@@ -254,12 +254,15 @@ $(document).ready(function() {
 			}
 		});
 		
-		// display ourselves first
-		availableUsers.append(getUserHtml(myself, true));
+		// display ourselves first (with myself flag = true, callable = false)
+		availableUsers.append(getUserHtml(myself, true, false));
 		
-		// add other users
+		// add other users (with myself flag = false, callable if possible)
 		tempUsers.forEach(function(item, idx, array) {
-			availableUsers.append(getUserHtml(item, false));
+			// determine if user can be called
+			var callable = user.gotUserMedia && item.gotUserMedia;
+			
+			availableUsers.append(getUserHtml(item, false, callable));
 		});
 		
 		// attach double click handler for color span (and delete attached handlers first)
@@ -314,16 +317,17 @@ $(document).ready(function() {
 	
 	/**
 		Returns the HTML content for a user.
-		If the myself flag is set to true, "You" is displayed instead of the name and no "Call" button will be displayed.
+		If the myself flag is set to true, "You" is displayed instead of the name
+		If the callable flag is set to true, "Call" is displayed on hover
 	*/
-	var getUserHtml = function(_user, myself) {
+	var getUserHtml = function(_user, myself, callable) {
 		var html = "";
 		
 		var userClass = myself ? "user user-myself" : "user";
 		var userName = myself ? "You" : _user.name;
 		
-		// "Call" span is only displayed for user that are not ourselves
-		if (!myself && user.gotUserMedia && _user.gotUserMedia)
+		// "Call" span is only displayed for user that can be called (i.e. have accepted navigator.getUserMedia)
+		if (callable)
 			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "'>Call</span>";
 		else
 			var callSpan = "";

@@ -10,6 +10,9 @@ var User = function() {
 	
 	// Color
 	this.color = null;
+	
+	// has the user granted access to getUserMedia?
+	this.gotUserMedia = null;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

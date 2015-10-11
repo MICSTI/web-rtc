@@ -212,6 +212,7 @@ var MainController = function() {
 				// set user info
 				clients[clientId].user.name = userObject.name;
 				clients[clientId].user.mail = userObject.mail;
+				clients[clientId].user.gotUserMedia = userObject.gotUserMedia;
 				
 				// send back an info about all available users
 				broadcastUserInfo();

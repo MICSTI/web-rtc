@@ -10,6 +10,9 @@ $(document).ready(function() {
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
 	
+	// flag if getUserMedia access has been granted
+	var userMediaGranted = false;
+	
 	// set ofcus to username field
 	username.focus();
 	
@@ -265,6 +268,14 @@ $(document).ready(function() {
 		$(".user-myself .user-avatar").on("dblclick", function() {
 			requestNewColor();
 		});
+		
+		// attach call function
+		$(".user-call").off("click");
+	
+		$(".user-call").on("click", function() {
+			// we use a closure so we can pass the id of the user that we initiate the call to
+			return initiateCall($(this).attr("data-user-id"));
+		});
 	}
 	
 	/**
@@ -305,18 +316,21 @@ $(document).ready(function() {
 		Returns the HTML content for a user.
 		If the myself flag is set to true, "You" is displayed instead of the name and no "Call" button will be displayed.
 	*/
-	var getUserHtml = function(user, myself) {
+	var getUserHtml = function(_user, myself) {
 		var html = "";
 		
 		var userClass = myself ? "user user-myself" : "user";
-		var userName = myself ? "You" : user.name;
+		var userName = myself ? "You" : _user.name;
 		
 		// "Call" span is only displayed for user that are not ourselves
-		var callSpan = myself ? "" : "<span class='user-call right'>Call</span>";
+		if (!myself && user.gotUserMedia && _user.gotUserMedia)
+			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "'>Call</span>";
+		else
+			var callSpan = "";
 		
 		html += "<div class='" + userClass + "'>";
 			html += callSpan;
-			html += "<span class='user-avatar' style='background-color: " + user.color + ";'></span>";
+			html += "<span class='user-avatar' style='background-color: " + _user.color + ";'></span>";
 			html += "<span class='user-name'>" + userName + "</span>";
 		html += "</div>";
 		
@@ -389,19 +403,35 @@ $(document).ready(function() {
 	userMedia.video = localVideo;
 	
 	userMedia.onSuccess = function(stream) {
-		if (window.URL) {
-			userMedia.video.src = window.URL.createObjectURL(stream);
-		} else {
-			userMedia.video.src = stream;
-		}
+		// set stream as local stream
+		localStream = stream;
 		
-		userMedia.video.play();
+		// attachMediaStream is a function of adapter.js
+		attachMediaStream(localVideo, stream);
+		
+		// update user info
+		user.gotUserMedia = true;
+		
+		if (connection !== null)
+			updateUserInfo();
 	};
 	
 	userMedia.onError = function(error) {
 		console.log("navigator.getUserMedia error: ", error);
 	}
 	
+	/**
+		Initiates a call between to users
+	*/
+	var initiateCall = function(callee_id) {
+		var caller = user.id;
+		var callee = callee_id;
+		
+		console.log("CALLER: ", caller);
+		console.log("CALLEE: ", callee);
+	}
+	
+	// init user media on page load finished
 	userMedia.init();
 	
 });

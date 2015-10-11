@@ -236,6 +236,18 @@ var MainController = function() {
 				
 				break;
 				
+			case message.topics.ICE_CANDIDATE:
+				// relay message to appropriate client
+				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
+			
+				break;
+				
+			case message.topics.SESSION_DESCRIPTION:
+				// relay message to appropriate client
+				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
+			
+				break;
+				
 			default:
 				break;
 		}

@@ -19,6 +19,9 @@ $(document).ready(function() {
 	// flag for keeping track who initiated the call
 	var isInitiator = false;
 	
+	// id of the user that is called
+	var calleeId = null;
+	
 	// set ofcus to username field
 	username.focus();
 	
@@ -195,6 +198,23 @@ $(document).ready(function() {
 			case message.topics.USER_BROADCAST:
 				updateAvailableUsers(message.content);
 			
+				break;
+				
+			// ICE candidate
+			case message.topics.ICE_CANDIDATE:
+				var candidate = new RTCIceCandidate( {
+					sdpMLineIndex: message.content.label,
+					candidate: message.content.candidate
+				} );
+				
+				peerConnection.addIceCandidate(candidate);
+			
+				break;
+				
+			// session description
+			case message.topics.SESSION_DESCRIPTION:
+				peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
+				
 				break;
 				
 			default:
@@ -438,11 +458,13 @@ $(document).ready(function() {
 		Initiates a call between to users
 	*/
 	var initiateCall = function(callee_id) {
-		var caller = user.id;
-		var callee = callee_id;
+		var callerId = user.id;
+		calleeId = callee_id;
 		
-		console.log("CALLER: ", caller);
-		console.log("CALLEE: ", callee);
+		console.log("CALLER: ", callerId);
+		console.log("CALLEE: ", calleeId);
+		
+		isInitiator = true;
 		
 		checkAndStart();
 	}
@@ -543,9 +565,11 @@ $(document).ready(function() {
 			candidateMessage.type = candidateMessage.types.SERVER;
 			candidateMessage.topic = candidateMessage.topics.ICE_CANDIDATE;
 			candidateMessage.sender = user;
-			candidateMessage.recipient = server;
+			
+			candidateMessage.recipient = new User();
+			candidateMessage.recipient.id = calleeId;
+			
 			candidateMessage.content = {
-				type: "candidate",
 				label: event.candidate.sdpMLineIndex,
 				id: event.candidate.sdpMid,
 				candidate: event.candidate.candidate
@@ -569,6 +593,12 @@ $(document).ready(function() {
 		fconsole.log("Failed to create signaling message", error);
 	};
 	
+	// Create answer
+	var doAnswer = function() {
+		console.log("Sending answer to peer");
+		peerConnection.createAnswer(setLocalAndSendMessage, onSignalingError, sdpConstraints);
+	};
+	
 	// Success handler for createOffer and createAnswer
 	var setLocalAndSendMessage = function(sessionDescription) {
 		peerConnection.setLocalDescription(sessionDescription);
@@ -577,7 +607,10 @@ $(document).ready(function() {
 		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
 		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION;
 		sessionDescriptionMessage.sender = user;
-		sessionDescriptionMessage.recipient = server;
+		
+		sessionDescriptionMessage.recipient = new User();
+		sessionDescriptionMessage.recipient.id = calleeId;
+		
 		sessionDescriptionMessage.content = sessionDescription;
 		
 		console.log("Sending session description", sessionDescriptionMessage);

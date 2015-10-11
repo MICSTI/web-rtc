@@ -194,6 +194,8 @@ var MainController = function() {
 		Handles incoming messages to the management server.
 	*/
 	var handleServerMessage = function(clientId, message) {
+		console.log(message);
+		
 		if (clients[clientId].user.id !== clientId) {
 			// Something is wrong! An error maybe, or an attempt to break in?
 			return;

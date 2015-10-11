@@ -26,7 +26,9 @@ Message.prototype.topics = {
 	USER_ID: "userId",
 	USER_INFO: "userInfo",
 	USER_BROADCAST: "userBroadcast",
-	CHANGE_USER_COLOR: "changeUserColor"
+	CHANGE_USER_COLOR: "changeUserColor",
+	ICE_CANDIDATE: "iceCandidate",
+	SESSION_DESCRIPTION: "sessionDescription"
 };
 
 // possible type values

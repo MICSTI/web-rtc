@@ -13,6 +13,12 @@ $(document).ready(function() {
 	// flag if getUserMedia access has been granted
 	var userMediaGranted = false;
 	
+	// flag for keeping track if a call has been started
+	var callStarted = false;
+	
+	// flag for keeping track who initiated the call
+	var isInitiator = false;
+	
 	// set ofcus to username field
 	username.focus();
 	
@@ -376,8 +382,8 @@ $(document).ready(function() {
 	}
 	
 	// WebRTC setup
-	var localStream;
-	var remoteStream;
+	var localStream = null;
+	var remoteStream = null;
 	
 	var localVideo = document.getElementById("local-video");
 	var remoteVideo = document.getElementById("remote-video");
@@ -396,6 +402,10 @@ $(document).ready(function() {
 	};
 	
 	var sdpConstraints = {};
+	
+	// data channel setup
+	var sendChannel = null;
+	var receiveChannel = null;
 	
 	// init getUserMedia
 	var userMedia = new UserMedia();
@@ -433,6 +443,195 @@ $(document).ready(function() {
 		
 		console.log("CALLER: ", caller);
 		console.log("CALLEE: ", callee);
+		
+		checkAndStart();
+	}
+	
+	/**
+		Channel negotiation trigger function
+	*/
+	var checkAndStart = function() {
+		if (!callStarted && typeof localStream != 'null') {
+			createPeerConnection();
+			
+			callStarted = true;
+			
+			if (isInitiator) {
+				placeCall();
+			}
+		}
+	}
+	
+	// Peer connection management
+	var createPeerConnection = function() {
+		try {
+			peerConnection = new RTCPeerConnection(pcConfig, pcConstraints);
+			
+			peerConnection.addStream(localStream);
+			
+			peerConnection.onicecandidate = handleIceCandidate;
+			
+			console.log("Created RTCPeerConnection successfully");
+		} catch (ex) {
+			console.log("Failed to create PeerConnection", ex);
+			return;
+		}
+		
+		peerConnection.onaddstream = handleRemoteStreamAdded;
+		peerConnection.onremovestream =handleRemoteStreamRemoved;
+		
+		if (isInitiator) {
+			try {
+				// create a reliable data channel
+				sendChannel = peerConnection.createDataChannel("sendDataChannel", { reliable: true });
+				trace("Created send data channel");
+			} catch (ex) {
+				trace("createDataChannel() failed", ex);
+			}
+			
+			sendChannel.onopen = handleSendChannelStateChange;
+			sendChannel.onmessage = handleDataChannelMessage;
+			sendChannel.onclose = handleSendChannelStateChange;
+		} else {
+			peerConnection.ondatachannel = gotReceiveChannel;
+		}
+	};
+	
+	// Handlers
+	var gotReceiveChannel = function(event) {
+		trace("Receive Channel callback");
+		
+		receiveChannel = event.channel;
+		receiveChannel.onmessage = handleDataChannelMessage;
+		receiveChannel.onopen = handleReceiveChannelStateChange;
+		receiveChannel.onclose = handleReceiveChannelStateChange;
+	};
+	
+	var handleDataChannelMessage = function(event) {
+		trace("Received message: " + event.data);
+	};
+	
+	var handleSendChannelStateChange = function() {
+		var readyState = sendChannel.readyState;
+		trace("Send channel state is: " + readyState);
+		
+		if (readyState == "open") {
+			console.log("Send data channel is open");
+		} else {
+			console.log("Send data channel is closed");
+		}
+	};
+	
+	var handleReceiveChannelStateChange = function() {
+		var readyState = receiveChannel.readyState;
+		trace("Receive channel state is: " + readyState);
+		
+		if (readyState == "open") {
+			console.log("Receive data channel is open");
+		} else {
+			console.log("Receive data channel is closed");
+		}
+	};
+	
+	// ICE candidates management
+	var handleIceCandidate = function(event) {
+		console.log("handleIceCandidate event:", event);
+		
+		if (event.candidate) {
+			var candidateMessage = new Message();
+			
+			candidateMessage.type = candidateMessage.types.SERVER;
+			candidateMessage.topic = candidateMessage.topics.ICE_CANDIDATE;
+			candidateMessage.sender = user;
+			candidateMessage.recipient = server;
+			candidateMessage.content = {
+				type: "candidate",
+				label: event.candidate.sdpMLineIndex,
+				id: event.candidate.sdpMid,
+				candidate: event.candidate.candidate
+			};
+			
+			console.log("Sending ice candidate message", candidateMessage);
+			
+			connection.send(JSON.stringify(candidateMessage));
+		} else {
+			console.log("End of candidates");
+		}
+	}
+	
+	var placeCall = function() {
+		console.log("Creating offer...");
+		peerConnection.createOffer(setLocalAndSendMessage, onSignalingError, sdpConstraints);
+	}
+	
+	// Signaling error handler
+	var onSignalingError = function(error) {
+		fconsole.log("Failed to create signaling message", error);
+	};
+	
+	// Success handler for createOffer and createAnswer
+	var setLocalAndSendMessage = function(sessionDescription) {
+		peerConnection.setLocalDescription(sessionDescription);
+		
+		var sessionDescriptionMessage = new Message();
+		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
+		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION;
+		sessionDescriptionMessage.sender = user;
+		sessionDescriptionMessage.recipient = server;
+		sessionDescriptionMessage.content = sessionDescription;
+		
+		console.log("Sending session description", sessionDescriptionMessage);
+		
+		connection.send(JSON.stringify(sessionDescriptionMessage));
+	};
+	
+	// Remote stream handlers
+	var handleRemoteStreamAdded = function(event) {
+		console.log("Remote stream added");
+		
+		attachMediaStream(remoteVideo, event.stream);
+		
+		console.log("Remote stream attached");
+		
+		remoteStream = event.stream;
+	};
+	
+	var handleRemoteStreamRemoved = function(event) {
+		console.log("Remote stream removed", event);
+		
+		handleRemoteHangup();
+	};
+	
+	// Clean-up functions
+	var hangup = function() {
+		console.log("Hanging up");
+		stop();
+		
+		// TODO: send bye message
+	};
+	
+	var handleRemoteHangup = function() {
+		console.log("Session terminated");
+		stop();
+		isInitiator = false;
+	};
+	
+	var stop = function() {
+		callStarted = false;
+		
+		if (sendChannel !== null) {
+			sendChannel.close();
+		}
+		
+		if (receiveChannel !== null) {
+			receiveChannel.close();
+		}
+		
+		if (peerConnection !== null) {
+			peerConnection.close();
+		}
+		
+		peerConnection = null;
 	}
 	
 	// init user media on page load finished

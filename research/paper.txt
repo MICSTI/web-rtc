@@ -1,3 +1,5 @@
+(*) = read
+
 PAPER-1
 Evaluating two approaches for browser-based real-time multimedia communication
 Marcin Davies, Joachim Zeiss, Rene Gabner
@@ -52,17 +54,45 @@ Togay, C.
 Signal Processing and Communications Applications Conference (SIU), 2014 22nd
 Year: 2014
 
-PAPER-10
+PAPER-10 (*)
 P2P live video streaming in WebRTC
 Rhinow, F.; Veloso, P.P.; Puyelo, C.; Barrett, S.; Nuallain, E.O.
 Computer Applications and Information Systems (WCCAIS), 2014 World Congress on
 Year: 2014
+
+Notes:
+	aim:
+		implement a pull based live video streaming application usign WebRTC
+
+	alternatives:
+		IP multicast (1985), to send IP packages to multiple clients, still not widely deployed
+		tree based peer-to-peer protocols
+		pull based protocols (random neighbords are assigned)
+		
+	their implementation:
+		source publisher: main server
+		WebRTC coordinator: same host as source publisher
+		WebRTC network
+		
+	process flow:
+		a peer generates a user ID and registers at the PeerJS server and the WebRTC coordinator
+		WebRTC coordinator selects pseudo randomly two peers that are already part of the WebRTC network and sends these information to the connection establishing peer
+		this peer opens a RTCDataChannel to these two peers and thus is part of the WebRTC network
+		as a result, the first peer only subscribes to the source publisher
+		the second peer subscribes to the source publisher and the first peer, while the third peer selects randomly two peers from the first, second or source publisher
+		thus, a random mesh is created with every new peer which joins the network
 
 PAPER-11
 WebRTC quality assessment: Dangers of black-box testing
 Cinar, Yusuf; Melvin, Hugh
 Digital Technologies (DT), 2014 10th International Conference on
 Year: 2014
+
+Possible:
+P2P media streaming with HTML5 and WebRTC
+Nurminen J. K., Meyn A. J., Jalonen E., Raivio Y., Marrero R. G.
+IEEE International Conference on Computer Communications
+IEEE, 2013
 
 Scalable signaling protocol for Web real-time communication based on a distributed hash tableOriginal Research Article
 Computer Communications, In Press, Corrected Proof, Available online 3 June 2015
@@ -79,17 +109,3 @@ Mario Montagud, Fernando Boronat, Hans Stokking, Pablo Cesar
 Design, development and assessment of control schemes for IDMS in a standardized RTCP-based solutionOriginal Research Article
 Computer Networks, Volume 70, 9 September 2014, Pages 240-259
 Mario Montagud, Fernando Boronat, Hans Stokking, Pablo Cesar
-
-Oracle: Delivering Enterprise - Class Communications with WebRTC
-http://www.oracle.com/us/industries/communications/oracle-enterprise-web-rtc-wp-2132263.pdf
-
-WebRTC: Reach the web with a new conversation experience
-http://www.tmcnet.com/tmc/whitepapers/documents/whitepapers/2013/9187-webrtc-reach-web-with-new-conversation-experience.pdf
-
-Case studies:
-https://s3.amazonaws.com/ahoy-assets.twilio.com/Whitepapers/WebRTC_White_Paper.pdf
-
-Possible:
-http://www.academia.edu/4293745/webrtc_whitepaper
-http://networkfuel.dialogic.com/webrtc-whitepaper
-http://www.yorktel.com/resources/whitepapers/webrtc/

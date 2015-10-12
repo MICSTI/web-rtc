@@ -28,7 +28,8 @@ Message.prototype.topics = {
 	USER_BROADCAST: "userBroadcast",
 	CHANGE_USER_COLOR: "changeUserColor",
 	ICE_CANDIDATE: "iceCandidate",
-	SESSION_DESCRIPTION: "sessionDescription"
+	SESSION_DESCRIPTION_OFFER: "sessionDescriptionOffer",
+	SESSION_DESCRIPTION_ANSWER: "sessionDescriptionAnswer"
 };
 
 // possible type values
@@ -37,7 +38,7 @@ Message.prototype.types = {
 	P2P: 2
 };
 
-// possbile status values
+// possible status values
 Message.prototype.statuses = {
 	SUCCESS: "success",
 	INFO: "info",

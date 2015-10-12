@@ -242,11 +242,15 @@ var MainController = function() {
 			
 				break;
 				
-			case message.topics.SESSION_DESCRIPTION:
+			case message.topics.SESSION_DESCRIPTION_OFFER:
 				// relay message to appropriate client
 				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
 			
 				break;
+				
+			case message.topics.SESSION_DESCRIPTION_ANSWER:
+				// relay message to appropriate client
+				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
 				
 			default:
 				break;

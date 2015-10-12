@@ -19,8 +19,8 @@ $(document).ready(function() {
 	// flag for keeping track who initiated the call
 	var isInitiator = false;
 	
-	// id of the user that is called
-	var calleeId = null;
+	// id of the other user
+	var collocutorId = null;
 	
 	// set ofcus to username field
 	username.focus();
@@ -211,9 +211,28 @@ $(document).ready(function() {
 			
 				break;
 				
-			// session description
-			case message.topics.SESSION_DESCRIPTION:
+			// session description offer
+			case message.topics.SESSION_DESCRIPTION_OFFER:
+				if (!isInitiator && !callStarted) {
+					checkAndStart();
+				}
+				
+				// set collocutor id
+				collocutorId = message.sender.id;
+			
 				peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
+				
+				doAnswer();
+				
+				break;
+				
+			// session description answer
+			case message.topics.SESSION_DESCRIPTION_ANSWER:
+				if (callStarted) {
+					peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
+				} else {
+					console.log("got ANSWER, but call not started");
+				}
 				
 				break;
 				
@@ -459,10 +478,10 @@ $(document).ready(function() {
 	*/
 	var initiateCall = function(callee_id) {
 		var callerId = user.id;
-		calleeId = callee_id;
+		collocutorId = callee_id;
 		
 		console.log("CALLER: ", callerId);
-		console.log("CALLEE: ", calleeId);
+		console.log("CALLEE: ", collocutorId);
 		
 		isInitiator = true;
 		
@@ -567,7 +586,7 @@ $(document).ready(function() {
 			candidateMessage.sender = user;
 			
 			candidateMessage.recipient = new User();
-			candidateMessage.recipient.id = calleeId;
+			candidateMessage.recipient.id = collocutorId;
 			
 			candidateMessage.content = {
 				label: event.candidate.sdpMLineIndex,
@@ -585,35 +604,54 @@ $(document).ready(function() {
 	
 	var placeCall = function() {
 		console.log("Creating offer...");
-		peerConnection.createOffer(setLocalAndSendMessage, onSignalingError, sdpConstraints);
+		peerConnection.createOffer(setLocalAndSendMessageOffer, onSignalingError, sdpConstraints);
 	}
 	
 	// Signaling error handler
 	var onSignalingError = function(error) {
-		fconsole.log("Failed to create signaling message", error);
+		console.log("Failed to create signaling message", error);
 	};
 	
 	// Create answer
 	var doAnswer = function() {
 		console.log("Sending answer to peer");
-		peerConnection.createAnswer(setLocalAndSendMessage, onSignalingError, sdpConstraints);
+		peerConnection.createAnswer(setLocalAndSendMessageAnswer, onSignalingError, sdpConstraints);
 	};
 	
-	// Success handler for createOffer and createAnswer
-	var setLocalAndSendMessage = function(sessionDescription) {
+	// Success handler for createOffer
+	var setLocalAndSendMessageOffer = function(sessionDescription) {
 		peerConnection.setLocalDescription(sessionDescription);
 		
 		var sessionDescriptionMessage = new Message();
 		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
-		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION;
+		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_OFFER;
 		sessionDescriptionMessage.sender = user;
 		
 		sessionDescriptionMessage.recipient = new User();
-		sessionDescriptionMessage.recipient.id = calleeId;
+		sessionDescriptionMessage.recipient.id = collocutorId;
 		
 		sessionDescriptionMessage.content = sessionDescription;
 		
-		console.log("Sending session description", sessionDescriptionMessage);
+		console.log("Sending session description offer", sessionDescriptionMessage);
+		
+		connection.send(JSON.stringify(sessionDescriptionMessage));
+	};
+	
+	// Success handler for createAnswer
+	var setLocalAndSendMessageAnswer = function(sessionDescription) {
+		peerConnection.setLocalDescription(sessionDescription);
+		
+		var sessionDescriptionMessage = new Message();
+		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
+		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_ANSWER;
+		sessionDescriptionMessage.sender = user;
+		
+		sessionDescriptionMessage.recipient = new User();
+		sessionDescriptionMessage.recipient.id = collocutorId;
+		
+		sessionDescriptionMessage.content = sessionDescription;
+		
+		console.log("Sending session description answer", sessionDescriptionMessage);
 		
 		connection.send(JSON.stringify(sessionDescriptionMessage));
 	};

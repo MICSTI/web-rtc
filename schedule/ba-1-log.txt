@@ -17,3 +17,4 @@
 08.10.2015		01:15	client - server user connection communication
 09.10.2015		01:00	finished exposé draft, small client frontend improvements
 11.10.2015		04:00	WebRTC signaling
+12.10.2015		00:30	WebRTC signaling (MILESTONE: first P2P connection - see other user's camera feed)

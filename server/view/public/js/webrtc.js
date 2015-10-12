@@ -310,10 +310,10 @@ $(document).ready(function() {
 			availableUsers.append(getUserHtml(item, false, callable));
 		});
 		
-		// attach double click handler for color span (and delete attached handlers first)
-		$("span.user-avatar").off("dblclick");
+		// attach click handler for color span (and delete attached handlers first)
+		$("span.user-avatar").off("click");
 		
-		$(".user-myself .user-avatar").on("dblclick", function() {
+		$(".user-myself .user-avatar").on("click", function() {
 			requestNewColor();
 		});
 		

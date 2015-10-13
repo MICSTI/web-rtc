@@ -1,4 +1,4 @@
-18.09.2015		01:00	initial meeting with Mr Feiner (topic, outline of prototype, implementation possibilities)
+18.08.2015		01:00	initial meeting with Mr Feiner (topic, outline of prototype, implementation possibilities)
 21.09.2015		00:20	git repository setup
 22.09.2015		01:00	research (VIDEO-6)
 24.09.2015		01:30	research (VIDEO-1, VIDEO-3, available books)
@@ -19,3 +19,4 @@
 11.10.2015		04:00	WebRTC signaling
 12.10.2015		00:35	WebRTC signaling (MILESTONE: first P2P connection - see other user's camera feed)
 				00:20	research (PAPER-10)
+13.10.2015		00:30	research (PAPER-9, PAPER-7, PAPER-5)

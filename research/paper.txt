@@ -1,4 +1,5 @@
 (*) = read
+(?) = unsuitable
 
 PAPER-1
 Evaluating two approaches for browser-based real-time multimedia communication
@@ -24,11 +25,50 @@ Ewa Janczukowicz, Arnaud Braud, Stéphane Tuffin, Gaël Fromentoux, Ahmed Bouabd
 April 2015 		
 AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
 
-PAPER-5
+PAPER-5 (*)
 On embedded real time media communications
 Jean-Charles Grégoire
 April 2015 		
 AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
+
+Notes:
+	Advantages of WebRTC:
+		OS and platform independence (as long as it is supported by the browser)
+		programmability
+		dynamic configuration without need for plugins
+		support for multiple concurrent communications
+		uniformity of features available (i.e. codecs) and hence predictability
+		
+	Disadvantages of WebRTC:
+		platform restrictions - the browser is an environment with limits in communications and storage access (i.e. sandboxing)
+		no possibility of extension (additional codecs, other security mechanisms)
+		no standard way of integration into a signalling environment
+		
+	The approach taken in the design of WebRTC is a "one size fits all" approach for media (audio, video, data), while, on the signalling side, it is essentially non-committal, reduced to SDP-bias for the presentation of connection data
+	
+	Non-telephony applications
+		Mediated communications
+			identity - an identifier which allows us to recognize the parties involved
+			presence - the notion of who is available
+			notification - means to notify some other party of a communication
+			
+		Asymmetric communications
+			business communications, like call centers ("click to call" model)
+			
+		The always-on issue
+			always-on hypothesis: a party must always be reachable
+			
+	Peer-to-peer communications key elements
+		Quality of Service
+		Trusted identification
+		Reachability
+		Real presence in a virtual world
+		Features
+			call display
+			selective call blocking
+			voice mail
+		
+		Extended functionalities
 
 PAPER-6
 P2P shared-caching model: using P2P to improve client-server application performance
@@ -36,11 +76,22 @@ Luong Quy Tho, Ha Quoc Trung
 December 2013 		
 SoICT '13: Proceedings of the Fourth Symposium on Information and Communication Technology
 
-PAPER-7
+PAPER-7 (*)
 Determining the signalling overhead of two common WebRTC methods: JSON via XMLHttpRequest and SIP over WebSocket
 Adeyeye, M.; Makitla, I.; Fogwill, T.
 AFRICON, 2013
 Year: 2013
+
+Notes:
+	aim:
+		compare signalling overhead SIP/WebSockets and JSON/XMLHttpRequest
+		
+	their implementation:
+		three-way video chat application
+		signallign via ChannelAPI in Google AppEngine
+		
+	useful:
+		description of performance test setup (page 3)
 
 PAPER-8
 WebRTC technology overview and signaling solution design and implementation
@@ -48,11 +99,14 @@ Sredojev, B.; Samardzija, D.; Posarac, D.
 Information and Communication Technology, Electronics and Microelectronics (MIPRO), 2015 38th International Convention on
 Year: 2015
 
-PAPER-9
+PAPER-9 (?)
 WebRTC technology for mobile devices
 Togay, C.
 Signal Processing and Communications Applications Conference (SIU), 2014 22nd
 Year: 2014
+
+Notes:
+	unsuitable, since written in Turkish
 
 PAPER-10 (*)
 P2P live video streaming in WebRTC
@@ -93,6 +147,23 @@ P2P media streaming with HTML5 and WebRTC
 Nurminen J. K., Meyn A. J., Jalonen E., Raivio Y., Marrero R. G.
 IEEE International Conference on Computer Communications
 IEEE, 2013
+
+Identity management in WebRTC domains
+Muranyi J, Kotuliak I.
+Emerging eLearning Technologies and Appliations (ICETA)
+2013 IEEE 11th International Conference
+
+Performance Analysis of Receive-Side Real-Time Congestion Control for WebRTC
+Singh V., Abello Lozano A., Ott J.
+2013
+
+WebRTC, the day after
+Bertin E., Cubaud S., Tuffin S., Cazeaux S., Crespi N., Beltran V.
+2013
+
+Web Real-Time Communication Usecases and Requirements
+Holmberg C., Hakansson S., Eriksson G.
+2015
 
 Scalable signaling protocol for Web real-time communication based on a distributed hash tableOriginal Research Article
 Computer Communications, In Press, Corrected Proof, Available online 3 June 2015

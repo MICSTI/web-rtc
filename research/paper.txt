@@ -7,11 +7,33 @@ Marcin Davies, Joachim Zeiss, Rene Gabner
 December 2012 		
 MoMM '12: Proceedings of the 10th International Conference on Advances in Mobile Computing & Multimedia
 
-PAPER-2
+PAPER-2 (*)
 WebRTC based remote collaborative online learning platform
 Hyeontaek Oh, Sanghong Ahn, JunKyun Choi, Jinhong Yang
 April 2015 		
 AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems
+
+Notes:
+	traditional e-learning systems are not capable of more complex interactions between students and teacher, like real-time questioning, real-time content sharing, etc.
+	
+	service scenario:
+		teachers and students are able to do remote collaborative learning service without degrading streaming quality
+		users should be able to use mutliple devices, share their images and display of their devices in teleconferencing environment
+		real-time notification and quiz function should be available
+		teachers should see the answers and feedback of students
+		
+	functional requirements:
+		platform should support content-sharing regardless of the type of the content
+		users should be able to manipulate the on-viewing contents, and the result of the manipulation should be synchronized among related users
+		
+	service architecture
+		three major parts: backend, frontend, application server
+		frontend: divided in user interface and lecture modules
+		application server: operates three application modules: collaboration learning elements (user communication and interaction, slide show controller and social log management), content syndicator (deals with lecture video content, materials and interaction logs in a lecture session) and session manager (deals with user access and interactions)
+		
+	layered session model for user-level management and device-level management (so users can log in with multiple devices at the same time)
+		
+	very good explanation of system architecture and setup!
 
 PAPER-3
 An API proposal for integrating sensor data into web apps and WebRTC
@@ -164,6 +186,12 @@ Bertin E., Cubaud S., Tuffin S., Cazeaux S., Crespi N., Beltran V.
 Web Real-Time Communication Usecases and Requirements
 Holmberg C., Hakansson S., Eriksson G.
 2015
+
+Overview: Real Time Protocols for Browser-based applications
+Alvestrand H.
+2014
+
+-----
 
 Scalable signaling protocol for Web real-time communication based on a distributed hash tableOriginal Research Article
 Computer Communications, In Press, Corrected Proof, Available online 3 June 2015

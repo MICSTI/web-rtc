@@ -20,3 +20,4 @@
 12.10.2015		00:35	WebRTC signaling (MILESTONE: first P2P connection - see other user's camera feed)
 				00:20	research (PAPER-10)
 13.10.2015		00:30	research (PAPER-9, PAPER-7, PAPER-5)
+16.10.2015		00:20	research (PAPER-2)

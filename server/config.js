@@ -6,6 +6,8 @@ var appConfig = {
 	port: 1337,
 	server: '127.0.0.1',
 	
+	logging: true,
+	
 	defaultResponseFormat: "json"
 };
 

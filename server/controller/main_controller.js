@@ -3,7 +3,13 @@ var MainController = function() {
 	var http = require('http');
 	var webSocketServer = require('websocket').server;
 	var fs = require('fs');
+	
+	// read config file
+	var config = require('../config');
+	
+	// logger
 	var logger = require('../helper/logger.js');
+	logger.enabled = config.logging;
 
 	// url parser
 	var urlparser = require('../helper/urlparser');
@@ -24,9 +30,6 @@ var MainController = function() {
 	var userModel = require('../model/User');
 	var messageModel = require('../model/Message');
 	var clientModel = require('../model/Client');
-
-	// read config file
-	var config = require('../config');
 
 	var _title = config.title;
 	var _author = config.author;

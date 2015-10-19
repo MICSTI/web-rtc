@@ -12,6 +12,7 @@ $(document).ready(function() {
 	
 	// logger
 	var logger = new Logger();
+	logger.enabled = appConfig.logging;
 	
 	// flag if getUserMedia access has been granted
 	var userMediaGranted = false;

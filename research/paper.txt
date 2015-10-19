@@ -207,10 +207,14 @@ Signalling-on-the-fly: SigOfly - WebRTC Interoperability tested in contradictive
 Chainho P., Haensge K., Druesedow S.
 2014
 
-PAPER-18
+PAPER-18 (*)
 Node.js: Using JavaScript to Build High-Performance Network Programs
 Tilkov S., Vinoski S.
 2010
+
+Notes:
+	advantages of non-blocking I/O
+	simple node.js samples
 
 Possible:
 

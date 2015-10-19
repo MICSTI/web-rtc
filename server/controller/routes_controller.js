@@ -50,6 +50,11 @@ RoutesController.prototype.getController = function(restUrl) {
 		controller = "static";
 	}
 	
+	// helper JS files
+	if (restUrl.path == "helper") {
+		controller = "static";
+	}
+	
 	// favicon
 	if (restUrl.filename.indexOf("favicon") >= 0) {
 		controller = "static";

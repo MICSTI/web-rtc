@@ -10,6 +10,9 @@ $(document).ready(function() {
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
 	
+	// logger
+	var logger = new Logger();
+	
 	// flag if getUserMedia access has been granted
 	var userMediaGranted = false;
 	
@@ -90,7 +93,7 @@ $(document).ready(function() {
 		connection = new WebSocket('ws://' + appConfig.server + ':' + appConfig.port);
 
 		connection.onopen = function() {
-		   console.log("WebSocket connection opened");
+		   logger.log(logger.WS, "WebSocket connection opened");
 		   
 		   updateUserInfo();
 		   
@@ -231,7 +234,7 @@ $(document).ready(function() {
 				if (callStarted) {
 					peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
 				} else {
-					console.log("got ANSWER, but call not started");
+					logger.log(logger.WEBRTC, "got ANSWER, but call not started");
 				}
 				
 				break;
@@ -470,7 +473,7 @@ $(document).ready(function() {
 	};
 	
 	userMedia.onError = function(error) {
-		console.log("navigator.getUserMedia error: ", error);
+		logger.error("navigator.getUserMedia error", error);
 	}
 	
 	/**
@@ -479,9 +482,6 @@ $(document).ready(function() {
 	var initiateCall = function(callee_id) {
 		var callerId = user.id;
 		collocutorId = callee_id;
-		
-		console.log("CALLER: ", callerId);
-		console.log("CALLEE: ", collocutorId);
 		
 		isInitiator = true;
 		
@@ -512,9 +512,9 @@ $(document).ready(function() {
 			
 			peerConnection.onicecandidate = handleIceCandidate;
 			
-			console.log("Created RTCPeerConnection successfully");
+			logger.log(logger.WEBRTC, "Created RTCPeerConnection successfully");
 		} catch (ex) {
-			console.log("Failed to create PeerConnection", ex);
+			logger.error("could not create RTCPeerConnection", ex);
 			return;
 		}
 		
@@ -557,9 +557,9 @@ $(document).ready(function() {
 		trace("Send channel state is: " + readyState);
 		
 		if (readyState == "open") {
-			console.log("Send data channel is open");
+			logger.log(logger.WEBRTC, "Send data channel is open");
 		} else {
-			console.log("Send data channel is closed");
+			logger.log(logger.WEBRTC, "Send data channel is closed");
 		}
 	};
 	
@@ -568,15 +568,15 @@ $(document).ready(function() {
 		trace("Receive channel state is: " + readyState);
 		
 		if (readyState == "open") {
-			console.log("Receive data channel is open");
+			logger.log(logger.WEBRTC, "Receive data channel is open");
 		} else {
-			console.log("Receive data channel is closed");
+			logger.log(logger.WEBRTC, "Receive data channel is closed");
 		}
 	};
 	
 	// ICE candidates management
 	var handleIceCandidate = function(event) {
-		console.log("handleIceCandidate event:", event);
+		logger.log(logger.WEBRTC, "handleIceCandidate event:", event);
 		
 		if (event.candidate) {
 			var candidateMessage = new Message();
@@ -594,27 +594,27 @@ $(document).ready(function() {
 				candidate: event.candidate.candidate
 			};
 			
-			console.log("Sending ice candidate message", candidateMessage);
+			logger.log(logger.WEBRTC, "Sending ice candidate message", candidateMessage);
 			
 			connection.send(JSON.stringify(candidateMessage));
 		} else {
-			console.log("End of candidates");
+			logger.log(logger.WEBRTC, "End of candidates");
 		}
 	}
 	
 	var placeCall = function() {
-		console.log("Creating offer...");
+		logger.log(logger.WEBRTC, "Creating offer...");
 		peerConnection.createOffer(setLocalAndSendMessageOffer, onSignalingError, sdpConstraints);
 	}
 	
 	// Signaling error handler
 	var onSignalingError = function(error) {
-		console.log("Failed to create signaling message", error);
+		logger.error("Failed to create signaling message", error);
 	};
 	
 	// Create answer
 	var doAnswer = function() {
-		console.log("Sending answer to peer");
+		logger.log(logger.WEBRTC, "Sending answer to peer");
 		peerConnection.createAnswer(setLocalAndSendMessageAnswer, onSignalingError, sdpConstraints);
 	};
 	
@@ -632,7 +632,7 @@ $(document).ready(function() {
 		
 		sessionDescriptionMessage.content = sessionDescription;
 		
-		console.log("Sending session description offer", sessionDescriptionMessage);
+		logger.log(logger.WEBRTC, "Sending session description offer", sessionDescriptionMessage);
 		
 		connection.send(JSON.stringify(sessionDescriptionMessage));
 	};
@@ -651,38 +651,38 @@ $(document).ready(function() {
 		
 		sessionDescriptionMessage.content = sessionDescription;
 		
-		console.log("Sending session description answer", sessionDescriptionMessage);
+		logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
 		
 		connection.send(JSON.stringify(sessionDescriptionMessage));
 	};
 	
 	// Remote stream handlers
 	var handleRemoteStreamAdded = function(event) {
-		console.log("Remote stream added");
+		logger.log(logger.WEBRTC, "Remote stream added");
 		
 		attachMediaStream(remoteVideo, event.stream);
 		
-		console.log("Remote stream attached");
+		logger.log(logger.WEBRTC, "Remote stream attached");
 		
 		remoteStream = event.stream;
 	};
 	
 	var handleRemoteStreamRemoved = function(event) {
-		console.log("Remote stream removed", event);
+		logger.log(logger.WEBRTC, "Remote stream removed", event);
 		
 		handleRemoteHangup();
 	};
 	
 	// Clean-up functions
 	var hangup = function() {
-		console.log("Hanging up");
+		logger.log(logger.WEBRTC, "Hanging up");
 		stop();
 		
 		// TODO: send bye message
 	};
 	
 	var handleRemoteHangup = function() {
-		console.log("Session terminated");
+		logger.log(logger.WEBRTC, "Session terminated");
 		stop();
 		isInitiator = false;
 	};

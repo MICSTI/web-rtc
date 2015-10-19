@@ -3,6 +3,7 @@ var MainController = function() {
 	var http = require('http');
 	var webSocketServer = require('websocket').server;
 	var fs = require('fs');
+	var logger = require('../helper/logger.js');
 
 	// url parser
 	var urlparser = require('../helper/urlparser');
@@ -47,7 +48,7 @@ var MainController = function() {
 
 	// server startup
 	var server = http.createServer(function(request, response) {
-		console.log("Incoming request: " + request.url + "\n");
+		logger.log(logger.SERVER, "Incoming request: " + request.url);
 		
 		// handle according to request method
 		switch (request.method) {
@@ -67,12 +68,12 @@ var MainController = function() {
 						break;
 						
 					case "media":
-						console.log("Serving media stream");
+						logger.log(logger.SERVER, "Serving media stream");
 						
 						break;
 						
 					default:
-						console.log("No appropriate controller for this request:", restUrl);
+						logger.log("No appropriate controller for this request:", restUrl);
 						
 						response.writeHead(200, {'Content-Type': 'text/plain'} );
 						response.end("Hello dear friend! Nice of you to drop by.");
@@ -92,13 +93,20 @@ var MainController = function() {
 	});
 
 	server.listen(_port, _server, function() {
-		console.log((new Date()) + " Server is listening on port " + _port);
+		logger.log(logger.WS, "Server is listening on port " + _port);
+		logger.blank();
 	});
-		
-	console.log(_title);
-	console.log("Version: " + _version);
-	console.log("(C) " + _author);
-	console.log("Server running at http://" + _server + ":" + _port + "/\n");
+
+	// init log statements
+	logger.blank();
+	
+	logger.log(logger.INFO, _title);
+	logger.log(logger.INFO, "Version: " + _version);
+	logger.log(logger.INFO, "(C) " + _author);
+	logger.blank();
+	
+	logger.log(logger.SERVER, "Server running at http://" + _server + ":" + _port);
+	logger.blank();
 
 	// web socket setup
 	var wsServer = new webSocketServer({
@@ -106,7 +114,8 @@ var MainController = function() {
 	});
 
 	wsServer.on('request', function(request) {
-		console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
+		logger.blank();
+		logger.log(logger.WS, "Connection from origin " + request.origin + ".");
 		
 		// accept origin
 		var connection = request.accept(null, request.origin);
@@ -131,7 +140,7 @@ var MainController = function() {
 		// add client object to clients array
 		clients[clientId] = client;
 		
-		console.log((new Date()) + ' Connection accepted, assigned id ' + clientId);
+		logger.log(logger.WS, "Connection accepted, assigned id " + clientId);
 		
 		// send welcome message
 		var welcomeMessage = new messageModel.Message();
@@ -147,8 +156,6 @@ var MainController = function() {
 		connection.on('message', function(message) {
 			// we accept only text
 			if (message.type === 'utf8') {
-				// console.log((new Date()) + ' Received Message: ' + message.utf8Data);
-				
 				// parse message JSON data
 				var messageData = JSON.parse(message.utf8Data);
 				
@@ -162,7 +169,7 @@ var MainController = function() {
 		
 		// on close event
 		connection.on('close', function(connection) {
-			console.log((new Date()) + " " + clients[clientId].user.name + " disconnected.");
+			logger.log(logger.WS, clients[clientId].user.name + " disconnected.");
 			
 			// remove client from clients array
 			delete clients[clientId];
@@ -194,7 +201,7 @@ var MainController = function() {
 		Handles incoming messages to the management server.
 	*/
 	var handleServerMessage = function(clientId, message) {
-		console.log(message);
+		logger.log(logger.WS, "New message", message);
 		
 		if (clients[clientId].user.id !== clientId) {
 			// Something is wrong! An error maybe, or an attempt to break in?
@@ -284,7 +291,7 @@ var MainController = function() {
 		Outputs all currently connected clients to the console.
 	*/
 	var logClients = function() {
-		console.log(clients);
+		logger.log(logger.WS, "Currently connected clients", clients);
 	}
 	
 	/**

@@ -14,6 +14,9 @@ StaticFilesController.prototype.handle = function(response, restUrl){
 	if (restUrl.path == "model") {
 		// special case: JS model files (they are used on the server and on the frontend in the browser)
 		var filename = './model/' + restUrl.filename;
+	} else if (restUrl.path == "helper") {
+		// special case: JS helper files
+		var filename = './helper/' + restUrl.filename;
 	} else if (restUrl.filename == "favicon.ico") {
 		// special case: favicon
 		var filename = './view/public/img/favicon.ico';

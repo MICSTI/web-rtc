@@ -194,6 +194,12 @@ var MainController = function() {
 				
 				break;
 				
+			case message.types.RELAY:
+				// relay message to appropriate client
+				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
+				
+				break;
+				
 			default:
 			
 				break;
@@ -245,22 +251,6 @@ var MainController = function() {
 				broadcastUserInfo();
 				
 				break;
-				
-			case message.topics.ICE_CANDIDATE:
-				// relay message to appropriate client
-				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
-			
-				break;
-				
-			case message.topics.SESSION_DESCRIPTION_OFFER:
-				// relay message to appropriate client
-				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
-			
-				break;
-				
-			case message.topics.SESSION_DESCRIPTION_ANSWER:
-				// relay message to appropriate client
-				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
 				
 			default:
 				break;

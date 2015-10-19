@@ -179,6 +179,12 @@ $(document).ready(function() {
 				
 				break;
 				
+			case message.types.RELAY:
+				// handle relay message
+				handleRelayMessage(message);
+				
+				break;
+				
 			default:
 			
 				break;
@@ -204,6 +210,18 @@ $(document).ready(function() {
 			
 				break;
 				
+			default:
+				break;
+		}
+	};
+	
+	/**
+		Handles incoming messages from another client, relayed via the management server.
+		This includes ICE candidate messages as well as session description offers and answers.
+	*/
+	var handleRelayMessage = function(message) {
+		// handle according to message topic
+		switch (message.topic) {
 			// ICE candidate
 			case message.topics.ICE_CANDIDATE:
 				var candidate = new RTCIceCandidate( {
@@ -243,7 +261,7 @@ $(document).ready(function() {
 			default:
 				break;
 		}
-	}
+	};
 	
 	/**
 		Adds a server message to the chat showing that the server connection has been successfully established.
@@ -582,7 +600,7 @@ $(document).ready(function() {
 		if (event.candidate) {
 			var candidateMessage = new Message();
 			
-			candidateMessage.type = candidateMessage.types.SERVER;
+			candidateMessage.type = candidateMessage.types.RELAY;
 			candidateMessage.topic = candidateMessage.topics.ICE_CANDIDATE;
 			candidateMessage.sender = user;
 			
@@ -624,7 +642,7 @@ $(document).ready(function() {
 		peerConnection.setLocalDescription(sessionDescription);
 		
 		var sessionDescriptionMessage = new Message();
-		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
+		sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
 		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_OFFER;
 		sessionDescriptionMessage.sender = user;
 		
@@ -643,7 +661,7 @@ $(document).ready(function() {
 		peerConnection.setLocalDescription(sessionDescription);
 		
 		var sessionDescriptionMessage = new Message();
-		sessionDescriptionMessage.type = sessionDescriptionMessage.types.SERVER;
+		sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
 		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_ANSWER;
 		sessionDescriptionMessage.sender = user;
 		

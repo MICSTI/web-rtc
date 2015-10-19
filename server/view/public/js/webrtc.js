@@ -316,6 +316,9 @@ $(document).ready(function() {
 			
 			if (us) {
 				myself = item;
+				
+				// add our own color to the user info object
+				user.color = item.color;
 			} else {
 				tempUsers.push(item);
 			}

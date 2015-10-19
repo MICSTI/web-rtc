@@ -1,4 +1,3 @@
-introduce relay message type
 selection of camera feed
 new screen design
 

@@ -1,6 +1,5 @@
 introduce relay message type
 selection of camera feed
-global log method
 new screen design
 
 node js https connection

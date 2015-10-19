@@ -35,7 +35,8 @@ Message.prototype.topics = {
 // possible type values
 Message.prototype.types = {
 	SERVER: 1,
-	P2P: 2
+	P2P: 2,
+	RELAY: 3
 };
 
 // possible status values

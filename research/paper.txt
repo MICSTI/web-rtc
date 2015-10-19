@@ -35,11 +35,22 @@ Notes:
 		
 	very good explanation of system architecture and setup!
 
-PAPER-3
+PAPER-3 (*)
 An API proposal for integrating sensor data into web apps and WebRTC
 João Azevedo, Ricardo Lopes Pereira, Paulo Chainho
 April 2015 		
 AWeS '15: Proceedings of the 1st Workshop on All-Web Real-Time Systems 
+
+Notes:
+	HTML5 does not yet provide access to sensors other than GPS and accelerometers
+	
+	proposal to extend WebRTC APIs to enable general access to sensors
+	
+	compromise between flexibility and ease of use
+	
+	sample use case: patient lives far away from a hospital, can plug in his blood pressure sensor, thermometer or other health kits into his smart phone and make it accessible to the doctor
+
+	good explanation of WebRTC audio and video codec
 
 PAPER-4
 Specialized network services for WebRTC: TURN-based architecture proposal
@@ -164,32 +175,44 @@ Cinar, Yusuf; Melvin, Hugh
 Digital Technologies (DT), 2014 10th International Conference on
 Year: 2014
 
-Possible:
+PAPER-12
 P2P media streaming with HTML5 and WebRTC
 Nurminen J. K., Meyn A. J., Jalonen E., Raivio Y., Marrero R. G.
 IEEE International Conference on Computer Communications
 IEEE, 2013
 
+PAPER-13
 Identity management in WebRTC domains
 Muranyi J, Kotuliak I.
 Emerging eLearning Technologies and Appliations (ICETA)
 2013 IEEE 11th International Conference
 
+PAPER-14
 Performance Analysis of Receive-Side Real-Time Congestion Control for WebRTC
 Singh V., Abello Lozano A., Ott J.
 2013
 
+PAPER-15
+Overview: Real Time Protocols for Browser-based applications
+Alvestrand H.
+2014
+
+PAPER-16
 WebRTC, the day after
 Bertin E., Cubaud S., Tuffin S., Cazeaux S., Crespi N., Beltran V.
 2013
 
-Web Real-Time Communication Usecases and Requirements
-Holmberg C., Hakansson S., Eriksson G.
-2015
-
-Overview: Real Time Protocols for Browser-based applications
-Alvestrand H.
+PAPER-17
+Signalling-on-the-fly: SigOfly - WebRTC Interoperability tested in contradictive Deployment Scenarios
+Chainho P., Haensge K., Druesedow S.
 2014
+
+PAPER-18
+Node.js: Using JavaScript to Build High-Performance Network Programs
+Tilkov S., Vinoski S.
+2010
+
+Possible:
 
 -----
 

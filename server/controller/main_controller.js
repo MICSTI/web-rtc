@@ -8,7 +8,7 @@ var MainController = function() {
 	var config = require('../config');
 	
 	// logger
-	var logger = require('../helper/logger.js');
+	var logger = require('../helper/logger');
 	logger.enabled = config.logging;
 
 	// url parser
@@ -31,11 +31,11 @@ var MainController = function() {
 	var messageModel = require('../model/Message');
 	var clientModel = require('../model/Client');
 
-	var _title = config.title;
-	var _author = config.author;
-	var _version = config.version;
-	var _port = config.port;
-	var _server = config.server;
+	var _title = config.application.title;
+	var _author = config.application.author;
+	var _version = config.application.version;
+	var _port = config.server.port;
+	var _ip = config.server.ip;
 
 	// web socket clients
 	var clients = [];
@@ -60,7 +60,7 @@ var MainController = function() {
 				request.url = routesController.checkForUrlRedirection(request);
 			
 				// parse url
-				var restUrl = new urlparser.UrlParser(request, {}, config.defaultResponseFormat);
+				var restUrl = new urlparser.UrlParser(request, {}, config.server.defaultResponseFormat);
 				
 				// get controller type from routes controller
 				var controller = routesController.getController(restUrl);
@@ -95,7 +95,7 @@ var MainController = function() {
 		}
 	});
 
-	server.listen(_port, _server, function() {
+	server.listen(_port, _ip, function() {
 		logger.log(logger.WS, "Server is listening on port " + _port);
 		logger.blank();
 	});
@@ -108,7 +108,7 @@ var MainController = function() {
 	logger.log(logger.INFO, "(C) " + _author);
 	logger.blank();
 	
-	logger.log(logger.SERVER, "Server running at http://" + _server + ":" + _port);
+	logger.log(logger.SERVER, "Server running at http://" + _ip + ":" + _port);
 	logger.blank();
 
 	// web socket setup
@@ -291,7 +291,7 @@ var MainController = function() {
 		Returns a random element from an array.
 	*/
 	var getRandomItem = function(_array) {
-		return _array[Math.round(Math.random() * (_array.length - 1))];
+		return _array[Math.floor(Math.random() * _array.length)];
 	}
 	
 	/**

@@ -14,18 +14,6 @@ $(document).ready(function() {
 	var logger = new Logger();
 	logger.enabled = appConfig.logging;
 	
-	// flag if getUserMedia access has been granted
-	var userMediaGranted = false;
-	
-	// flag for keeping track if a call has been started
-	var callStarted = false;
-	
-	// flag for keeping track who initiated the call
-	var isInitiator = false;
-	
-	// id of the other user
-	var collocutorId = null;
-	
 	// set ofcus to username field
 	username.focus();
 	
@@ -91,7 +79,7 @@ $(document).ready(function() {
 	*/
 	var openWebSocketConnection = function() {
 		// open connection
-		connection = new WebSocket('ws://' + appConfig.server + ':' + appConfig.port);
+		connection = new WebSocket('ws://' + appConfig.server.ip + ':' + appConfig.server.port);
 
 		connection.onopen = function() {
 		   logger.log(logger.WS, "WebSocket connection opened");
@@ -229,29 +217,29 @@ $(document).ready(function() {
 					candidate: message.content.candidate
 				} );
 				
-				peerConnection.addIceCandidate(candidate);
+				webrtc.peerConnection.addIceCandidate(candidate);
 			
 				break;
 				
 			// session description offer
 			case message.topics.SESSION_DESCRIPTION_OFFER:
-				if (!isInitiator && !callStarted) {
-					checkAndStart();
+				if (!webrtc.isInitiator && !webrtc.callStarted) {
+					webrtc.checkAndStart();
 				}
 				
 				// set collocutor id
-				collocutorId = message.sender.id;
+				webrtc.collocutorId = message.sender.id;
 			
-				peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
+				webrtc.peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
 				
-				doAnswer();
+				webrtc.doAnswer();
 				
 				break;
 				
 			// session description answer
 			case message.topics.SESSION_DESCRIPTION_ANSWER:
-				if (callStarted) {
-					peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
+				if (webrtc.callStarted) {
+					webrtc.peerConnection.setRemoteDescription(new RTCSessionDescription(message.content));
 				} else {
 					logger.log(logger.WEBRTC, "got ANSWER, but call not started");
 				}
@@ -347,7 +335,7 @@ $(document).ready(function() {
 	
 		$(".user-call").on("click", function() {
 			// we use a closure so we can pass the id of the user that we initiate the call to
-			return initiateCall($(this).attr("data-user-id"));
+			return webrtc.initiateCall($(this).attr("data-user-id"));
 		});
 	}
 	
@@ -446,288 +434,126 @@ $(document).ready(function() {
 	}
 	
 	// WebRTC setup
-	var localStream = null;
-	var remoteStream = null;
+	var webrtc = new WebRTCController(logger);
 	
-	var localVideo = document.getElementById("local-video");
-	var remoteVideo = document.getElementById("remote-video");
+	// references to local and remote video DOM elements
+	webrtc.localVideo = document.getElementById(appConfig.frontend.localVideo);
+	webrtc.remoteVideo = document.getElementById(appConfig.frontend.remoteVideo);
 	
-	// peer connection
-	var peerConnection = null;
+	// RTCPeerConnection configuration
+	// webrtcDetectedBrowser is provided by adapter.js
+	webrtc.peerConnectionConfig = appConfig.peerConnection.configuration[webrtcDetectedBrowser] || null;
+	webrtc.peerConnectionConstraints = appConfig.peerConnection.constraints;
 	
-	var pcConfig = webrtcDetectedBrowser === 'firefox' ?
-		{'iceServers': [{'url': 'stun:23.21.150.121'}]} :
-		{'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]};
+	// only necessary if we used STUN and turn servers
+	webrtc.sdpConstraints = {};
 		
-	var pcConstraints = {
-		'optional': [
-			{'DtlsSrtpKeyAgreement': true}
-		]
-	};
-	
-	var sdpConstraints = {};
-	
-	// data channel setup
-	var sendChannel = null;
-	var receiveChannel = null;
-	
 	// init getUserMedia
-	var userMedia = new UserMedia();
-	
-	userMedia.constraints = {
-		audio: false, video: true
-	};
-	
-	userMedia.video = localVideo;
-	
-	userMedia.onSuccess = function(stream) {
-		// set stream as local stream
-		localStream = stream;
-		
-		// attachMediaStream is a function of adapter.js
-		attachMediaStream(localVideo, stream);
-		
-		// update user info
-		user.gotUserMedia = true;
-		
-		if (connection !== null)
-			updateUserInfo();
-	};
-	
-	userMedia.onError = function(error) {
-		logger.error("navigator.getUserMedia error", error);
-	}
-	
-	/**
-		Initiates a call between to users
-	*/
-	var initiateCall = function(callee_id) {
-		var callerId = user.id;
-		collocutorId = callee_id;
-		
-		isInitiator = true;
-		
-		checkAndStart();
-	}
-	
-	/**
-		Channel negotiation trigger function
-	*/
-	var checkAndStart = function() {
-		if (!callStarted && typeof localStream != 'null') {
-			createPeerConnection();
+	webrtc.userMedia.init({
+		constraints: {
+			audio: false,
+			video: true
+		},
+		onSuccess: function(stream) {
+			// set user media granted flag
+			webrtc.userMedia.userMediaGranted = true;
 			
-			callStarted = true;
+			// set stream as local stream
+			webrtc.localStream = stream;
 			
-			if (isInitiator) {
-				placeCall();
+			// attachMediaStream is a function of adapter.js
+			attachMediaStream(webrtc.localVideo, stream);
+			
+			// update user info
+			user.gotUserMedia = true;
+			
+			if (connection !== null)
+				updateUserInfo();
+		},
+		onError: function(error) {
+			// set user media granted flag
+			webrtc.userMedia.userMediaGranted = false;
+			
+			logger.error("navigator.getUserMedia error", error);
+		}
+	});
+	
+	// add handlers for WebRTC controller
+	webrtc.setHandlers({
+		// incoming data channel message
+		handleDataChannelMessage: function(event) {
+			trace("Received message: " + event.data);
+		},
+		
+		// ICE candidates
+		handleIceCandidate: function(event) {
+			logger.log(logger.WEBRTC, "handleIceCandidate event:", event);
+			
+			if (event.candidate) {
+				var candidateMessage = new Message();
+				
+				candidateMessage.type = candidateMessage.types.RELAY;
+				candidateMessage.topic = candidateMessage.topics.ICE_CANDIDATE;
+				candidateMessage.sender = user;
+				
+				candidateMessage.recipient = new User();
+				candidateMessage.recipient.id = webrtc.collocutorId;
+				
+				candidateMessage.content = {
+					label: event.candidate.sdpMLineIndex,
+					id: event.candidate.sdpMid,
+					candidate: event.candidate.candidate
+				};
+				
+				logger.log(logger.WEBRTC, "Sending ice candidate message", candidateMessage);
+				
+				connection.send(JSON.stringify(candidateMessage));
+			} else {
+				logger.log(logger.WEBRTC, "End of candidates");
 			}
-		}
-	}
-	
-	// Peer connection management
-	var createPeerConnection = function() {
-		try {
-			peerConnection = new RTCPeerConnection(pcConfig, pcConstraints);
+		},
+		
+		// signaling error
+		onSignalingError: function(error) {
+			logger.error("Failed to create signaling message", error);
+		},
+		
+		// createOffer success
+		setLocalAndSendMessageOffer: function(sessionDescription) {
+			webrtc.peerConnection.setLocalDescription(sessionDescription);
 			
-			peerConnection.addStream(localStream);
+			var sessionDescriptionMessage = new Message();
+			sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
+			sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_OFFER;
+			sessionDescriptionMessage.sender = user;
 			
-			peerConnection.onicecandidate = handleIceCandidate;
+			sessionDescriptionMessage.recipient = new User();
+			sessionDescriptionMessage.recipient.id = webrtc.collocutorId;
 			
-			logger.log(logger.WEBRTC, "Created RTCPeerConnection successfully");
-		} catch (ex) {
-			logger.error("could not create RTCPeerConnection", ex);
-			return;
-		}
-		
-		peerConnection.onaddstream = handleRemoteStreamAdded;
-		peerConnection.onremovestream =handleRemoteStreamRemoved;
-		
-		if (isInitiator) {
-			try {
-				// create a reliable data channel
-				sendChannel = peerConnection.createDataChannel("sendDataChannel", { reliable: true });
-				trace("Created send data channel");
-			} catch (ex) {
-				trace("createDataChannel() failed", ex);
-			}
+			sessionDescriptionMessage.content = sessionDescription;
 			
-			sendChannel.onopen = handleSendChannelStateChange;
-			sendChannel.onmessage = handleDataChannelMessage;
-			sendChannel.onclose = handleSendChannelStateChange;
-		} else {
-			peerConnection.ondatachannel = gotReceiveChannel;
-		}
-	};
-	
-	// Handlers
-	var gotReceiveChannel = function(event) {
-		trace("Receive Channel callback");
-		
-		receiveChannel = event.channel;
-		receiveChannel.onmessage = handleDataChannelMessage;
-		receiveChannel.onopen = handleReceiveChannelStateChange;
-		receiveChannel.onclose = handleReceiveChannelStateChange;
-	};
-	
-	var handleDataChannelMessage = function(event) {
-		trace("Received message: " + event.data);
-	};
-	
-	var handleSendChannelStateChange = function() {
-		var readyState = sendChannel.readyState;
-		trace("Send channel state is: " + readyState);
-		
-		if (readyState == "open") {
-			logger.log(logger.WEBRTC, "Send data channel is open");
-		} else {
-			logger.log(logger.WEBRTC, "Send data channel is closed");
-		}
-	};
-	
-	var handleReceiveChannelStateChange = function() {
-		var readyState = receiveChannel.readyState;
-		trace("Receive channel state is: " + readyState);
-		
-		if (readyState == "open") {
-			logger.log(logger.WEBRTC, "Receive data channel is open");
-		} else {
-			logger.log(logger.WEBRTC, "Receive data channel is closed");
-		}
-	};
-	
-	// ICE candidates management
-	var handleIceCandidate = function(event) {
-		logger.log(logger.WEBRTC, "handleIceCandidate event:", event);
-		
-		if (event.candidate) {
-			var candidateMessage = new Message();
+			logger.log(logger.WEBRTC, "Sending session description offer", sessionDescriptionMessage);
 			
-			candidateMessage.type = candidateMessage.types.RELAY;
-			candidateMessage.topic = candidateMessage.topics.ICE_CANDIDATE;
-			candidateMessage.sender = user;
+			connection.send(JSON.stringify(sessionDescriptionMessage));
+		},
+		
+		// createAnswer success
+		setLocalAndSendMessageAnswer: function(sessionDescription) {
+			webrtc.peerConnection.setLocalDescription(sessionDescription);
 			
-			candidateMessage.recipient = new User();
-			candidateMessage.recipient.id = collocutorId;
+			var sessionDescriptionMessage = new Message();
+			sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
+			sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_ANSWER;
+			sessionDescriptionMessage.sender = user;
 			
-			candidateMessage.content = {
-				label: event.candidate.sdpMLineIndex,
-				id: event.candidate.sdpMid,
-				candidate: event.candidate.candidate
-			};
+			sessionDescriptionMessage.recipient = new User();
+			sessionDescriptionMessage.recipient.id = webrtc.collocutorId;
 			
-			logger.log(logger.WEBRTC, "Sending ice candidate message", candidateMessage);
+			sessionDescriptionMessage.content = sessionDescription;
 			
-			connection.send(JSON.stringify(candidateMessage));
-		} else {
-			logger.log(logger.WEBRTC, "End of candidates");
+			logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
+			
+			connection.send(JSON.stringify(sessionDescriptionMessage));
 		}
-	}
-	
-	var placeCall = function() {
-		logger.log(logger.WEBRTC, "Creating offer...");
-		peerConnection.createOffer(setLocalAndSendMessageOffer, onSignalingError, sdpConstraints);
-	}
-	
-	// Signaling error handler
-	var onSignalingError = function(error) {
-		logger.error("Failed to create signaling message", error);
-	};
-	
-	// Create answer
-	var doAnswer = function() {
-		logger.log(logger.WEBRTC, "Sending answer to peer");
-		peerConnection.createAnswer(setLocalAndSendMessageAnswer, onSignalingError, sdpConstraints);
-	};
-	
-	// Success handler for createOffer
-	var setLocalAndSendMessageOffer = function(sessionDescription) {
-		peerConnection.setLocalDescription(sessionDescription);
-		
-		var sessionDescriptionMessage = new Message();
-		sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
-		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_OFFER;
-		sessionDescriptionMessage.sender = user;
-		
-		sessionDescriptionMessage.recipient = new User();
-		sessionDescriptionMessage.recipient.id = collocutorId;
-		
-		sessionDescriptionMessage.content = sessionDescription;
-		
-		logger.log(logger.WEBRTC, "Sending session description offer", sessionDescriptionMessage);
-		
-		connection.send(JSON.stringify(sessionDescriptionMessage));
-	};
-	
-	// Success handler for createAnswer
-	var setLocalAndSendMessageAnswer = function(sessionDescription) {
-		peerConnection.setLocalDescription(sessionDescription);
-		
-		var sessionDescriptionMessage = new Message();
-		sessionDescriptionMessage.type = sessionDescriptionMessage.types.RELAY;
-		sessionDescriptionMessage.topic = sessionDescriptionMessage.topics.SESSION_DESCRIPTION_ANSWER;
-		sessionDescriptionMessage.sender = user;
-		
-		sessionDescriptionMessage.recipient = new User();
-		sessionDescriptionMessage.recipient.id = collocutorId;
-		
-		sessionDescriptionMessage.content = sessionDescription;
-		
-		logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
-		
-		connection.send(JSON.stringify(sessionDescriptionMessage));
-	};
-	
-	// Remote stream handlers
-	var handleRemoteStreamAdded = function(event) {
-		logger.log(logger.WEBRTC, "Remote stream added");
-		
-		attachMediaStream(remoteVideo, event.stream);
-		
-		logger.log(logger.WEBRTC, "Remote stream attached");
-		
-		remoteStream = event.stream;
-	};
-	
-	var handleRemoteStreamRemoved = function(event) {
-		logger.log(logger.WEBRTC, "Remote stream removed", event);
-		
-		handleRemoteHangup();
-	};
-	
-	// Clean-up functions
-	var hangup = function() {
-		logger.log(logger.WEBRTC, "Hanging up");
-		stop();
-		
-		// TODO: send bye message
-	};
-	
-	var handleRemoteHangup = function() {
-		logger.log(logger.WEBRTC, "Session terminated");
-		stop();
-		isInitiator = false;
-	};
-	
-	var stop = function() {
-		callStarted = false;
-		
-		if (sendChannel !== null) {
-			sendChannel.close();
-		}
-		
-		if (receiveChannel !== null) {
-			receiveChannel.close();
-		}
-		
-		if (peerConnection !== null) {
-			peerConnection.close();
-		}
-		
-		peerConnection = null;
-	}
-	
-	// init user media on page load finished
-	userMedia.init();
-	
+	});
 });

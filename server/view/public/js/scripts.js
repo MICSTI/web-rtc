@@ -14,7 +14,7 @@ $(document).ready(function() {
 	var logger = new Logger();
 	logger.enabled = appConfig.logging;
 	
-	// set ofcus to username field
+	// set focus to username field
 	username.focus();
 	
 	// current user
@@ -434,7 +434,10 @@ $(document).ready(function() {
 	}
 	
 	// WebRTC setup
-	var webrtc = new WebRTCController(logger);
+	var webrtc = new WebRTCController();
+	
+	// add logger reference
+	webrtc.logger = logger;
 	
 	// references to local and remote video DOM elements
 	webrtc.localVideo = document.getElementById(appConfig.frontend.localVideo);

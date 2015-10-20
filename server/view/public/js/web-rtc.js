@@ -1,7 +1,7 @@
 /**
 	This class handles the WebRTC connection setup.
 */
-var WebRTCController = function(_logger) {
+var WebRTCController = function() {
 	/**
 		Reference to this
 	*/
@@ -10,7 +10,7 @@ var WebRTCController = function(_logger) {
 	/**
 		Reference to logger
 	*/
-	var logger = _logger;
+	var logger = null;
 	
 	/**
 		Reference to local stream
@@ -125,9 +125,9 @@ var WebRTCController = function(_logger) {
 			
 			this.peerConnection.onicecandidate = this.handleIceCandidate;
 			
-			logger.log(logger.WEBRTC, "Created RTCPeerConnection successfully");
+			this.logger.log(this.logger.WEBRTC, "Created RTCPeerConnection successfully");
 		} catch (ex) {
-			logger.error("could not create RTCPeerConnection", ex);
+			this.logger.error("could not create RTCPeerConnection", ex);
 			return;
 		}
 		
@@ -138,9 +138,9 @@ var WebRTCController = function(_logger) {
 			try {
 				// create a reliable data channel
 				self.sendChannel = this.peerConnection.createDataChannel("sendDataChannel", { reliable: true });
-				trace("Created send data channel");
+				self.logger.log(self.logger.WEBRTC, "Created send data channel");
 			} catch (ex) {
-				trace("createDataChannel() failed", ex);
+				self.logger.error("createDataChannel() failed", ex);
 			}
 			
 			this.sendChannel.onopen = this.handleSendChannelStateChange;
@@ -155,7 +155,7 @@ var WebRTCController = function(_logger) {
 		Got receive channel handler.
 	*/
 	this.gotReceiveChannel = function(event) {
-		trace("Receive Channel callback");
+		self.logger.log(self.logger.WEBRTC, "Receive Channel callback");
 		
 		self.receiveChannel = event.channel;
 		self.receiveChannel.onmessage = this.handleDataChannelMessage;
@@ -173,12 +173,12 @@ var WebRTCController = function(_logger) {
 	*/
 	this.handleSendChannelStateChange = function() {
 		var readyState = self.sendChannel.readyState;
-		trace("Send channel state is: " + readyState);
+		self.logger.log(self.logger.WEBRTC, "Send channel state is: " + readyState);
 		
 		if (readyState == "open") {
-			logger.log(logger.WEBRTC, "Send data channel is open");
+			self.logger.log(self.logger.WEBRTC, "Send data channel is open");
 		} else {
-			logger.log(logger.WEBRTC, "Send data channel is closed");
+			self.logger.log(self.logger.WEBRTC, "Send data channel is closed");
 		}
 	};
 	
@@ -187,12 +187,12 @@ var WebRTCController = function(_logger) {
 	*/
 	this.handleReceiveChannelStateChange = function() {
 		var readyState = self.receiveChannel.readyState;
-		trace("Receive channel state is: " + readyState);
+		self.logger.log(self.logger.WEBRTC, "Receive channel state is: " + readyState);
 		
 		if (readyState == "open") {
-			logger.log(logger.WEBRTC, "Receive data channel is open");
+			self.logger.log(self.logger.WEBRTC, "Receive data channel is open");
 		} else {
-			logger.log(logger.WEBRTC, "Receive data channel is closed");
+			self.logger.log(self.logger.WEBRTC, "Receive data channel is closed");
 		}
 	};
 	
@@ -205,7 +205,7 @@ var WebRTCController = function(_logger) {
 		Function for placing a call.
 	*/
 	this.placeCall = function() {
-		logger.log(logger.WEBRTC, "Creating offer...");
+		this.logger.log(this.logger.WEBRTC, "Creating offer...");
 		this.peerConnection.createOffer(this.setLocalAndSendMessageOffer, this.onSignalingError, this.sdpConstraints);
 	};
 	
@@ -218,7 +218,7 @@ var WebRTCController = function(_logger) {
 		Create answer to session description offer.
 	*/
 	this.doAnswer = function() {
-		logger.log(logger.WEBRTC, "Sending answer to peer");
+		this.logger.log(this.logger.WEBRTC, "Sending answer to peer");
 		this.peerConnection.createAnswer(this.setLocalAndSendMessageAnswer, this.onSignalingError, this.sdpConstraints);
 	};
 	
@@ -236,20 +236,20 @@ var WebRTCController = function(_logger) {
 		Handler that is called when a remote stream is added.
 	*/
 	this.handleRemoteStreamAdded = function(event) {
-		logger.log(logger.WEBRTC, "Remote stream added");
+		self.logger.log(self.logger.WEBRTC, "Remote stream added");
 		
 		self.remoteStream = event.stream;
 		
 		attachMediaStream(self.remoteVideo, event.stream);
 		
-		logger.log(logger.WEBRTC, "Remote stream attached");
+		self.logger.log(self.logger.WEBRTC, "Remote stream attached");
 	};
 	
 	/**
 		Handler that is called when a remote stream is removed.
 	*/
 	this.handleRemoteStreamRemoved = function(event) {
-		logger.log(logger.WEBRTC, "Remote stream removed", event);
+		self.logger.log(self.logger.WEBRTC, "Remote stream removed", event);
 		
 		this.handleRemoteHangup();
 	};
@@ -258,7 +258,7 @@ var WebRTCController = function(_logger) {
 		Called when the user wants to end the call.
 	*/
 	this.hangup = function() {
-		logger.log(logger.WEBRTC, "Hanging up");
+		self.logger.log(self.logger.WEBRTC, "Hanging up");
 		this.stop();
 		
 		// TODO: send bye message
@@ -268,7 +268,7 @@ var WebRTCController = function(_logger) {
 		Called when the user on the other end terminates the call.
 	*/
 	this.handleRemoteHangup = function() {
-		logger.log(logger.WEBRTC, "Session terminated");
+		self.logger.log(self.logger.WEBRTC, "Session terminated");
 		this.stop();
 		this.isInitiator = false;
 	};

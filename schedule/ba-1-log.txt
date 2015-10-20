@@ -28,4 +28,4 @@
 				01:30	refactoring (introduced WebRTCController)
 20.10.2015		00:30	finished refactoring
 						v0.3
-				00:30	started implementing DataChannel communication
+				00:45	started implementing DataChannel communication

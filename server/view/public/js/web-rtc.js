@@ -295,6 +295,11 @@ var WebRTCController = function() {
 	}
 	
 	/**
+		Sends a peer-to-peer message via DataChannel.
+	*/
+	this.sendDataChannelMessage = null;
+	
+	/**
 		Sets the appropriate handlers.
 	*/
 	this.setHandlers = function(handlers) {
@@ -303,5 +308,6 @@ var WebRTCController = function() {
 		this.onSignalingError = handlers.onSignalingError || null;
 		this.setLocalAndSendMessageOffer = handlers.setLocalAndSendMessageOffer || null;
 		this.setLocalAndSendMessageAnswer = handlers.setLocalAndSendMessageAnswer || null;
+		this.sendDataChannelMessage = handlers.sendDataChannelMessage || null;
 	}
 }

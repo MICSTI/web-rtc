@@ -1,5 +1,5 @@
-WebRTC wrapper class
 selection of camera feed
 new screen design
+text chat
 
 node js https connection

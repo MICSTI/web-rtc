@@ -52,26 +52,20 @@ $(document).ready(function() {
 			// update user info
 			updateUserInfo();
 		}
+	});
+	
+	// send P2P message
+	send.on("click", function() {
+		logger.log(logger.WEBRTC, "Sending P2P");
 		
-		// submit button
-		// TODO: implement when WebRTC is here
-		/*send.on("click", function() {
-			// build message
-			var message = new Message();
-			message.sender = user;
-			message.recipient = server;
-			message.type = message.types.P2P;
-			message.content = input.val();
-			
-			// send stringified message
-			connection.send(JSON.stringify(message));
-			
-			// append message to chat
-			chat.append(getMessageHtml(message));
-			
-			// clear input for future messages
-			input.val("");
-		});*/
+		var message = new Message();
+		
+		message.sender = user;
+		message.recipient = webrtc.collocutorId;
+		message.content = input.val();
+		message.type = message.types.P2P;
+		
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
 	});
 	
 	/**
@@ -485,7 +479,16 @@ $(document).ready(function() {
 	webrtc.setHandlers({
 		// incoming data channel message
 		handleDataChannelMessage: function(event) {
-			trace("Received message: " + event.data);
+			logger.log(logger.WEBRTC, "Received message: " + event.data);
+			
+			// parse message JSON data
+			var messageData = JSON.parse(event.data);
+			
+			// cast it to message object
+			var messageObject = castObject(messageData, "Message");
+			
+			// call onmessage handler
+			onMessageReceived(messageObject);
 		},
 		
 		// ICE candidates
@@ -557,6 +560,12 @@ $(document).ready(function() {
 			logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
 			
 			connection.send(JSON.stringify(sessionDescriptionMessage));
+		},
+		
+		// send data via DataChannel
+		sendDataChannelMessage: function(text) {
+			//if (webrtc.sendChannel !== null)
+				webrtc.sendChannel.send(text);
 		}
 	});
 });

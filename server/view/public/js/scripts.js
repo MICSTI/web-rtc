@@ -56,8 +56,6 @@ $(document).ready(function() {
 	
 	// send P2P message
 	send.on("click", function() {
-		logger.log(logger.WEBRTC, "Sending P2P");
-		
 		var message = new Message();
 		
 		message.sender = user;
@@ -560,12 +558,6 @@ $(document).ready(function() {
 			logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
 			
 			connection.send(JSON.stringify(sessionDescriptionMessage));
-		},
-		
-		// send data via DataChannel
-		sendDataChannelMessage: function(text) {
-			//if (webrtc.sendChannel !== null)
-				webrtc.sendChannel.send(text);
 		}
 	});
 });

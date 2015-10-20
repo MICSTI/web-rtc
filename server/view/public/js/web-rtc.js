@@ -158,9 +158,9 @@ var WebRTCController = function() {
 		self.logger.log(self.logger.WEBRTC, "Receive Channel callback");
 		
 		self.receiveChannel = event.channel;
-		self.receiveChannel.onmessage = this.handleDataChannelMessage;
-		self.receiveChannel.onopen = this.handleReceiveChannelStateChange;
-		self.receiveChannel.onclose = this.handleReceiveChannelStateChange;
+		self.receiveChannel.onmessage = self.handleDataChannelMessage;
+		self.receiveChannel.onopen = self.handleReceiveChannelStateChange;
+		self.receiveChannel.onclose = self.handleReceiveChannelStateChange;
 	};
 	
 	/**
@@ -297,7 +297,10 @@ var WebRTCController = function() {
 	/**
 		Sends a peer-to-peer message via DataChannel.
 	*/
-	this.sendDataChannelMessage = null;
+	this.sendDataChannelMessage = function(messageString) {
+		self.sendChannel.send(messageString);
+		self.logger.log(self.logger.WEBRTC, "Sent P2P message");
+	};
 	
 	/**
 		Sets the appropriate handlers.
@@ -308,6 +311,5 @@ var WebRTCController = function() {
 		this.onSignalingError = handlers.onSignalingError || null;
 		this.setLocalAndSendMessageOffer = handlers.setLocalAndSendMessageOffer || null;
 		this.setLocalAndSendMessageAnswer = handlers.setLocalAndSendMessageAnswer || null;
-		this.sendDataChannelMessage = handlers.sendDataChannelMessage || null;
 	}
 }

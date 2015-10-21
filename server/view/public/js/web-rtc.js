@@ -298,7 +298,15 @@ var WebRTCController = function() {
 		Sends a peer-to-peer message via DataChannel.
 	*/
 	this.sendDataChannelMessage = function(messageString) {
-		self.sendChannel.send(messageString);
+		if (self.sendChannel !== null)
+			self.sendChannel.send(messageString);
+		else if (self.receiveChannel !== null)
+			self.receiveChannel.send(messageString);
+		else {
+			self.logger.log(self.logger.WEBRTC, "No data channel open");
+			return;
+		}
+			
 		self.logger.log(self.logger.WEBRTC, "Sent P2P message");
 	};
 	

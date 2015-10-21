@@ -56,14 +56,18 @@ $(document).ready(function() {
 	
 	// send P2P message
 	send.on("click", function() {
-		var message = new Message();
-		
-		message.sender = user;
-		message.recipient = webrtc.collocutorId;
-		message.content = input.val();
-		message.type = message.types.P2P;
-		
-		webrtc.sendDataChannelMessage(JSON.stringify(message));
+		// check if data channel connection exists
+		if (webrtc.dataChannelAvailable()) {			
+			var message = new Message();
+			
+			message.sender = user;
+			message.recipient = webrtc.collocutorId;
+			message.content = input.val();
+			message.type = message.types.P2P;
+			message.topic = message.topics.P2P_TEXT;
+			
+			sendTextMessageToPeer(message);
+		}
 	});
 	
 	/**
@@ -121,7 +125,7 @@ $(document).ready(function() {
 	   message.type = message.types.SERVER;
 	   
 	   connection.send(JSON.stringify(message));
-	}
+	};
 	
 	/**
 		Sends a request to get a new user color to the management server
@@ -139,7 +143,18 @@ $(document).ready(function() {
 	   message.type = message.types.SERVER;
 	   
 	   connection.send(JSON.stringify(message));
-	}
+	};
+	
+	/**
+		Sends a text message to the connected peer.
+	*/
+	var sendTextMessageToPeer = function(message) {
+		// send message
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+		
+		// append it to chat
+		chat.append(getMessageHtml(message));
+	};
 	
 	/**
 		Handler that will be executed when a new message is received.
@@ -154,8 +169,8 @@ $(document).ready(function() {
 				break;
 				
 			case message.types.P2P:
-				// add the message to the chat
-				chat.append(getMessageHtml(message));
+				// handle P2P message
+				handleP2PMessage(message);
 				
 				break;
 				
@@ -169,7 +184,7 @@ $(document).ready(function() {
 			
 				break;
 		}
-	}
+	};
 	
 	/**
 		Handles incoming messages from the management server.
@@ -190,6 +205,24 @@ $(document).ready(function() {
 			
 				break;
 				
+			default:
+				break;
+		}
+	};
+	
+	/**
+		Handles incoming messages that were sent peer-to-peer from another client.
+		This includes text chat messages, support messages and system calls (like video pause).
+	*/
+	var handleP2PMessage = function(message) {
+		// handle according to message topic
+		switch (message.topic) {
+			case message.topics.P2P_TEXT:
+				// text message
+				chat.append(getMessageHtml(message));
+				
+				break;
+			
 			default:
 				break;
 		}
@@ -338,9 +371,9 @@ $(document).ready(function() {
 		var html = "";
 		
 		if (message.status !== undefined)
-			var msgClass = "message-" + message.status;
+			var msgStatusClass = "message-" + message.status;
 		else
-			var msgClass = "";
+			var msgStatusClass = "";
 		
 		switch (message.type) {
 			case message.types.SERVER:
@@ -352,13 +385,16 @@ $(document).ready(function() {
 				break;
 				
 			case message.types.P2P:
-			default:			
-				html += "<div class='message " + msgClass + "'>";
+				var sender = message.sender == user ? "You" : message.sender.name;
+				var msgMyselfClass = message.sender == user ? "message-myself" : "";
+			
+				html += "<div class='message " + msgStatusClass + " " + msgMyselfClass + "'>";
 					html += "<div class='message-timestamp'>" + message.timestamp + "</div>";
-					html += "<div class='message-sender'>" + message.sender.name + "</div>";
+					html += "<div class='message-sender'>" + sender + "</div>";
 					html += "<div class='message-content'>" + message.content + "</div>";
 				html += "</div>";
-				
+			
+			default:			
 				break;
 		}
 		

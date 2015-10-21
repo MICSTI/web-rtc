@@ -89,6 +89,13 @@ var WebRTCController = function() {
 	this.collocutorId = null;
 	
 	/**
+		Function to determine if a data channel is available. Returns boolean true or false.
+	*/
+	this.dataChannelAvailable = function() {
+		return this.sendChannel !== null || this.receiveChannel !== null;
+	}
+	
+	/**
 		Initiates a call between to users.
 	*/
 	this.initiateCall = function(callee_id) {

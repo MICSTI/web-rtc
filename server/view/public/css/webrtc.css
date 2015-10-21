@@ -153,6 +153,10 @@ input[type=text] {
 	background-color: #d91e18 !important;
 }
 
+.message-myself {
+	
+}
+
 #send-message {
 	padding: 6px;
 	background-color: #eee;

@@ -29,7 +29,10 @@ Message.prototype.topics = {
 	CHANGE_USER_COLOR: "changeUserColor",
 	ICE_CANDIDATE: "iceCandidate",
 	SESSION_DESCRIPTION_OFFER: "sessionDescriptionOffer",
-	SESSION_DESCRIPTION_ANSWER: "sessionDescriptionAnswer"
+	SESSION_DESCRIPTION_ANSWER: "sessionDescriptionAnswer",
+	P2P_TEXT: "P2PText",
+	P2P_SYSTEM: "P2PSystem",
+	P2P_SUPPORT: "P2PSupport"
 };
 
 // possible type values

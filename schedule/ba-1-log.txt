@@ -30,3 +30,4 @@
 						v0.3
 				00:50	started implementing DataChannel communication
 21.10.2015		00:25	bidirectional DataChannel chat, extended message type
+				00:35	started adding canvas to video elements

@@ -10,6 +10,14 @@ $(document).ready(function() {
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
 	
+	// video elements
+	var localVideo = $("#" + appConfig.frontend.localVideo);
+	var remoteVideo = $("#" + appConfig.frontend.remoteVideo);
+	
+	// canvas setup
+	var localCanvas = $("#" + appConfig.frontend.localCanvas);
+	var remoteCanvas = $("#" + appConfig.frontend.remoteCanvas);
+	
 	// logger
 	var logger = new Logger();
 	logger.enabled = appConfig.logging;
@@ -84,6 +92,9 @@ $(document).ready(function() {
 		   
 		   // show video and chat elements
 		   afterLogin.show();
+		   
+		   // position canvas
+		   videoAndCanvasSetup();
 		};
 
 		connection.onerror = function(error) {
@@ -486,6 +497,8 @@ $(document).ready(function() {
 			video: true
 		},
 		onSuccess: function(stream) {
+			console.log(stream);
+			
 			// set user media granted flag
 			webrtc.userMedia.userMediaGranted = true;
 			
@@ -497,6 +510,9 @@ $(document).ready(function() {
 			
 			// update user info
 			user.gotUserMedia = true;
+			
+			// position video and canvas
+			videoAndCanvasSetup();
 			
 			if (connection !== null)
 				updateUserInfo();
@@ -596,4 +612,21 @@ $(document).ready(function() {
 			connection.send(JSON.stringify(sessionDescriptionMessage));
 		}
 	});
+	
+	/**
+		Positions local and remote canvas and video elements.
+	*/
+	var videoAndCanvasSetup = function() {
+		localCanvas.css("position", "absolute");
+		remoteCanvas.css("position", "absolute");
+		
+		var localVideoPosition = localVideo.position();
+		var remoteVideoPosition = remoteVideo.position();
+		
+		localCanvas.css("left", localVideoPosition.left + "px");
+		localCanvas.css("top", localVideoPosition.top + "px");
+		
+		remoteCanvas.css("left", remoteVideoPosition.left + "px");
+		remoteCanvas.css("top", remoteVideoPosition.top + "px");
+	}
 });

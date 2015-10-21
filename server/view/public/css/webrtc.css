@@ -52,6 +52,20 @@ input[type=text] {
 	position: relative;
 	left: 100px;
 }
+
+#video-container div {
+	display: inline-block;
+}
+
+#video-container video {
+	z-index: 100;
+}
+
+#video-container canvas {
+	z-index: 200;
+	background-color: orange;
+	opacity: 0.4;
+}
 /* --------------------------------------------- */
 
 /* ------------- AVAILABLE CONTAINER ----------- */

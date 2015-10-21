@@ -2,5 +2,6 @@ selection of camera feed
 new screen design
 
 consistent date time format across browsers
+canvas over video element
 
 node js https connection

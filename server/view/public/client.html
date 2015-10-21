@@ -39,8 +39,15 @@
 			<div id="after-login">
 				<div class="page-row">
 					<div id="video-container">
-						<video id="local-video" width="400" height="400" autoplay></video>
-						<video id="remote-video" width="400" height="400" autoplay></video>
+						<div>
+							<video id="local-video" autoplay></video>
+							<canvas id="local-canvas"></canvas>
+						</div>
+						
+						<div>
+							<video id="remote-video" autoplay></video>
+							<canvas id="remote-canvas"></canvas>
+						</div>
 					</div>
 				</div>
 				

@@ -1,5 +1,6 @@
 selection of camera feed
 new screen design
-text chat
+
+consistent date time format across browsers
 
 node js https connection

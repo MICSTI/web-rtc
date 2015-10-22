@@ -1,6 +1,10 @@
 var Message = function() {
 	// Timestamp (defaults to now)
-	this.timestamp = new Date();
+	if (typeof Util !== 'undefined') {
+		this.timestamp = Util.getDateTime();
+	} else {
+		this.timestamp = new Date();
+	}
 	
 	// Topic
 	this.topic = null;

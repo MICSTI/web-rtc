@@ -12,6 +12,10 @@ var appConfig = {
 	
 	logging: true,
 	
+	misc: {
+		addOwnTimestampToMessage: true
+	},
+	
 	peerConnection: {
 		configuration: {
 			'firefox': {'iceServers': [{'url': 'stun:23.21.150.121'}]},
@@ -29,6 +33,13 @@ var appConfig = {
 		ip: '127.0.0.1',
 		port: 1337,
 		defaultResponseFormat: "json"
+	},
+	
+	userMedia: {
+		constraints: {
+			audio: false,
+			video: true
+		}
 	}
 };
 

@@ -495,10 +495,7 @@ $(document).ready(function() {
 		
 	// init getUserMedia
 	webrtc.userMedia.init({
-		constraints: {
-			audio: false,
-			video: true
-		},
+		constraints: appConfig.userMedia.constraints,
 		onSuccess: function(stream) {			
 			// set user media granted flag
 			webrtc.userMedia.userMediaGranted = true;
@@ -537,6 +534,10 @@ $(document).ready(function() {
 			
 			// cast it to message object
 			var messageObject = castObject(messageData, "Message");
+			
+			// if "addOwnTimestampToMessage" flag is set, set the current timestamp
+			if (appConfig.misc.addOwnTimestampToMessage)
+				messageObject.timestamp = Util.getDateTime();
 			
 			// call onmessage handler
 			onMessageReceived(messageObject);

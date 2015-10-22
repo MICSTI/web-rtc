@@ -1,7 +1,6 @@
 selection of camera feed
 new screen design
 
-consistent date time format across browsers
-canvas over video element
+canvas over video element (maybe draw video on canvas: http://stackoverflow.com/questions/10011389/set-video-height-in-html5)
 
 node js https connection

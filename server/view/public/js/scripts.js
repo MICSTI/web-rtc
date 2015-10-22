@@ -75,6 +75,9 @@ $(document).ready(function() {
 			message.topic = message.topics.P2P_TEXT;
 			
 			sendTextMessageToPeer(message);
+			
+			// clear message box and assign the focus again
+			input.val("").focus();
 		}
 	});
 	
@@ -496,9 +499,7 @@ $(document).ready(function() {
 			audio: false,
 			video: true
 		},
-		onSuccess: function(stream) {
-			console.log(stream);
-			
+		onSuccess: function(stream) {			
 			// set user media granted flag
 			webrtc.userMedia.userMediaGranted = true;
 			

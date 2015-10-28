@@ -181,11 +181,23 @@ Nurminen J. K., Meyn A. J., Jalonen E., Raivio Y., Marrero R. G.
 IEEE International Conference on Computer Communications
 IEEE, 2013
 
-PAPER-13
+PAPER-13 (*)
 Identity management in WebRTC domains
 Muranyi J, Kotuliak I.
 Emerging eLearning Technologies and Appliations (ICETA)
 2013 IEEE 11th International Conference
+
+Notes:
+	wide spread technology is Flash
+	not developed by open community --> developers started to look for alternatives
+	
+	simulation of the interconnection between browser based multimedia content delivery and telecommunication architecture IP Multimedia Subsystem using Single Sign On application
+	
+	Real-Time Messaging Protocol (RTMP) (was designed for high-performance transmission of audio, video and data between Adobe Flash Platform technologies, including Adobe Flash Player and Adobe AIR, was created by Macromedia)
+	
+	login/client discovery via OpenId provider
+	
+	aim is to show the potential of WebRTC and possibilities in its interconnection with other systems
 
 PAPER-14
 Performance Analysis of Receive-Side Real-Time Congestion Control for WebRTC
@@ -197,10 +209,28 @@ Overview: Real Time Protocols for Browser-based applications
 Alvestrand H.
 2014
 
-PAPER-16
+PAPER-16 (*)
 WebRTC, the day after
 Bertin E., Cubaud S., Tuffin S., Cazeaux S., Crespi N., Beltran V.
 2013
+
+Notes:
+	general idea: create a Telco platform using WebRTC
+
+	"as all modern telecom architectures, WebRTC is based on the fundamental separation between the media path and the signaling path"
+	
+	WebRTC is currently being designed by three standardization bodies
+		Internet Engineering Task Force (IETF)
+		World Wide Web Consortium (W3C)
+		3rd Generation Partnership Project (3GPP)
+		
+	"it is worth noting that the WebRTC standars allow for any codec to be negotiated if the browser implementation supports it"
+	
+	"Which alternative for key exchange will be used for standardization has not yet been decided. For browserto-browser communications that are subject to lawful intercept requirements, there is a significant difference between the two approaches. Implementing lawful intercept with DTLS/SRTP would force the Web service provider to deploy a media relay decrypting and re-encrypting any communication. SRTP/SDES would however allow the Web service provider to duplicate and decrypt only the streams for the intercepted targets, which is usually a small subset of the user base."
+	
+	"as far as Telcos are concerned, the current technical solutions for these services rely mainly on the IP Multimedia Subsystem (IMS)"
+	
+	"the current IMS model is inherently based on a complete control of the whole technical environment (user device, service provider, service developer, network provider) by a few actors. but the new ecosystem has made it unrealistic for an IMS provider to control the whole targeted devices and the service development mechanism."
 
 PAPER-17
 Signalling-on-the-fly: SigOfly - WebRTC Interoperability tested in contradictive Deployment Scenarios

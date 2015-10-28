@@ -33,3 +33,4 @@
 				00:35	started adding canvas to video elements
 22.10.2015		00:30	consistent timestamp for messages across browsers
 				00:30	MediaStreamTrack.getSources for UserMedia class
+28.10.2015		00:20	research (PAPER-13, PAPER-16)

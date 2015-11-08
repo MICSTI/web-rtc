@@ -35,3 +35,4 @@
 				00:30	MediaStreamTrack.getSources for UserMedia class
 28.10.2015		00:20	research (PAPER-13, PAPER-16)
 06.11.2015		02:00	prepare initial presentation
+08.11.2015		00:15	prepare initial presentation

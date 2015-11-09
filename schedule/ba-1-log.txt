@@ -34,5 +34,6 @@
 22.10.2015		00:30	consistent timestamp for messages across browsers
 				00:30	MediaStreamTrack.getSources for UserMedia class
 28.10.2015		00:20	research (PAPER-13, PAPER-16)
-06.11.2015		02:00	prepare initial presentation
-08.11.2015		00:15	prepare initial presentation
+06.11.2015		02:00	preparation of initial presentation
+08.11.2015		00:15	preparation of initial presentation
+09.11.2015		01:30	preparation of initial presentation

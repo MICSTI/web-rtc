@@ -36,7 +36,7 @@ Util.prototype.getDateTime = function() {
 Util.prototype.getDate = function() {
 	var now = new Date();
 	
-	return now.getDate() + "." + (now.getMonth() + 1) + "." + (now.getYear() + 1900);
+	return this.addSpacing(now.getDate(), 2, "0") + "." + this.addSpacing((now.getMonth() + 1), 2, "0") + "." + (now.getYear() + 1900);
 }
 
 /**
@@ -51,15 +51,15 @@ Util.prototype.getTime = function() {
 /**
 	Adds spacing to a string or number.
 */
-Util.prototype.addSpacing = function(_toSpace, resultLength, paddCharacter) {
+Util.prototype.addSpacing = function(_toSpace, resultLength, padCharacter) {
 	var toSpace = typeof _toSpace !== 'string' ? _toSpace.toString() : _toSpace;
 	
-	var toPadd = resultLength - toSpace.length;
+	var toPad = resultLength - toSpace.length;
 	
-	if (toPadd <= 0)
+	if (toPad <= 0)
 		return toSpace;
 	
-	return Array(toPadd + 1).join(paddCharacter) + toSpace;
+	return Array(toPad + 1).join(padCharacter) + toSpace;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

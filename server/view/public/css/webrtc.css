@@ -65,8 +65,15 @@ input[type=text] {
 	z-index: 100;
 }
 
-#video-container canvas {
+#local-canvas, #remote-canvas {
 	z-index: 200;
+}
+
+#drawing-canvas {
+	position: relative;
+	left: -324px;
+	background: transparent;
+	z-index: 201;
 }
 /* --------------------------------------------- */
 
@@ -122,10 +129,6 @@ input[type=text] {
 .user-hangup:hover, .user-call:hover {
 	cursor: pointer;
 	color: #fff;
-}
-
-#test-canvas {
-	background-color: cornflowerblue;
 }
 /* --------------------------------------------- */
 

@@ -748,7 +748,7 @@ $(document).ready(function() {
 	*/
 	var initDrawing = function() {
 		//var canvas = document.getElementById(appConfig.frontend.remoteCanvas);
-		var canvas = document.getElementById("test-canvas");
+		var canvas = document.getElementById("drawing-canvas");
 		var ctx = canvas.getContext('2d');
 		
 		var width = canvas.width;

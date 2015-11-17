@@ -123,6 +123,10 @@ input[type=text] {
 	cursor: pointer;
 	color: #fff;
 }
+
+#test-canvas {
+	background-color: cornflowerblue;
+}
 /* --------------------------------------------- */
 
 /* --------------- CHAT CONTAINER -------------- */

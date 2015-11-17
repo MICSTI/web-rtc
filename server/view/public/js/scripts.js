@@ -51,8 +51,12 @@ $(document).ready(function() {
 		Screen initialization.
 	*/
 	var initScreen = function() {
+		// hide video containers
 		hideLocalVideo();
 		hideRemoteVideo();
+		
+		// init canvas drawing
+		initDrawing();
 	};
 	
 	/**
@@ -728,6 +732,104 @@ $(document).ready(function() {
 		ctx.drawImage(video, 0, 0, 320, 240);
 	};
 	
+	var getMousePos = function(canvas, event) {
+		var rect = canvas.getBoundingClientRect();
+		return {
+		  x: event.clientX - rect.left,
+		  y: event.clientY - rect.top
+		};
+	};
+	
+	/**
+		Initializes the drawing-on-canvas functionality
+	*/
+	var initDrawing = function() {
+		//var canvas = document.getElementById(appConfig.frontend.remoteCanvas);
+		var canvas = document.getElementById("test-canvas");
+		var ctx = canvas.getContext('2d');
+		
+		var width = canvas.width;
+		var height = canvas.height;
+		
+		var prevX = 0;
+		var curX = 0;
+		
+		var prevY = 0;
+		var curY = 0;
+		
+		var active = false;
+		
+		var color = "red";
+		var size = 3;
+		
+		canvas.addEventListener("mousemove", function(event) {
+			trackPath("move", event);
+		}, false);
+		
+		canvas.addEventListener("mousedown", function(event) {
+			trackPath("down", event);
+		}, false);
+		
+		canvas.addEventListener("mouseup", function(event) {
+			trackPath("up", event);
+		}, false);
+		
+		canvas.addEventListener("mouseout", function(event) {
+			trackPath("out", event);
+		}, false);
+		
+		var trackPath = function(action, event) {
+			switch (action) {
+				case "down":
+					prevX = curX;
+					prevY = curY;
+					
+					var pos = getMousePos(canvas, event); 
+					curX = pos.x;
+					curY = pos.y;
+					
+					active = true;
+					
+					/*ctx.beginPath();
+ 					ctx.fillStyle = color;
+					ctx.fillRect(curX, curY, 2, 2);
+					ctx.closePath();*/
+				
+					break;
+					
+				case "up":
+				case "out":
+					active = false;
+					
+					break;
+					
+				case "move":
+					if (active) {
+						prevX = curX;
+						prevY = curY;
+						
+						var pos = getMousePos(canvas, event); 
+						curX = pos.x;
+						curY = pos.y;
+						
+						drawPath();
+					}
+				
+					break;
+			}
+		};
+		
+		var drawPath = function() {
+			ctx.beginPath();
+			ctx.moveTo(prevX, prevY);
+			ctx.lineTo(curX, curY);
+			ctx.strokeStyle = color;
+			ctx.lineWidth = size;
+			ctx.stroke();
+			ctx.closePath();
+		};
+	};
+	
 	/**
 		Shows the local video container.
 	*/
@@ -783,5 +885,7 @@ $(document).ready(function() {
 	var hideHangupSpans = function() {
 		$(".user-hangup").hide();
 	};
+	
+	// call init screen on page load
 	initScreen();
 });

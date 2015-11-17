@@ -732,6 +732,9 @@ $(document).ready(function() {
 		ctx.drawImage(video, 0, 0, 320, 240);
 	};
 	
+	/**
+		Calculates the position of the mouse on the canvas.
+	*/
 	var getMousePos = function(canvas, event) {
 		var rect = canvas.getBoundingClientRect();
 		return {
@@ -778,6 +781,7 @@ $(document).ready(function() {
 			trackPath("out", event);
 		}, false);
 		
+		// track the path of the mouse on the canvas
 		var trackPath = function(action, event) {
 			switch (action) {
 				case "down":
@@ -789,11 +793,6 @@ $(document).ready(function() {
 					curY = pos.y;
 					
 					active = true;
-					
-					/*ctx.beginPath();
- 					ctx.fillStyle = color;
-					ctx.fillRect(curX, curY, 2, 2);
-					ctx.closePath();*/
 				
 					break;
 					
@@ -819,6 +818,7 @@ $(document).ready(function() {
 			}
 		};
 		
+		// draw the path on the canvas
 		var drawPath = function() {
 			ctx.beginPath();
 			ctx.moveTo(prevX, prevY);

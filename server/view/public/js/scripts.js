@@ -619,16 +619,17 @@ $(document).ready(function() {
 		Positions local and remote canvas and video elements.
 	*/
 	var videoAndCanvasSetup = function() {
-		localCanvas.css("position", "absolute");
-		remoteCanvas.css("position", "absolute");
+		// set local canvas
+		var localCanvasSetup = setInterval(function() { return updateCanvas("local-canvas", "local-video"); }, 24);
 		
-		var localVideoPosition = localVideo.position();
-		var remoteVideoPosition = remoteVideo.position();
-		
-		localCanvas.css("left", localVideoPosition.left + "px");
-		localCanvas.css("top", localVideoPosition.top + "px");
-		
-		remoteCanvas.css("left", remoteVideoPosition.left + "px");
-		remoteCanvas.css("top", remoteVideoPosition.top + "px");
+		// set remote canvas
+		var remoteCanvasSetup = setInterval(function() { return updateCanvas("remote-canvas", "remote-video"); }, 24);
+	}
+	
+	var updateCanvas = function(canvasId, videoId) {
+		var canvas = document.getElementById(canvasId);
+		var ctx = canvas.getContext('2d');
+		var video = document.getElementById(videoId);
+		ctx.drawImage(video, 0, 0, 320, 240);
 	}
 });

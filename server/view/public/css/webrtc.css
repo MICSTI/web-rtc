@@ -48,6 +48,10 @@ input[type=text] {
 /* --------------------------------------------- */
 
 /* --------------- VIDEO CONTAINER ------------- */
+#local-video, #remote-video {
+	display: none;
+}
+
 #video-container {
 	position: relative;
 	left: 100px;
@@ -63,8 +67,6 @@ input[type=text] {
 
 #video-container canvas {
 	z-index: 200;
-	background-color: orange;
-	opacity: 0.4;
 }
 /* --------------------------------------------- */
 

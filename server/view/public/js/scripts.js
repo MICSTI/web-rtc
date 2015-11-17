@@ -300,6 +300,12 @@ $(document).ready(function() {
 				
 				break;
 				
+			// bye message
+			case message.topics.BYE:
+				webrtc.handleRemoteHangup();
+				
+				break;
+				
 			default:
 				break;
 		}
@@ -378,10 +384,17 @@ $(document).ready(function() {
 		});
 		
 		// attach click handler for color span (and delete attached handlers first)
-		$("span.user-avatar").off("click");
+		$(".user-myself .user-avatar").off("click");
 		
 		$(".user-myself .user-avatar").on("click", function() {
 			requestNewColor();
+		});
+		
+		// attach hangup function
+		$(".user-hangup").off("click");
+		
+		$(".user-hangup").on("click", function() {
+			webrtc.hangup();
 		});
 		
 		// attach call function
@@ -441,13 +454,17 @@ $(document).ready(function() {
 		var userClass = myself ? "user user-myself" : "user";
 		var userName = myself ? "You" : _user.name;
 		
-		// "Call" span is only displayed for users that can be called (i.e. have accepted navigator.getUserMedia)
+		// Hangup span
+		var hangupSpan = myself ? "<span class='user-hangup right'>Hangup</span>" : "";
+		
+		// Call span is only displayed for users that can be called (i.e. have accepted navigator.getUserMedia)
 		if (callable)
 			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "'>Call</span>";
 		else
 			var callSpan = "";
 		
 		html += "<div class='" + userClass + "'>";
+			html += hangupSpan;
 			html += callSpan;
 			html += "<span class='user-avatar' style='background-color: " + _user.color + ";'></span>";
 			html += "<span class='user-name'>" + userName + "</span>";
@@ -632,14 +649,38 @@ $(document).ready(function() {
 			connection.send(JSON.stringify(sessionDescriptionMessage));
 		},
 		
+		// call hangup requested
+		onHangup: function() {
+			// send bye message to peer (via server)
+			var byeMessage = new Message();
+			byeMessage.type = byeMessage.types.RELAY;
+			byeMessage.topic = byeMessage.topics.BYE;
+			byeMessage.sender = user;
+			
+			byeMessage.recipient = new User();
+			byeMessage.recipient.id = webrtc.collocutorId;
+			
+			logger.log(logger.WEBRTC, "Sending bye message");
+			
+			connection.send(JSON.stringify(byeMessage));
+		},
+		
 		// remote stream added
 		onRemoteStreamAdded: function() {
+			// make sure we cannot call anyone else while the call lasts - show hangup span instead
+			hideCallSpans();
+			showHangupSpans();
+			
 			showRemoteVideo();
 		},
 		
 		// remote stream removed
 		onRemoteStreamRemoved: function() {
 			hideRemoteVideo();
+			
+			// hide hangup span and show call spans again instead
+			hideHangupSpans();
+			showCallSpans();
 		}
 	});
 	
@@ -692,5 +733,32 @@ $(document).ready(function() {
 		$("#" + appConfig.frontend.remoteVideoContainer).hide();
 	};
 	
+	/**
+		Shows all call spans.
+	*/
+	var showCallSpans = function() {
+		$(".user-call").show();
+	};
+	
+	/**
+		Hides all call spans.
+	*/
+	var hideCallSpans = function() {
+		$(".user-call").hide();
+	};
+	
+	/**
+		Shows all hangup spans.
+	*/
+	var showHangupSpans = function() {
+		$(".user-hangup").show();
+	};
+	
+	/**
+		Hides all hangup spans.
+	*/
+	var hideHangupSpans = function() {
+		$(".user-hangup").hide();
+	};
 	initScreen();
 });

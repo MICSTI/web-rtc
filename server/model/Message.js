@@ -34,6 +34,7 @@ Message.prototype.topics = {
 	ICE_CANDIDATE: "iceCandidate",
 	SESSION_DESCRIPTION_OFFER: "sessionDescriptionOffer",
 	SESSION_DESCRIPTION_ANSWER: "sessionDescriptionAnswer",
+	BYE: "bye",
 	P2P_TEXT: "P2PText",
 	P2P_SYSTEM: "P2PSystem",
 	P2P_SUPPORT: "P2PSupport"

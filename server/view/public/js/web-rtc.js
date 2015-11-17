@@ -272,21 +272,25 @@ var WebRTCController = function() {
 	this.handleRemoteStreamRemoved = function(event) {
 		self.logger.log(self.logger.WEBRTC, "Remote stream removed", event);
 		
-		self.handleRemoteHangup();
-		
 		// optional additional function set by handling script
 		if (self.onRemoteStreamRemoved !== null && typeof self.onRemoteStreamRemoved === 'function')
 			self.onRemoteStreamRemoved();
 	};
 	
 	/**
+		Handler that is called when a hangup is requested.
+	*/
+	this.onHangup = null;
+	
+	/**
 		Called when the user wants to end the call.
 	*/
 	this.hangup = function() {
 		self.logger.log(self.logger.WEBRTC, "Hanging up");
-		this.stop();
+		self.stop();
 		
-		// TODO: send bye message
+		if (self.onHangup !== null && typeof self.onHangup === 'function')
+			self.onHangup();
 	};
 	
 	/**
@@ -294,29 +298,32 @@ var WebRTCController = function() {
 	*/
 	this.handleRemoteHangup = function() {
 		self.logger.log(self.logger.WEBRTC, "Session terminated");
-		this.stop();
-		this.isInitiator = false;
+		self.stop();
+		self.isInitiator = false;
+		self.collocutorId = null;
 	};
 	
 	/**
 		Function that is always called when a call is terminated.
 	*/
 	this.stop = function() {
-		this.callStarted = false;
+		self.callStarted = false;
 		
-		if (this.sendChannel !== null) {
-			this.sendChannel.close();
+		if (self.sendChannel !== null) {
+			self.sendChannel.close();
 		}
 		
-		if (this.receiveChannel !== null) {
-			this.receiveChannel.close();
+		if (self.receiveChannel !== null) {
+			self.receiveChannel.close();
 		}
 		
-		if (this.peerConnection !== null) {
-			this.peerConnection.close();
+		if (self.peerConnection !== null) {
+			self.peerConnection.close();
 		}
 		
-		this.peerConnection = null;
+		self.peerConnection = null;
+		
+		self.handleRemoteStreamRemoved();
 	}
 	
 	/**
@@ -344,6 +351,7 @@ var WebRTCController = function() {
 		this.onSignalingError = handlers.onSignalingError || null;
 		this.setLocalAndSendMessageOffer = handlers.setLocalAndSendMessageOffer || null;
 		this.setLocalAndSendMessageAnswer = handlers.setLocalAndSendMessageAnswer || null;
+		this.onHangup = handlers.onHangup || null;
 		this.onRemoteStreamAdded = handlers.onRemoteStreamAdded || null;
 		this.onRemoteStreamRemoved = handlers.onRemoteStreamRemoved || null;
 	}

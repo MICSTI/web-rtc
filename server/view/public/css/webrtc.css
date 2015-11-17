@@ -85,15 +85,6 @@ input[type=text] {
 	background-color: #eee;
 }
 
-.user:not(.user-myself):hover .user-call {
-	display: inline-block;
-}
-
-.user:not(.user-myself):hover .user-call:hover {
-	cursor: pointer;
-	color: #fff;
-}
-
 .user-myself {
 	font-weight: bold;
 	background-color: #bbb;
@@ -115,11 +106,22 @@ input[type=text] {
 	top: -3px;
 }
 
-.user-call {
+.user-hangup {
 	display: none;
-	background-color: orange;
+	background-color: #ef4836;
 	padding: 4px 6px;
 	border-radius: 3px;
+}
+
+.user-call {
+	background-color: #f7ca18;
+	padding: 4px 6px;
+	border-radius: 3px;
+}
+
+.user-hangup:hover, .user-call:hover {
+	cursor: pointer;
+	color: #fff;
 }
 /* --------------------------------------------- */
 

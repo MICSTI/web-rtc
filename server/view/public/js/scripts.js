@@ -62,6 +62,16 @@ $(document).ready(function() {
 		}
 	});
 	
+	// message is sent automatically on enter
+	input.keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			
+			// trigger click on send message button
+			send.click();
+		}
+	});
+	
 	// send P2P message
 	send.on("click", function() {
 		// check if data channel connection exists

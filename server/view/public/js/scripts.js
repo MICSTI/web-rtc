@@ -55,8 +55,11 @@ $(document).ready(function() {
 		hideRemoteVideo();
 	};
 	
-	// set user info
-	setUserInfo.on("click", function() {
+	/**
+		Sends the user info over the web socket connection.
+		If no web socket connection is open, the function tries to open one.
+	*/
+	var sendUserInfo = function() {
 		// set user info
 		user.name = username.val();
 		user.mail = mail.val();
@@ -67,6 +70,26 @@ $(document).ready(function() {
 		} else {
 			// update user info
 			updateUserInfo();
+		}
+	}
+	
+	// set user info
+	setUserInfo.on("click", sendUserInfo);
+	
+	// auto-login on enter in username or e-mail field
+	username.on("keypress", function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			
+			sendUserInfo();
+		}
+	});
+	
+	mail.on("keypress", function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			
+			sendUserInfo();
 		}
 	});
 	

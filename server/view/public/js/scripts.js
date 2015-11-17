@@ -213,6 +213,14 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Sends a support message to the connected peer.
+	*/
+	var sendSupportMessageToPeer = function(message) {
+		// send message
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+	};
+	
+	/**
 		Handler that will be executed when a new message is received.
 	*/
 	var onMessageReceived = function(message) {
@@ -277,6 +285,12 @@ $(document).ready(function() {
 				// text message
 				chat.append(getMessageHtml(message));
 				
+				break;
+				
+			case message.topics.P2P_SUPPORT:
+				// draw support path on local drawing canvas
+				drawSupportPath(message.content);
+			
 				break;
 			
 			default:
@@ -371,7 +385,17 @@ $(document).ready(function() {
 	var clearCommunicationSections = function() {
 		availableUsers.empty();
 		sendMessage.empty();
-	}
+	};
+	
+	/**
+		Clears the canvas from all drawed lines.
+	*/
+	var clearCanvas = function(canvasId) {
+		var canvas = document.getElementById(canvasId);
+		var ctx = canvas.getContext('2d');
+		
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	};
 	
 	/**
 		Updates the available users.
@@ -708,6 +732,10 @@ $(document).ready(function() {
 			// hide hangup span and show call spans again instead
 			hideHangupSpans();
 			showCallSpans();
+			
+			// clear canvas
+			clearCanvas(appConfig.frontend.localDrawingCanvas);
+			clearCanvas(appConfig.frontend.remoteDrawingCanvas);
 		}
 	});
 	
@@ -747,8 +775,7 @@ $(document).ready(function() {
 		Initializes the drawing-on-canvas functionality
 	*/
 	var initDrawing = function() {
-		//var canvas = document.getElementById(appConfig.frontend.remoteCanvas);
-		var canvas = document.getElementById("drawing-canvas");
+		var canvas = document.getElementById(appConfig.frontend.remoteDrawingCanvas);
 		var ctx = canvas.getContext('2d');
 		
 		var width = canvas.width;
@@ -782,7 +809,7 @@ $(document).ready(function() {
 		}, false);
 		
 		// track the path of the mouse on the canvas
-		var trackPath = function(action, event) {
+		var trackPath = function(action, event) {			
 			switch (action) {
 				case "down":
 					prevX = curX;
@@ -827,7 +854,48 @@ $(document).ready(function() {
 			ctx.lineWidth = size;
 			ctx.stroke();
 			ctx.closePath();
+			
+			// check if data channel connection exists
+			if (webrtc.dataChannelAvailable()) {			
+				// send drawing message to peer
+				var message = new Message();
+				
+				message.sender = user;
+				message.recipient = webrtc.collocutorId;
+				message.content = {
+					previous: {
+						x: prevX,
+						y: prevY
+					},
+					current: {
+						x: curX,
+						y: curY
+					},
+					color: color,
+					size: size
+				};
+				message.type = message.types.P2P;
+				message.topic = message.topics.P2P_SUPPORT;
+				
+				sendSupportMessageToPeer(message);
+			}
 		};
+	};
+	
+	/**
+		Draws the support info on the canvas.
+	*/
+	var drawSupportPath = function(drawingInfo) {
+		var canvas = document.getElementById(appConfig.frontend.localDrawingCanvas);
+		var ctx = canvas.getContext('2d');
+		
+		ctx.beginPath();
+		ctx.moveTo(drawingInfo.previous.x, drawingInfo.previous.y);
+		ctx.lineTo(drawingInfo.current.x, drawingInfo.current.y);
+		ctx.strokeStyle = drawingInfo.color;
+		ctx.lineWidth = drawingInfo.size;
+		ctx.stroke();
+		ctx.closePath();
 	};
 	
 	/**

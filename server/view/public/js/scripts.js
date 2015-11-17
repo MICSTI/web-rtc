@@ -47,6 +47,14 @@ $(document).ready(function() {
         return;
     }
 	
+	/**
+		Screen initialization.
+	*/
+	var initScreen = function() {
+		hideLocalVideo();
+		hideRemoteVideo();
+	};
+	
 	// set user info
 	setUserInfo.on("click", function() {
 		// set user info
@@ -105,9 +113,6 @@ $(document).ready(function() {
 		   
 		   // show video and chat elements
 		   afterLogin.show();
-		   
-		   // position canvas
-		   videoAndCanvasSetup();
 		};
 
 		connection.onerror = function(error) {
@@ -519,8 +524,11 @@ $(document).ready(function() {
 			// update user info
 			user.gotUserMedia = true;
 			
-			// position video and canvas
+			// start video display on canvas
 			videoAndCanvasSetup();
+			
+			// show local video
+			showLocalVideo();
 			
 			if (connection !== null)
 				updateUserInfo();
@@ -622,6 +630,16 @@ $(document).ready(function() {
 			logger.log(logger.WEBRTC, "Sending session description answer", sessionDescriptionMessage);
 			
 			connection.send(JSON.stringify(sessionDescriptionMessage));
+		},
+		
+		// remote stream added
+		onRemoteStreamAdded: function() {
+			showRemoteVideo();
+		},
+		
+		// remote stream removed
+		onRemoteStreamRemoved: function() {
+			hideRemoteVideo();
 		}
 	});
 	
@@ -630,16 +648,49 @@ $(document).ready(function() {
 	*/
 	var videoAndCanvasSetup = function() {
 		// set local canvas
-		var localCanvasSetup = setInterval(function() { return updateCanvas("local-canvas", "local-video"); }, 24);
+		var localCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.localCanvas, appConfig.frontend.localVideo); }, 24);
 		
 		// set remote canvas
-		var remoteCanvasSetup = setInterval(function() { return updateCanvas("remote-canvas", "remote-video"); }, 24);
-	}
+		var remoteCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.remoteCanvas, appConfig.frontend.remoteVideo); }, 24);
+	};
 	
+	/**
+		Updates the canvas with the current image from the video element.
+	*/
 	var updateCanvas = function(canvasId, videoId) {
 		var canvas = document.getElementById(canvasId);
 		var ctx = canvas.getContext('2d');
 		var video = document.getElementById(videoId);
 		ctx.drawImage(video, 0, 0, 320, 240);
-	}
+	};
+	
+	/**
+		Shows the local video container.
+	*/
+	var showLocalVideo = function() {
+		$("#" + appConfig.frontend.localVideoContainer).show();
+	};
+	
+	/**
+		Hides the local video container.
+	*/
+	var hideLocalVideo = function() {
+		$("#" + appConfig.frontend.localVideoContainer).hide();
+	};
+	
+	/**
+		Shows the remote video container.
+	*/
+	var showRemoteVideo = function() {
+		$("#" + appConfig.frontend.remoteVideoContainer).show();
+	};
+	
+	/**
+		Hides the remote video container.
+	*/
+	var hideRemoteVideo = function() {
+		$("#" + appConfig.frontend.remoteVideoContainer).hide();
+	};
+	
+	initScreen();
 });

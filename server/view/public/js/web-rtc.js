@@ -240,6 +240,16 @@ var WebRTCController = function() {
 	this.setLocalAndSendMessageAnswer = null;
 	
 	/**
+		Optional success handler for remote stream added
+	*/
+	this.onRemoteStreamAdded = null;
+	
+	/**
+		Optional success handler for remote stream removed
+	*/
+	this.onRemoteStreamRemoved = null;
+	
+	/**
 		Handler that is called when a remote stream is added.
 	*/
 	this.handleRemoteStreamAdded = function(event) {
@@ -250,6 +260,10 @@ var WebRTCController = function() {
 		attachMediaStream(self.remoteVideo, event.stream);
 		
 		self.logger.log(self.logger.WEBRTC, "Remote stream attached");
+		
+		// optional additional function set by handling script
+		if (self.onRemoteStreamAdded !== null && typeof self.onRemoteStreamAdded === 'function')
+			self.onRemoteStreamAdded();
 	};
 	
 	/**
@@ -258,7 +272,11 @@ var WebRTCController = function() {
 	this.handleRemoteStreamRemoved = function(event) {
 		self.logger.log(self.logger.WEBRTC, "Remote stream removed", event);
 		
-		this.handleRemoteHangup();
+		self.handleRemoteHangup();
+		
+		// optional additional function set by handling script
+		if (self.onRemoteStreamRemoved !== null && typeof self.onRemoteStreamRemoved === 'function')
+			self.onRemoteStreamRemoved();
 	};
 	
 	/**
@@ -326,5 +344,7 @@ var WebRTCController = function() {
 		this.onSignalingError = handlers.onSignalingError || null;
 		this.setLocalAndSendMessageOffer = handlers.setLocalAndSendMessageOffer || null;
 		this.setLocalAndSendMessageAnswer = handlers.setLocalAndSendMessageAnswer || null;
+		this.onRemoteStreamAdded = handlers.onRemoteStreamAdded || null;
+		this.onRemoteStreamRemoved = handlers.onRemoteStreamRemoved || null;
 	}
 }

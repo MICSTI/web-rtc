@@ -7,7 +7,12 @@ var appConfig = {
 	
 	frontend: {
 		localVideo: "local-video",
-		remoteVideo: "remote-video"
+		localCanvas: "local-canvas",
+		localVideoContainer: "local-video-container",
+		
+		remoteVideo: "remote-video",
+		remoteCanvas: "remote-canvas",
+		remoteVideoContainer: "remote-video-container"
 	},
 	
 	logging: true,
@@ -30,7 +35,7 @@ var appConfig = {
 	},
 
 	server: {
-		ip: '127.0.0.1',
+		ip: '10.0.0.2',
 		port: 1337,
 		defaultResponseFormat: "json"
 	},

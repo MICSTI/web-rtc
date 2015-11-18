@@ -42,3 +42,4 @@
 17.11.2015		01:00	video feed display on canvas, automatic message sending when enter key is pressed
 				02:00	call cycle implementation
 				02:30	canvas drawing for support functionality
+18.11.2015		00:30	added canvas drawing functionality for handheld devices

@@ -772,6 +772,17 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Calculates the position of a touch on the canvas.
+	*/
+	var getTouchPos = function(canvas, event) {
+		 var rect = canvasDom.getBoundingClientRect();
+		 return {
+			x: touchEvent.touches[0].clientX - rect.left,
+			y: touchEvent.touches[0].clientY - rect.top
+		 };
+	};
+	
+	/**
 		Initializes the drawing-on-canvas functionality
 	*/
 	var initDrawing = function() {
@@ -792,6 +803,7 @@ $(document).ready(function() {
 		var color = "red";
 		var size = 3;
 		
+		// we need the mouse* events for interaction on "regular" pcs and laptops
 		canvas.addEventListener("mousemove", function(event) {
 			trackPath("move", event);
 		}, false);
@@ -801,14 +813,64 @@ $(document).ready(function() {
 		}, false);
 		
 		canvas.addEventListener("mouseup", function(event) {
-			trackPath("up", event);
+			trackPath("end", event);
 		}, false);
 		
 		canvas.addEventListener("mouseout", function(event) {
-			trackPath("out", event);
+			trackPath("end", event);
 		}, false);
 		
-		// track the path of the mouse on the canvas
+		// we need the touch* events for interaction on handheld devices
+		canvas.addEventListener("touchstart", function(event) {
+			var touch = event.touches[0];
+			
+			var mouseEvent = new MouseEvent("mousedown", {
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			});
+			
+			canvas.dispatchEvent(mouseEvent);
+		}, false);
+		
+		canvas.addEventListener("touchmove", function(event) {
+			var touch = event.touches[0];
+			
+			var mouseEvent = new MouseEvent("mousemove", {
+				clientX: touch.clientX,
+				clientY: touch.clientY
+			});
+			
+			canvas.dispatchEvent(mouseEvent);
+		}, false);
+		
+		canvas.addEventListener("touchend", function(event) {
+			var touch = event.touches[0];
+			
+			var mouseEvent = new MouseEvent("mouseup", {});
+			
+			canvas.dispatchEvent(mouseEvent);
+		}, false);
+		
+		// additionally, we have to add listeners to prevent the body from scrolling when a canvas is being touched
+		document.body.addEventListener("touchstart", function(event) {
+			if (event.target == canvas) {
+				e.preventDefault();
+			}
+		}, false);
+		
+		document.body.addEventListener("touchend", function(event) {
+			if (event.target == canvas) {
+				e.preventDefault();
+			}
+		}, false);
+		
+		document.body.addEventListener("touchmove", function(event) {
+			if (event.target == canvas) {
+				e.preventDefault();
+			}
+		}, false);
+		
+		// track the path on the canvas
 		var trackPath = function(action, event) {			
 			switch (action) {
 				case "down":
@@ -823,8 +885,7 @@ $(document).ready(function() {
 				
 					break;
 					
-				case "up":
-				case "out":
+				case "end":
 					active = false;
 					
 					break;

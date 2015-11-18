@@ -1,6 +1,8 @@
 selection of camera feed
-new screen design
-
-canvas over video element (maybe draw video on canvas: http://stackoverflow.com/questions/10011389/set-video-height-in-html5)
+new screen design (+ responsive)
+call notification
+change drawing color
+different modes (both screens, support mode)
+possibility to freeze camera feed
 
 node js https connection

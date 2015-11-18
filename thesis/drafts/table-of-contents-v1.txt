@@ -1,0 +1,37 @@
+Einleitung, Problem
+
+Idee
+  WebRTC
+  node.js
+
+State of the Art
+
+Konzept
+  5 bis 15 Kriterien
+
+Prototyp
+  wichtigste 3 bis 5 Kriterien
+  
+Evaluierung
+  Audio/Video-Qualität unter verschiedener Netzwerkqualität
+  
+Reflexion, nächste Schritte
+
+---------------------------
+
+Features
+  simple management server for signalling
+  peer-to-peer audio/video chat
+  support drawing on other user's screen
+
+WebRTC
+  Komponenten
+    navigator.getUserMedia
+	RTCPeerConnection
+	RTCDataChannel
+  
+  Verbindungsaufbau/-ablauf
+
+Einschränkungen
+  NAT problem (STUN/TURN) 
+  Browser compatibility

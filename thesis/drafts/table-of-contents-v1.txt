@@ -1,10 +1,8 @@
 Einleitung, Problem
 
 Idee
-  WebRTC
-  node.js
 
-State of the Art
+State of the Art (Papers ACM, IEEE)
 
 Konzept
   5 bis 15 Kriterien
@@ -14,6 +12,10 @@ Prototyp
   
 Evaluierung
   Audio/Video-Qualität unter verschiedener Netzwerkqualität
+  
+  Zwei verschiedene Webseiten ("Expertenmodus" mit vielen Einstellungsmöglichkeiten, "Standard")
+  KB gesendet
+  Qualität
   
 Reflexion, nächste Schritte
 

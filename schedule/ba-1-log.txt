@@ -43,3 +43,4 @@
 				02:00	call cycle implementation
 				02:30	canvas drawing for support functionality
 18.11.2015		00:30	added canvas drawing functionality for handheld devices
+19.11.2015		01:00	meeting with Mr Feiner (discussion about prototype, possible improvements, possible evaluation methods, discussion about table of contents) (08:30 - 09:30)

@@ -103,11 +103,19 @@ Notes:
 		
 		Extended functionalities
 
-PAPER-6
+PAPER-6 (*)
 P2P shared-caching model: using P2P to improve client-server application performance
 Luong Quy Tho, Ha Quoc Trung
 December 2013 		
 SoICT '13: Proceedings of the Fourth Symposium on Information and Communication Technology
+
+Notes:
+	client-server modal has several drawbacks, such as server bottleneck and weak scalability, but works really simple
+	caching improves problem, but model remains client-server
+	P2P solves this problem
+	solution: "Quicknode", hybrid approach between client-server and P2P
+	
+	[really bad English]
 
 PAPER-7 (*)
 Determining the signalling overhead of two common WebRTC methods: JSON via XMLHttpRequest and SIP over WebSocket
@@ -168,6 +176,8 @@ Notes:
 		as a result, the first peer only subscribes to the source publisher
 		the second peer subscribes to the source publisher and the first peer, while the third peer selects randomly two peers from the first, second or source publisher
 		thus, a random mesh is created with every new peer which joins the network
+		
+	EVALUATION METHODS
 
 PAPER-11
 WebRTC quality assessment: Dangers of black-box testing

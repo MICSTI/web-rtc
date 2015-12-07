@@ -134,11 +134,15 @@ Notes:
 	useful:
 		description of performance test setup (page 3)
 
-PAPER-8
+PAPER-8 (*)
 WebRTC technology overview and signaling solution design and implementation
 Sredojev, B.; Samardzija, D.; Posarac, D.
 Information and Communication Technology, Electronics and Microelectronics (MIPRO), 2015 38th International Convention on
 Year: 2015
+
+Notes:
+	simple WebRTC application without any special features
+	good overview over WebRTC components and connection setup
 
 PAPER-9 (?)
 WebRTC technology for mobile devices

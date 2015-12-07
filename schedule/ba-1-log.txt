@@ -47,4 +47,4 @@
 						v0.4
 19.11.2015		01:00	meeting with Mr Feiner (discussion about prototype, possible improvements, possible evaluation methods, discussion about table of contents) (08:30 - 09:30)
 
-06.12.2015		00:20	research (PAPER-6)
+06.12.2015		00:40	research (PAPER-6, PAPER-8)

@@ -1,8 +1,17 @@
 var MainController = function() {
 	// node modules
-	var http = require('http');
+	var https = require('https');
 	var webSocketServer = require('websocket').server;
 	var fs = require('fs');
+	
+	// read ssl credentials
+	var privateKey = fs.readFileSync('sslcert/key.pem', 'utf8');
+	var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
+	
+	var credentials = {
+		key: privateKey,
+		cert: certificate
+	};
 	
 	// read config file
 	var config = require('../config');
@@ -50,7 +59,7 @@ var MainController = function() {
 	var colors = ["cadetblue", "coral", "cornflowerblue", "crimson", "darkgoldenrod", "darkkhaki", "darkseagreen", "dodgerblue", "firebrick", "forestgreen", "gold", "indianred", "lightcyan", "lightsteelblue", "limegreen", "moccasin", "olivedrab", "orange", "orangered", "rosybrown", "saddlebrown", "salmon", "whitesmoke"];
 
 	// server startup
-	var server = http.createServer(function(request, response) {
+	var server = https.createServer(credentials, function(request, response) {
 		logger.log(logger.SERVER, "Incoming request: " + request.url);
 		
 		// handle according to request method
@@ -108,7 +117,7 @@ var MainController = function() {
 	logger.log(logger.INFO, "(C) " + _author);
 	logger.blank();
 	
-	logger.log(logger.SERVER, "Server running at http://" + _ip + ":" + _port);
+	logger.log(logger.SERVER, "Server running at https://" + _ip + ":" + _port);
 	logger.blank();
 
 	// web socket setup

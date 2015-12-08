@@ -116,8 +116,12 @@ var UserMedia = function() {
 	/**
 		Gets all sources that are present on the device.
 	*/
-	var getSources = function(onSuccess) {	
-		MediaStreamTrack.getSources(function(sources) {
+	var getSources = function(onSuccess) {
+		// TEMPORARY FALLBACK SOLUTION
+		// Firefox does not support MediaStreamTrack.getSources
+		// instead, an empty array will be returned if the browser does not support it
+		try {
+			MediaStreamTrack.getSources(function(sources) {
 			sources.forEach(function(item, idx) {
 				switch (item.kind) {
 					case "audio":
@@ -140,6 +144,10 @@ var UserMedia = function() {
 			if (onSuccess !== undefined && typeof onSuccess === 'function')
 				onSuccess(self.getMediaSources);
 		});
+		} catch (ex) {
+			if (onSuccess !== undefined && typeof onSuccess === 'function')
+				onSuccess([]);
+		}
 	};
 	
 	// determine all video sources

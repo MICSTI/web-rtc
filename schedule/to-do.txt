@@ -1,4 +1,4 @@
-selection of camera feed
+selection of camera feed (won't work in Firefox! find fallback solution!)
 new screen design (+ responsive)
 call notification
 change drawing color

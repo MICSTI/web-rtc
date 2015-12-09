@@ -1,6 +1,9 @@
 var Notification = function() {
 	var self = this;
 	
+	// id
+	this.id = this.assignId();
+	
 	// notification parent (will be displayed relative to it)
 	// should be a DOM element id
 	// defaults to "window"
@@ -24,55 +27,61 @@ var Notification = function() {
 	
 	// is the notification dismissable (e.g. will it disappear after the user clicks on it, only applicable for type = INFO)
 	this.dismissable = null;
-}
-
-/**
-	Issues the notification to the screen.
-*/
-Notification.prototype.notify = function() {
-	var n = $(this.getHtml())
-				.hide()
-				.appendTo("body")
-				.css("position", "absolute")
-				.css("top", function() { return "0px"; })
-				.css("left", function() { return "0px"; });
 	
-	// additional type-specific functionality
-	switch (this.type) {
-		case this.types.ACTION:
-			// TODO: add action buttons and attach its functions
-			
-			break;
-			
-		case this.types.INFO:
-			// dismiss element on click
-			n.on("click", function() { fadeElement($(this)); });
-			
-			// auto-dismiss after this.timeout milliseconds
-			if (this.timeout !== null) {
-				n.bind("webrtc.timeout", function() {
-					var bindElem = $(this);
-					
-					setTimeout(function() {
-						fadeElement(bindElem);
-					}, self.timeout);
+	/**
+		Issues the notification to the screen.
+	*/
+	this.notify = function() {
+		var n = $(this.getHtml())
+					.hide()
+					.appendTo("body")
+					.css("position", "absolute")
+					.css("top", function() { return "0px"; })
+					.css("left", function() { return "0px"; });
+		
+		// additional type-specific functionality
+		switch (this.type) {
+			case this.types.ACTION:
+				// TODO: add action buttons and attach its functions
+				this.actions.forEach(function(item, idx) {
+					var button = $("<button>");
+					button.html(item.display);
+					button.on("click", item.action);
+					$("#" + self.id + " .notification-action").append(button);
 				});
-			}
-			
-			break;
-			
-		default:
-			break;
-	}
-	
-	// show notification on screen
-	n.fadeIn(150, function() {
-		if (self.type == self.types.INFO) {
-			// for info notifications, after element has fully faded in, the timeout for fading it out after the duration period starts
-			$(this).trigger("webrtc.timeout");
+				
+				break;
+				
+			case this.types.INFO:
+				// dismiss element on click
+				n.on("click", function() { self.fadeElement($(this)); });
+				
+				// auto-dismiss after this.timeout milliseconds
+				if (this.timeout !== null) {
+					n.bind("webrtc.timeout", function() {
+						var bindElem = $(this);
+						
+						setTimeout(function() {
+							self.fadeElement(bindElem);
+						}, self.timeout);
+					});
+				}
+				
+				break;
+				
+			default:
+				break;
 		}
-	});
-};
+		
+		// show notification on screen
+		n.fadeIn(150, function() {
+			if (self.type == self.types.INFO) {
+				// for info notifications, after element has fully faded in, the timeout for fading it out after the duration period starts
+				$(this).trigger("webrtc.timeout");
+			}
+		});
+	};
+}
 
 /**
 	Returns the HTML for the notification
@@ -80,7 +89,7 @@ Notification.prototype.notify = function() {
 Notification.prototype.getHtml = function() {
 	var html = "";
 	
-	html += "<div class='notification notification-wrapper notification" + this.type + "'>";
+	html += "<div class='notification notification-wrapper notification" + this.type + "' id='" + this.id + "'>";
 		// title
 		html += "<div class='notification-title'>" + this.title + "</div>";
 		
@@ -88,11 +97,7 @@ Notification.prototype.getHtml = function() {
 		html += "<div class='notification-text'>" + this.text + "</div>";
 		
 		// action buttons
-		if (this.type == this.types.ACTION) {
-			this.actions.forEach(function(item, idx) {
-				html += "<button>" + item.display + "</button>";
-			});
-		}
+		html += "<div class='notification-action'></div>";
 	html += "</div>";
 	
 	return html;
@@ -127,6 +132,13 @@ Notification.prototype.fadeElement = function(elem) {
 		$(elem).remove();
 	});
 };
+
+/**
+	Assigns an id to the notification
+*/
+Notification.prototype.assignId = function() {
+	return Util.generateId(12);
+}
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports.Notification = Notification;

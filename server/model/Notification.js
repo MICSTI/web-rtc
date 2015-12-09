@@ -40,7 +40,7 @@ Notification.prototype.notify = function() {
 	// additional type-specific functionality
 	switch (this.type) {
 		case this.types.ACTION:
-			
+			// TODO: add action buttons and attach its functions
 			
 			break;
 			

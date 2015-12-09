@@ -49,3 +49,4 @@
 
 06.12.2015		00:40	research (PAPER-6, PAPER-8)
 08.12.2015		00:30	implemented encryption methods, now https and wss are used everywhere
+09.12.2015		01:00	started implementing notification class

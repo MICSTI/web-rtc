@@ -42,11 +42,16 @@ var Notification = function() {
 		// additional type-specific functionality
 		switch (this.type) {
 			case this.types.ACTION:
-				// TODO: add action buttons and attach its functions
 				this.actions.forEach(function(item, idx) {
 					var button = $("<button>");
 					button.html(item.display);
-					button.on("click", item.action);
+					button.on("click", function() {
+						if (item.action !== undefined && typeof item.action === 'function')
+							item.action();
+						
+						// clear notification
+						self.clear();
+					});
 					$("#" + self.id + " .notification-action").append(button);
 				});
 				
@@ -81,6 +86,13 @@ var Notification = function() {
 			}
 		});
 	};
+	
+	/**
+		Removes the notification from the DOM immediately.
+	*/
+	this.clear = function() {
+		$("#" + this.id).remove();
+	}
 }
 
 /**

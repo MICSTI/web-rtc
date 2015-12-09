@@ -3,7 +3,6 @@ $(document).ready(function() {
 	var chat = $("#chat");
 	var input = $("#chat-message");
 	var username = $("#username");
-	var mail = $("#mail");
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
 	var afterLogin = $("#after-login");
@@ -66,7 +65,6 @@ $(document).ready(function() {
 	var sendUserInfo = function() {
 		// set user info
 		user.name = username.val();
-		user.mail = mail.val();
 		
 		if (connection === null) {
 			// open connection
@@ -80,16 +78,8 @@ $(document).ready(function() {
 	// set user info
 	setUserInfo.on("click", sendUserInfo);
 	
-	// auto-login on enter in username or e-mail field
+	// auto-login on enter in username field
 	username.on("keypress", function(event) {
-		if (event.which == 13) {
-			event.preventDefault();
-			
-			sendUserInfo();
-		}
-	});
-	
-	mail.on("keypress", function(event) {
 		if (event.which == 13) {
 			event.preventDefault();
 			

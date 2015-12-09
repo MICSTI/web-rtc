@@ -5,6 +5,7 @@ $(document).ready(function() {
 	var username = $("#username");
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
+	var loginContainer = $("#login-container");
 	var afterLogin = $("#after-login");
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
@@ -127,6 +128,9 @@ $(document).ready(function() {
 		   logger.log(logger.WS, "WebSocket connection opened");
 		   
 		   updateUserInfo();
+		   
+		   // hide login container
+		   loginContainer.hide();
 		   
 		   // show video and chat elements
 		   afterLogin.show();

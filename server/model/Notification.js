@@ -2,42 +2,56 @@ var Notification = function() {
 	var self = this;
 	
 	// id
-	this.id = this.assignId();
+	this.id = this.generateId();
 	
 	// notification parent (will be displayed relative to it)
 	// should be a DOM element id
-	// defaults to "window"
-	this.parent = "window";
+	// defaults to window.
+	this.parent = null;
 	
 	// notification type
 	this.type = null;
 	
 	// notification title
-	this.title = null;
+	this.title = "";
 	
 	// notification text
-	this.text = null;
+	this.text = "";
 	
 	// notification actions (only applicable for type = ACTION)
 	// should be added with method addAction(actionDisplayName, action)
 	this.actions = [];
 	
 	// notification timeout (after x milliseconds the notification dismisses itself, only applicable for type = INFO)
-	this.timeout = null;
+	this.timeout = 3000;
 	
 	// is the notification dismissable (e.g. will it disappear after the user clicks on it, only applicable for type = INFO)
-	this.dismissable = null;
+	this.dismissable = true;
 	
 	/**
 		Issues the notification to the screen.
 	*/
 	this.notify = function() {
+		// get information about parent element
+		var _parent = this.parent !== null ? $("#" + this.parent) : $(window);
+		
+		var width = _parent.outerWidth();
+		var height = _parent.outerHeight();
+		
+		if (this.parent !== null) {
+			var position = _parent.position();
+		} else {
+			var position = { top: 0, left: 0 };
+		}
+		
 		var n = $(this.getHtml())
 					.hide()
 					.appendTo("body")
 					.css("position", "absolute")
-					.css("top", function() { return "0px"; })
-					.css("left", function() { return "0px"; });
+					.css("top", position.top + "px")
+					.css("left", position.left + "px")
+					.css("width", width + "px")
+					.css("height", height + "px");
 		
 		// additional type-specific functionality
 		switch (this.type) {
@@ -59,16 +73,16 @@ var Notification = function() {
 				
 			case this.types.INFO:
 				// dismiss element on click
-				n.on("click", function() { self.fadeElement($(this)); });
+				if (this.dismissable) {
+					n.on("click", function() { self.fadeElement($(this)); });
+				}
 				
 				// auto-dismiss after this.timeout milliseconds
 				if (this.timeout !== null) {
-					n.bind("webrtc.timeout", function() {
+					n.bind(Notification.NOTIFICATION_TIMEOUT, function() {
 						var bindElem = $(this);
 						
-						setTimeout(function() {
-							self.fadeElement(bindElem);
-						}, self.timeout);
+						setTimeout(function() { self.fadeElement(bindElem); }, self.timeout);
 					});
 				}
 				
@@ -82,7 +96,7 @@ var Notification = function() {
 		n.fadeIn(150, function() {
 			if (self.type == self.types.INFO) {
 				// for info notifications, after element has fully faded in, the timeout for fading it out after the duration period starts
-				$(this).trigger("webrtc.timeout");
+				$(this).trigger(Notification.NOTIFICATION_TIMEOUT);
 			}
 		});
 	};
@@ -96,12 +110,12 @@ var Notification = function() {
 }
 
 /**
-	Returns the HTML for the notification
+	Returns the HTML for the notification.
 */
 Notification.prototype.getHtml = function() {
 	var html = "";
 	
-	html += "<div class='notification notification-wrapper notification" + this.type + "' id='" + this.id + "'>";
+	html += "<div class='notification notification-wrapper notification-" + this.type + "' id='" + this.id + "'>";
 		// title
 		html += "<div class='notification-title'>" + this.title + "</div>";
 		
@@ -146,11 +160,14 @@ Notification.prototype.fadeElement = function(elem) {
 };
 
 /**
-	Assigns an id to the notification
+	Assigns an id to the notification.
 */
-Notification.prototype.assignId = function() {
+Notification.prototype.generateId = function() {
 	return Util.generateId(12);
 }
+
+// 
+Notification.NOTIFICATION_TIMEOUT = "notification-timeout";
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports.Notification = Notification;

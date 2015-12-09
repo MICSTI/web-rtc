@@ -206,3 +206,11 @@ input[type=text] {
 	width: 100%;
 }
 /* --------------------------------------------- */
+
+/* -------------- NOTIFICATION ----------------- */
+.notification {
+	background-color: cornflowerblue;
+	padding: 8px 12px;
+	z-index: 400;
+}
+/* --------------------------------------------- */

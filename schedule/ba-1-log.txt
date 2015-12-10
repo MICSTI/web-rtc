@@ -51,3 +51,4 @@
 08.12.2015		00:30	implemented encryption methods, now https and wss are used everywhere
 09.12.2015		01:00	started implementing notification class
 				01:20	notifications (action buttons)
+10.12.2015		04:30	call-cycle with notifications

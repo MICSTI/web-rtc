@@ -199,6 +199,22 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Sends a call notification to the peer.
+	*/
+	var callPeer = function(peerId) {
+		var message = new Message();
+		
+		message.topic = message.topics.CALL;
+		message.sender = user;
+		message.type = message.types.RELAY;
+		
+		message.recipient = new User();
+		message.recipient.id = peerId;
+		
+		connection.send(JSON.stringify(message));
+	};
+	
+	/**
 		Sends a text message to the connected peer.
 	*/
 	var sendTextMessageToPeer = function(message) {
@@ -338,6 +354,59 @@ $(document).ready(function() {
 				
 				break;
 				
+			// call
+			case message.topics.CALL:
+				// show notification on screen
+				var n = new Notification();
+				n.type = n.types.ACTION;
+				n.title = "Incoming call";
+				n.text = "... is calling";
+				n.fillParent = false;
+				n.parent = "local-canvas-video";
+				n.addAction("Accept", function() { 
+					// send call accept message
+					var acceptMessage = new Message();
+		
+					acceptMessage.topic = acceptMessage.topics.CALL_ACCEPT;
+					acceptMessage.sender = user;
+					acceptMessage.type = acceptMessage.types.RELAY;
+					acceptMessage.recipient = message.sender;
+					
+					connection.send(JSON.stringify(acceptMessage));
+					
+					// clear notification
+					n.clear();
+				});
+				n.addAction("Decline", function() {
+					// send call decline message
+					var declineMessage = new Message();
+		
+					declineMessage.topic = declineMessage.topics.CALL_DECLINE;
+					declineMessage.sender = user;
+					declineMessage.type = declineMessage.types.RELAY;
+					declineMessage.recipient = message.sender;
+					
+					connection.send(JSON.stringify(declineMessage));
+					
+					// clear notification
+					n.clear();
+				});
+				n.notify();
+			
+				break;
+				
+			// accept call
+			case message.topics.CALL_ACCEPT:
+				// now we can initiate the call
+				webrtc.initiateCall(message.sender.id);
+				
+				break;
+				
+			// decline call
+			case message.topics.CALL_DECLINE:
+			
+				break;
+				
 			// bye message
 			case message.topics.BYE:
 				webrtc.handleRemoteHangup();
@@ -449,8 +518,7 @@ $(document).ready(function() {
 		$(".user-call").off("click");
 	
 		$(".user-call").on("click", function() {
-			// we use a closure so we can pass the id of the user that we initiate the call to
-			return webrtc.initiateCall($(this).attr("data-user-id"));
+			callPeer($(this).attr("data-user-id"));
 		});
 	}
 	

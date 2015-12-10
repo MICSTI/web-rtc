@@ -82,6 +82,10 @@ var Notification = function() {
 		
 		n.css("width", (width - _paddingLeftRight) + "px");
 		
+		// if notification is of type INFO or no action have been set, remove the notification action class
+		if (this.type != this.types.ACTION || this.actions.length <= 0)
+			$("#" + this.id + " .notification-action").remove();
+		
 		// additional type-specific functionality
 		switch (this.type) {
 			case this.types.ACTION:

@@ -13,7 +13,7 @@
 		var n = new Notification();
 		n.type = n.types.ACTION;
 		n.title = "Hallo";
-		n.text = "bla bla bla bla bla bla bla bla";
+		n.text = "How are you?-";
 		n.fillParent = false;
 		n.parent = "local-canvas-video";
 		n.addAction("Hello", function() { console.log("HI"); n.clear(); });
@@ -215,8 +215,13 @@ Notification.prototype.generateId = function() {
 	return Util.generateId(12);
 }
 
-// 
+// constant for notification timeout function binding
 Notification.NOTIFICATION_TIMEOUT = "notification-timeout";
+
+// Clears all notifications from the screen.
+Notification.clearAll = function() {
+	$(".notification").remove();
+}
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports.Notification = Notification;

@@ -356,11 +356,14 @@ $(document).ready(function() {
 				
 			// call
 			case message.topics.CALL:
+				// hide call spans
+				hideCallSpans();
+			
 				// show notification on screen
 				var n = new Notification();
 				n.type = n.types.ACTION;
 				n.title = "Incoming call";
-				n.text = message.sender.name + " is calling";
+				n.text = "<b>" + message.sender.name + "</b> is calling";
 				n.fillParent = false;
 				n.parent = "local-canvas-video";
 				n.addAction("Accept", function() { 
@@ -390,6 +393,17 @@ $(document).ready(function() {
 					
 					// clear notification
 					n.clear();
+					
+					// show decilned notification
+					var declined = new Notification();
+					
+					declined.type = declined.types.INFO;
+					declined.text = "Call declined";
+					declined.parent = "local-canvas-video";
+					declined.notify();
+					
+					// show call spans
+					showCallSpans();
 				});
 				n.notify();
 			
@@ -397,6 +411,9 @@ $(document).ready(function() {
 				
 			// accept call
 			case message.topics.CALL_ACCEPT:
+				// clear notifications
+				Notification.clearAll();
+			
 				// now we can initiate the call
 				webrtc.initiateCall(message.sender.id);
 				
@@ -404,18 +421,36 @@ $(document).ready(function() {
 				
 			// decline call
 			case message.topics.CALL_DECLINE:
+				// clear previous notifications
+				Notification.clearAll();
+			
 				// show call declined notification
 				var declined = new Notification();
 				declined.type = declined.types.INFO;
-				declined.text = message.sender.name + " declined your call";
+				declined.text = "<b>" + message.sender.name + "</b> declined your call";
 				declined.parent = "local-canvas-video";
 				declined.notify();
+				
+				// show call spans
+				showCallSpans();
 			
+				break;
+				
+			// call withdrawn
+			case message.topics.CALL_WITHDRAWN:
+				// clear all notifications from the screen
+				Notification.clearAll();
+				
+				// show call spans
+				showCallSpans();
+				
 				break;
 				
 			// bye message
 			case message.topics.BYE:
 				webrtc.handleRemoteHangup();
+				
+				showCallEndedNotification();
 				
 				break;
 				
@@ -518,14 +553,61 @@ $(document).ready(function() {
 		
 		$(".user-hangup").on("click", function() {
 			webrtc.hangup();
+			
+			showCallEndedNotification();
 		});
 		
 		// attach call function
 		$(".user-call").off("click");
 	
 		$(".user-call").on("click", function() {
-			callPeer($(this).attr("data-user-id"));
+			// info of called user
+			var calledId = $(this).attr("data-user-id");
+			var calledName = $(this).attr("data-user-name");
+			
+			// hide call spans
+			hideCallSpans();
+			
+			// call peer
+			callPeer(calledId);
+			
+			// show calling notification
+			var calling = new Notification();
+			calling.type = calling.types.ACTION;
+			calling.text = "Calling <b>" + calledName + "</b>...";
+			calling.parent = "local-canvas-video";
+			calling.addAction("Hangup", function() {
+				// send call withdrawn message
+				var withdrawnMessage = new Message();
+				withdrawnMessage.sender = user;
+				withdrawnMessage.topic = withdrawnMessage.topics.CALL_WITHDRAWN;
+				withdrawnMessage.type = withdrawnMessage.types.RELAY;
+				
+				withdrawnMessage.recipient = new User();
+				withdrawnMessage.recipient.id = calledId;
+				
+				connection.send(JSON.stringify(withdrawnMessage));
+				
+				// clear calling notification
+				calling.clear();
+				
+				// show call spans
+				showCallSpans();
+			});
+			calling.notify();
 		});
+	}
+	
+	/**
+		Displays a call ended notification.
+	*/
+	var showCallEndedNotification = function() {
+		// show call ended notification
+		var ended = new Notification();
+		ended.type = ended.types.INFO;
+		ended.text = "Call ended";
+		ended.parent = "local-canvas-video";
+		ended.notify();
 	}
 	
 	/**
@@ -581,7 +663,7 @@ $(document).ready(function() {
 		
 		// Call span is only displayed for users that can be called (i.e. have accepted navigator.getUserMedia)
 		if (callable)
-			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "'>Call</span>";
+			var callSpan = "<span class='user-call right' data-user-id='" + _user.id + "' data-user-name='" + _user.name + "'>Call</span>";
 		else
 			var callSpan = "";
 		

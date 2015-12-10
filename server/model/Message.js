@@ -37,6 +37,7 @@ Message.prototype.topics = {
 	CALL: "call",
 	CALL_ACCEPT: "callAccept",
 	CALL_DECLINE: "callDecline",
+	CALL_WITHDRAWN: "callWithdrawn",
 	BYE: "bye",
 	P2P_TEXT: "P2PText",
 	P2P_SYSTEM: "P2PSystem",

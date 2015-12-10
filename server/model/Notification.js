@@ -1,3 +1,25 @@
+/**
+	Issues notifications to the screen.
+	
+	Currently, there are two types of notifications:
+	  - INFO:	notifications that do not require actions from the user
+				they are dismissed automatically after a configurable time span
+				they can be dismissed manually by clicking on them (if the dismissable flag has been set, defaults to true)
+	  - ACTION:	notificatinos that require input from the user
+				actions can be added via addAction(name, action) - a button will be added to the notification that performs this action on click
+				note: actions are responsible to clear the notification from the screen themselves, by calling the object's clear-method
+				
+	Sample call:
+		var n = new Notification();
+		n.type = n.types.ACTION;
+		n.title = "Hallo";
+		n.text = "bla bla bla bla bla bla bla bla";
+		n.fillParent = false;
+		n.parent = "local-canvas-video";
+		n.addAction("Hello", function() { console.log("HI"); n.clear(); });
+		n.addAction("Again", function() { console.log("HA"); n.clear(); });
+		n.notify();
+*/
 var Notification = function() {
 	var self = this;
 	
@@ -60,16 +82,6 @@ var Notification = function() {
 		
 		n.css("width", (width - _paddingLeftRight) + "px");
 		
-		// fill parent option
-		if (this.fillParent) {
-			// set the height to the same as the parent
-			n.css("height", (height - _paddingTopBottom) + "px");
-		} else {
-			// to position it at the bottom of the parent, we have to calculate the notification's height
-			var _selfHeight = n.outerHeight();
-			n.css("top", (position.top + height - _selfHeight) + "px");
-		}
-		
 		// additional type-specific functionality
 		switch (this.type) {
 			case this.types.ACTION:
@@ -80,9 +92,6 @@ var Notification = function() {
 					button.on("click", function() {
 						if (item.action !== undefined && typeof item.action === 'function')
 							item.action();
-						
-						// clear notification
-						self.clear();
 					});
 					$("#" + self.id + " .notification-action").append(button);
 				});
@@ -110,6 +119,24 @@ var Notification = function() {
 				break;
 		}
 		
+		// fill parent option
+		var _selfHeight = n.outerHeight();
+		
+		if (this.fillParent) {
+			// set the height to the same as the parent
+			n.css("height", (height - _paddingTopBottom) + "px");
+			
+			// center notification content vertically
+			var _spaceLeft = (height - _selfHeight);
+			
+			$("#" + this.id + " .notification-content")
+				.css("position", "relative")
+				.css("top", (_spaceLeft / 2) + "px");
+		} else {
+			// position notification at the bottom of the parent
+			n.css("top", (position.top + height - _selfHeight) + "px");
+		}
+		
 		// show notification on screen
 		n.fadeIn(150, function() {
 			if (self.type == self.types.INFO) {
@@ -134,16 +161,18 @@ Notification.prototype.getHtml = function() {
 	var html = "";
 	
 	html += "<div class='notification notification-wrapper notification-" + this.type + "' id='" + this.id + "'>";
-		// title
-		if (this.title !== null)
-			html += "<div class='notification-title'>" + this.title + "</div>";
-		
-		// text
-		if (this.text !== null)
-			html += "<div class='notification-text'>" + this.text + "</div>";
-		
-		// action buttons
-		html += "<div class='notification-action'></div>";
+		html += "<div class='notification-content'>"
+			// title
+			if (this.title !== null)
+				html += "<div class='notification-title'>" + this.title + "</div>";
+			
+			// text
+			if (this.text !== null)
+				html += "<div class='notification-text'>" + this.text + "</div>";
+			
+			// action buttons
+			html += "<div class='notification-action'></div>";
+		html += "</div>";
 	html += "</div>";
 	
 	return html;

@@ -87,8 +87,7 @@ button:hover {
 }
 
 #local-canvas-drawing, #remote-canvas-drawing {
-	position: relative;
-	left: -324px;
+	position: absolute;
 	background: transparent;
 	z-index: 201;
 }

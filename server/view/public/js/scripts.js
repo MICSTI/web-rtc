@@ -18,6 +18,9 @@ $(document).ready(function() {
 	var localCanvas = $("#" + appConfig.frontend.localCanvas);
 	var remoteCanvas = $("#" + appConfig.frontend.remoteCanvas);
 	
+	var localCanvasDrawing = $("#" + appConfig.frontend.localDrawingCanvas);
+	var remoteCanvasDrawing = $("#" + appConfig.frontend.remoteDrawingCanvas);
+	
 	// logger
 	var logger = new Logger();
 	logger.enabled = appConfig.logging;
@@ -737,6 +740,10 @@ $(document).ready(function() {
 		Positions local and remote canvas and video elements.
 	*/
 	var videoAndCanvasSetup = function() {
+		// position drawing canvasses
+		localCanvasDrawing.css(localCanvas.offset());
+		remoteCanvasDrawing.css(remoteCanvas.offset());
+		
 		// set local canvas
 		var localCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.localCanvas, appConfig.frontend.localVideo); }, 24);
 		

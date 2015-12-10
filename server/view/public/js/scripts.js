@@ -360,7 +360,7 @@ $(document).ready(function() {
 				var n = new Notification();
 				n.type = n.types.ACTION;
 				n.title = "Incoming call";
-				n.text = "... is calling";
+				n.text = message.sender.name + " is calling";
 				n.fillParent = false;
 				n.parent = "local-canvas-video";
 				n.addAction("Accept", function() { 
@@ -404,6 +404,12 @@ $(document).ready(function() {
 				
 			// decline call
 			case message.topics.CALL_DECLINE:
+				// show call declined notification
+				var declined = new Notification();
+				declined.type = declined.types.INFO;
+				declined.text = message.sender.name + " declined your call";
+				declined.parent = "local-canvas-video";
+				declined.notify();
 			
 				break;
 				

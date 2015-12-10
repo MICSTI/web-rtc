@@ -7,6 +7,23 @@ input[type=text] {
 	font-family: 'Open Sans', sans-serif;
 }
 
+button {
+	display: inline-block;
+    background-color: #3a3a3a;
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 9px;
+    border: none;
+    font-weight: bold;
+    border-radius: 7px;
+    outline: none;
+}
+
+button:hover {
+	cursor: pointer;
+	background-color: #686868;
+}
+
 #page-container {
 	width: 1000px;
 }
@@ -225,21 +242,6 @@ input[type=text] {
 }
 
 .notification-action button {
-	margin: 0px 6px;
-	
-	display: inline-block;
-    background-color: #3a3a3a;
-    color: #fff;
-    text-decoration: none;
-    padding: 6px 9px;
-    border: none;
-    font-weight: bold;
-    border-radius: 7px;
-    outline: none;
-}
-
-.notification-action button:hover {
-	cursor: pointer;
-	background-color: #686868;
+	margin: 0px 6px;	
 }
 /* --------------------------------------------- */

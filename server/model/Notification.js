@@ -39,7 +39,7 @@ var Notification = function() {
 		var height = _parent.outerHeight();
 		
 		if (this.parent !== null) {
-			var position = _parent.position();
+			var position = _parent.offset();
 		} else {
 			var position = { top: 0, left: 0 };
 		}
@@ -49,9 +49,14 @@ var Notification = function() {
 					.appendTo("body")
 					.css("position", "absolute")
 					.css("top", position.top + "px")
-					.css("left", position.left + "px")
-					.css("width", width + "px")
-					.css("height", height + "px");
+					.css("left", position.left + "px");
+					
+		// calculate width and height, factoring in self padding
+		var _paddingLeftRight = parseInt(n.css("padding-left").replace("px", ""), 10) + parseInt(n.css("padding-right").replace("px", ""), 10);
+		var _paddingTopBottom = parseInt(n.css("padding-top").replace("px", ""), 10) + parseInt(n.css("padding-bottom").replace("px", ""), 10);
+		
+		n.css("width", (width - _paddingLeftRight) + "px")
+		 .css("height", (height - _paddingTopBottom) + "px");
 		
 		// additional type-specific functionality
 		switch (this.type) {

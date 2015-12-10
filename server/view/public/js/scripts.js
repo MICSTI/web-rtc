@@ -3,7 +3,8 @@ function notificationTest() {
 	n.type = n.types.INFO;
 	n.title = "Hallo";
 	n.text = "bla bla bla bla bla bla bla bla";
-	n.dismissable = false;
+	n.dismissable = true;
+	n.fillParent = false;
 	n.parent = "local-canvas-video";
 	n.notify();
 }

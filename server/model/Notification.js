@@ -28,6 +28,9 @@ var Notification = function() {
 	// is the notification dismissable (e.g. will it disappear after the user clicks on it, only applicable for type = INFO)
 	this.dismissable = true;
 	
+	// should the notification fill the parent (the content will be centered vertically inside the parent)
+	this.fillParent = false;
+	
 	/**
 		Issues the notification to the screen.
 	*/
@@ -56,25 +59,15 @@ var Notification = function() {
 		var _paddingTopBottom = parseInt(n.css("padding-top").replace("px", ""), 10) + parseInt(n.css("padding-bottom").replace("px", ""), 10);
 		
 		n.css("width", (width - _paddingLeftRight) + "px");
-		 
-		// position notification according to its type
-		switch (this.type) {
-			case this.types.ACTION:
-				// set the height to the same as the parent
-				n.css("height", (height - _paddingTopBottom) + "px");
-				
-				break;
-				
-			case this.types.INFO:
-				// to position it at the bottom of the parent, we have to calculate the notification's height
-				var _selfHeight = n.outerHeight();
-				
-				n.css("top", (position.top + height - _selfHeight) + "px");
-			
-				break;
-				
-			default:
-				break;
+		
+		// fill parent option
+		if (this.fillParent) {
+			// set the height to the same as the parent
+			n.css("height", (height - _paddingTopBottom) + "px");
+		} else {
+			// to position it at the bottom of the parent, we have to calculate the notification's height
+			var _selfHeight = n.outerHeight();
+			n.css("top", (position.top + height - _selfHeight) + "px");
 		}
 		
 		// additional type-specific functionality

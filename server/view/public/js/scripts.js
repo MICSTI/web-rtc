@@ -1,3 +1,13 @@
+function notificationTest() {
+	var n = new Notification();
+	n.type = n.types.INFO;
+	n.title = "Hallo";
+	n.text = "bla bla bla bla bla bla bla bla";
+	n.dismissable = false;
+	n.parent = "local-canvas-video";
+	n.notify();
+}
+
 $(document).ready(function() {
 	// references to input elements
 	var chat = $("#chat");

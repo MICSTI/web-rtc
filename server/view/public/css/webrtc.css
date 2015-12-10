@@ -212,5 +212,14 @@ input[type=text] {
 	background-color: cornflowerblue;
 	padding: 8px 12px;
 	z-index: 400;
+	text-align: center;
+}
+
+.notification-title {
+	font-weight: bold;
+}
+
+.notification-action button {
+	margin: 6px 0px;
 }
 /* --------------------------------------------- */

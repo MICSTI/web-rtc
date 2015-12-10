@@ -13,10 +13,10 @@ var Notification = function() {
 	this.type = null;
 	
 	// notification title
-	this.title = "";
+	this.title = null;
 	
 	// notification text
-	this.text = "";
+	this.text = null;
 	
 	// notification actions (only applicable for type = ACTION)
 	// should be added with method addAction(actionDisplayName, action)
@@ -55,12 +55,32 @@ var Notification = function() {
 		var _paddingLeftRight = parseInt(n.css("padding-left").replace("px", ""), 10) + parseInt(n.css("padding-right").replace("px", ""), 10);
 		var _paddingTopBottom = parseInt(n.css("padding-top").replace("px", ""), 10) + parseInt(n.css("padding-bottom").replace("px", ""), 10);
 		
-		n.css("width", (width - _paddingLeftRight) + "px")
-		 .css("height", (height - _paddingTopBottom) + "px");
+		n.css("width", (width - _paddingLeftRight) + "px");
+		 
+		// position notification according to its type
+		switch (this.type) {
+			case this.types.ACTION:
+				// set the height to the same as the parent
+				n.css("height", (height - _paddingTopBottom) + "px");
+				
+				break;
+				
+			case this.types.INFO:
+				// to position it at the bottom of the parent, we have to calculate the notification's height
+				var _selfHeight = n.outerHeight();
+				
+				n.css("top", (position.top + height - _selfHeight) + "px");
+			
+				break;
+				
+			default:
+				break;
+		}
 		
 		// additional type-specific functionality
 		switch (this.type) {
 			case this.types.ACTION:
+				// add action buttons
 				this.actions.forEach(function(item, idx) {
 					var button = $("<button>");
 					button.html(item.display);
@@ -122,10 +142,12 @@ Notification.prototype.getHtml = function() {
 	
 	html += "<div class='notification notification-wrapper notification-" + this.type + "' id='" + this.id + "'>";
 		// title
-		html += "<div class='notification-title'>" + this.title + "</div>";
+		if (this.title !== null)
+			html += "<div class='notification-title'>" + this.title + "</div>";
 		
 		// text
-		html += "<div class='notification-text'>" + this.text + "</div>";
+		if (this.text !== null)
+			html += "<div class='notification-text'>" + this.text + "</div>";
 		
 		// action buttons
 		html += "<div class='notification-action'></div>";

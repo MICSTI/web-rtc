@@ -225,7 +225,7 @@ $(document).ready(function() {
 		webrtc.sendDataChannelMessage(JSON.stringify(message));
 		
 		// append it to chat
-		chat.append(getMessageHtml(message));
+		appendChatMessage(message);
 	};
 	
 	/**
@@ -299,7 +299,7 @@ $(document).ready(function() {
 		switch (message.topic) {
 			case message.topics.P2P_TEXT:
 				// text message
-				chat.append(getMessageHtml(message));
+				appendChatMessage(message);
 				
 				break;
 				
@@ -1181,6 +1181,20 @@ $(document).ready(function() {
 	var hideHangupSpans = function() {
 		$(".user-hangup").hide();
 	};
+	
+	/**
+		Appends a new message to the chat window.
+	*/
+	var appendChatMessage = function(message) {
+		chat.prepend(getMessageHtml(message));
+	}
+	
+	/**
+		Removes all messages from the chat window.
+	*/
+	var clearChat = function() {
+		$(".message").remove();
+	}
 	
 	// call init screen on page load
 	initScreen();

@@ -111,7 +111,7 @@ button:hover {
 
 /* ------------- AVAILABLE CONTAINER ----------- */
 #available-container {
-	margin-bottom: 32px;
+	margin-bottom: 16px;
 }
 
 .user {
@@ -242,14 +242,43 @@ button:hover {
 	display: none;
 	margin-bottom: 16px;
 	background-color: #eaeaea;
+	text-align: center;
 }
 
 #control-chat-support {
-	
+	padding: 8px 0px;
 }
 
 #control-support-options {
 	
+}
+
+.radio-button-choice {
+	display: inline-block;
+	background-color: #3498db;
+	padding: 9px 12px;
+	margin: 0px -2px;
+}
+
+.radio-button-choice:hover {
+	cursor: pointer;
+	background-color: #2c3e50;
+	color: #fff;
+}
+
+.radio-button-active {
+	background-color: #2c3e50;
+	color: #fff;
+}
+
+.radio-button-choice:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.radio-button-choice:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 /* --------------------------------------------- */
 

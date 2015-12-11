@@ -52,3 +52,4 @@
 09.12.2015		01:00	started implementing notification class
 				01:20	notifications (action buttons)
 10.12.2015		04:30	call-cycle with notifications
+11.12.2015		03:00	responsive frontend, GUI redesign (control container, chat bottom up, chat only enabled when peer connection is active)

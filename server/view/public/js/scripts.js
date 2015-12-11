@@ -63,6 +63,20 @@ $(document).ready(function() {
 		
 		// init canvas drawing
 		initDrawing();
+		
+		// init radio buttons
+		var radioButtonEvents = {
+			"support-mode": {
+				"chat": function() {
+					console.log("CHAT");
+				},
+				"support": function() {
+					console.log("SUPPORT");
+				}
+			}
+		}
+		
+		initRadioButtons(radioButtonEvents);
 	};
 	
 	/**
@@ -1245,6 +1259,33 @@ $(document).ready(function() {
 	var clearChat = function() {
 		$(".message").remove();
 	};
+	
+	/**
+		Inits all special radio buttons on the page.
+	*/
+	var initRadioButtons = function(eventHandlers) {
+		$(".radio-button-choice").on("click", function() {
+			// value of choice button
+			var value = $(this).attr("data-value");
+			
+			// get parent
+			var parent = $(this).parent(".radio-button");
+			
+			// clear all active classes
+			parent.children().removeClass("radio-button-active");
+			
+			// set active class on clicked element
+			$(this).addClass("radio-button-active");
+			
+			// call radio button event handler
+			if (eventHandlers !== undefined && eventHandlers[parent.attr("id")] !== undefined
+											&& eventHandlers[parent.attr("id")][value] !== undefined
+											&& typeof eventHandlers[parent.attr("id")][value] === 'function') {
+				eventHandlers[parent.attr("id")][value]();	
+			}
+				
+		});
+	}
 	
 	// call init screen on page load
 	initScreen();

@@ -237,6 +237,22 @@ button:hover {
 }
 /* --------------------------------------------- */
 
+/* ------------- CONTROL CONTAINER ------------- */
+#control-container {
+	display: none;
+	margin-bottom: 16px;
+	background-color: #eaeaea;
+}
+
+#control-chat-support {
+	
+}
+
+#control-support-options {
+	
+}
+/* --------------------------------------------- */
+
 /* -------------- NOTIFICATION ----------------- */
 .notification {
 	background-color: #3498d8;

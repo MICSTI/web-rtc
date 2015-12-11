@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var setUserInfo = $("#set-user-info");
 	var loginContainer = $("#login-container");
 	var chatContainer = $("#chat-container");
+	var controlContainer = $("#control-container");
 	var intro = $("#webrtc-intro");
 	var afterLogin = $("#after-login");
 	var availableUsers = $("#available-users");
@@ -896,6 +897,9 @@ $(document).ready(function() {
 		
 		// peer connection created
 		onPeerConnectionCreated: function() {
+			// display control container
+			showControlContainer();
+			
 			// clear chat window from previous messages
 			clearChat();
 			
@@ -905,6 +909,9 @@ $(document).ready(function() {
 		
 		// peer connection closed
 		onPeerConnectionClosed: function() {
+			// hide control container
+			hideControlContainer();
+			
 			// hide chat message textarea
 			hideChatTextarea();
 		}
@@ -1202,28 +1209,42 @@ $(document).ready(function() {
 	*/
 	var showChatTextarea = function() {
 		sendMessage.show();
-	}
+	};
 	
 	/**
 		Hides the chat textarea for entering messages.
 	*/
 	var hideChatTextarea = function() {
 		sendMessage.hide();
-	}
+	};
+	
+	/**
+		Shows the control container for support options.
+	*/
+	var showControlContainer = function() {
+		controlContainer.show();
+	};
+	
+	/**
+		Hides the control container for support options.
+	*/
+	var hideControlContainer = function() {
+		controlContainer.hide();
+	};
 	
 	/**
 		Appends a new message to the chat window.
 	*/
 	var appendChatMessage = function(message) {
 		chat.prepend(getMessageHtml(message));
-	}
+	};
 	
 	/**
 		Removes all messages from the chat window.
 	*/
 	var clearChat = function() {
 		$(".message").remove();
-	}
+	};
 	
 	// call init screen on page load
 	initScreen();

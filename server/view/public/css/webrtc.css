@@ -244,3 +244,41 @@ button:hover {
 	margin: 0px 6px;	
 }
 /* --------------------------------------------- */
+
+/* ---------------- RESPONSIVE ----------------- */
+@media (max-width: 1000px) {
+	#page-container {
+		width: 800px;
+	}
+}
+
+@media (max-width: 800px) {
+	#page-container {
+		width: 600px;
+	}
+}
+
+@media (max-width: 600px) {
+	#page-container {
+		width: 100%;
+	}
+	
+	#login-container label {
+		text-align: left;
+		margin-bottom: 2px;
+		width: 100%;
+		display: block;
+		font-size: small;
+	}
+	
+	#login-container input[type=text] {
+		margin-bottom: 8px;
+		width: 100%;
+	}
+	
+	#login-container button {
+		display: block;
+		width: 100%;
+	}
+}
+/* --------------------------------------------- */

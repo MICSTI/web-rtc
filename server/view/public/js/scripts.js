@@ -892,6 +892,16 @@ $(document).ready(function() {
 			// clear canvas
 			clearCanvas(appConfig.frontend.localDrawingCanvas);
 			clearCanvas(appConfig.frontend.remoteDrawingCanvas);
+		},
+		
+		// peer connection created
+		onPeerConnectionCreated: function() {
+			console.log("HAHAHAHA, created");
+		},
+		
+		// peer connection closed
+		onPeerConnectionClosed: function() {
+			console.log("HEHEHEHEHE, closed");
 		}
 	});
 	

@@ -96,6 +96,16 @@ var WebRTCController = function() {
 	}
 	
 	/**
+		Handler that is called when a peer connection AND a reliable data channel have been successfully created.
+	*/
+	this.onPeerConnectionCreated = null;
+	
+	/**
+		Handler that is called when a peer connection has been closed.
+	*/
+	this.onPeerConnectionClosed = null;
+	
+	/**
 		Initiates a call between to users.
 	*/
 	this.initiateCall = function(callee_id) {
@@ -146,6 +156,9 @@ var WebRTCController = function() {
 				// create a reliable data channel
 				self.sendChannel = this.peerConnection.createDataChannel("sendDataChannel", { reliable: true });
 				self.logger.log(self.logger.WEBRTC, "Created send data channel");
+				
+				if (self.onPeerConnectionCreated !== null && typeof self.onPeerConnectionCreated === 'function')
+					self.onPeerConnectionCreated();
 			} catch (ex) {
 				self.logger.error("createDataChannel() failed", ex);
 			}
@@ -168,6 +181,9 @@ var WebRTCController = function() {
 		self.receiveChannel.onmessage = self.handleDataChannelMessage;
 		self.receiveChannel.onopen = self.handleReceiveChannelStateChange;
 		self.receiveChannel.onclose = self.handleReceiveChannelStateChange;
+		
+		if (self.onPeerConnectionCreated !== null && typeof self.onPeerConnectionCreated === 'function')
+			self.onPeerConnectionCreated();
 	};
 	
 	/**
@@ -324,6 +340,9 @@ var WebRTCController = function() {
 		self.peerConnection = null;
 		
 		self.handleRemoteStreamRemoved();
+		
+		if (self.onPeerConnectionClosed !== null && typeof self.onPeerConnectionClosed === 'function')
+			self.onPeerConnectionClosed();
 	}
 	
 	/**
@@ -354,6 +373,8 @@ var WebRTCController = function() {
 		this.onHangup = handlers.onHangup || null;
 		this.onRemoteStreamAdded = handlers.onRemoteStreamAdded || null;
 		this.onRemoteStreamRemoved = handlers.onRemoteStreamRemoved || null;
+		this.onPeerConnectionCreated = handlers.onPeerConnectionCreated || null;
+		this.onPeerConnectionClosed = handlers.onPeerConnectionClosed || null;
 	};
 	
 	/**

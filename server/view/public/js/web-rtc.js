@@ -354,5 +354,12 @@ var WebRTCController = function() {
 		this.onHangup = handlers.onHangup || null;
 		this.onRemoteStreamAdded = handlers.onRemoteStreamAdded || null;
 		this.onRemoteStreamRemoved = handlers.onRemoteStreamRemoved || null;
+	};
+	
+	/**
+		Checks if a peer connection is currently established.
+	*/
+	this.isConnected = function() {
+		return this.peerConnection !== null;
 	}
 }

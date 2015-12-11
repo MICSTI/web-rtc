@@ -79,8 +79,15 @@ button:hover {
 }
 
 #video-container {
-	position: relative;
-	left: 100px;
+	width: 60%;
+	display: inline-block;
+	text-align: center;
+}
+
+#control-sidebar {
+	width: 38%;
+	display: inline-block;
+	vertical-align: top;
 }
 
 #video-container div {
@@ -104,9 +111,7 @@ button:hover {
 
 /* ------------- AVAILABLE CONTAINER ----------- */
 #available-container {
-	display: inline-block;
-	width: 496px;
-	vertical-align: top;
+	margin-bottom: 32px;
 }
 
 .user {
@@ -159,9 +164,7 @@ button:hover {
 
 /* --------------- CHAT CONTAINER -------------- */
 #chat-container {
-	display: inline-block;
-	width: 496px;
-	vertical-align: top;
+	
 }
 
 #chat {
@@ -257,11 +260,23 @@ button:hover {
 /* ---------------- RESPONSIVE ----------------- */
 @media (max-width: 1000px) {
 	#page-container {
+		width: 900px;
+	}
+}
+
+@media (max-width: 900px) {
+	#page-container {
 		width: 800px;
 	}
 }
 
 @media (max-width: 800px) {
+	#page-container {
+		width: 700px;
+	}
+}
+
+@media (max-width: 700px) {
 	#page-container {
 		width: 600px;
 	}
@@ -286,6 +301,16 @@ button:hover {
 	}
 	
 	#login-container button {
+		display: block;
+		width: 100%;
+	}
+	
+	#video-container {
+		display: block;
+		width: 100%;
+	}
+	
+	#control-sidebar {
 		display: block;
 		width: 100%;
 	}

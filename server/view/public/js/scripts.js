@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
 	var loginContainer = $("#login-container");
+	var chatContainer = $("#chat-container");
 	var intro = $("#webrtc-intro");
 	var afterLogin = $("#after-login");
 	var availableUsers = $("#available-users");

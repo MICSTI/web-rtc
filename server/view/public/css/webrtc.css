@@ -211,6 +211,7 @@ button:hover {
 }
 
 #send-message {
+	display: none;
 	padding: 8px 0px 4px 6px;
 	background-color: #eee;
 }

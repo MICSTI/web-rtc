@@ -315,7 +315,6 @@ var WebRTCController = function() {
 	this.handleRemoteHangup = function() {
 		self.logger.log(self.logger.WEBRTC, "Session terminated");
 		self.stop();
-		self.isInitiator = false;
 		self.collocutorId = null;
 	};
 	
@@ -324,6 +323,7 @@ var WebRTCController = function() {
 	*/
 	this.stop = function() {
 		self.callStarted = false;
+		self.isInitiator = false;
 		
 		if (self.sendChannel !== null) {
 			self.sendChannel.close();

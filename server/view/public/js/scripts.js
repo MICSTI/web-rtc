@@ -896,12 +896,17 @@ $(document).ready(function() {
 		
 		// peer connection created
 		onPeerConnectionCreated: function() {
-			console.log("HAHAHAHA, created");
+			// clear chat window from previous messages
+			clearChat();
+			
+			// display chat message textarea
+			showChatTextarea();
 		},
 		
 		// peer connection closed
 		onPeerConnectionClosed: function() {
-			console.log("HEHEHEHEHE, closed");
+			// hide chat message textarea
+			hideChatTextarea();
 		}
 	});
 	
@@ -1191,6 +1196,20 @@ $(document).ready(function() {
 	var hideHangupSpans = function() {
 		$(".user-hangup").hide();
 	};
+	
+	/**
+		Shows the chat textarea for entering messages.
+	*/
+	var showChatTextarea = function() {
+		sendMessage.show();
+	}
+	
+	/**
+		Hides the chat textarea for entering messages.
+	*/
+	var hideChatTextarea = function() {
+		sendMessage.hide();
+	}
 	
 	/**
 		Appends a new message to the chat window.

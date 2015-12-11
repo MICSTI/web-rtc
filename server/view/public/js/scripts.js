@@ -6,6 +6,7 @@ $(document).ready(function() {
 	var send = $("#send");
 	var setUserInfo = $("#set-user-info");
 	var loginContainer = $("#login-container");
+	var intro = $("#webrtc-intro");
 	var afterLogin = $("#after-login");
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
@@ -132,8 +133,9 @@ $(document).ready(function() {
 		   
 		   updateUserInfo();
 		   
-		   // hide login container
+		   // hide login container and intro
 		   loginContainer.hide();
+		   intro.hide();
 		   
 		   // show video and chat elements
 		   afterLogin.show();

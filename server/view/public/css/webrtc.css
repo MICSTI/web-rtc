@@ -58,6 +58,15 @@ button:hover {
 	display: none;
 }
 
+/* --------------- WEBRTC INTRO ---------------- */
+#webrtc-intro  {
+	background-color: #86e2d5;
+	margin: 0px 0px 32px 0px;
+	padding: 1px 10px;
+	border-radius: 5px;
+}
+/* --------------------------------------------- */
+
 /* --------------- LOGIN CONTAINER ------------- */
 #login-container {
 	text-align: center;

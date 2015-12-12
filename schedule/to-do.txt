@@ -1,7 +1,6 @@
-selection of camera feed (won't work in Firefox! find fallback solution!)
-new screen design (+ responsive)
-change drawing color
 different modes (both screens, support mode)
 possibility to freeze camera feed
+show span to who you are currently connected
 
-node js https connection
+selection of camera feed (won't work in Firefox! find fallback solution!)
+change drawing color

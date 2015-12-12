@@ -54,3 +54,4 @@
 10.12.2015		04:30	call-cycle with notifications
 11.12.2015		03:00	responsive frontend, GUI redesign (control container, chat bottom up, chat only enabled when peer connection is active)
 				01:00	radio buttons
+12.12.2015		01:30	support mode logic, state buttons

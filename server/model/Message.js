@@ -41,7 +41,8 @@ Message.prototype.topics = {
 	BYE: "bye",
 	P2P_TEXT: "P2PText",
 	P2P_SYSTEM: "P2PSystem",
-	P2P_SUPPORT: "P2PSupport"
+	P2P_SUPPORT: "P2PSupport",
+	P2P_MODE: "P2PMode"
 };
 
 // possible type values

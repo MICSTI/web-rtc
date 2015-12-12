@@ -65,18 +65,7 @@ $(document).ready(function() {
 		initDrawing();
 		
 		// init radio buttons
-		var radioButtonEvents = {
-			"support-mode": {
-				"chat": function() {
-					console.log("CHAT");
-				},
-				"support": function() {
-					console.log("SUPPORT");
-				}
-			}
-		}
-		
-		initRadioButtons(radioButtonEvents);
+		initRadioButtons();
 	};
 	
 	/**
@@ -322,6 +311,15 @@ $(document).ready(function() {
 				// draw support path on local drawing canvas
 				drawSupportPath(message.content);
 			
+				break;
+				
+			case message.topics.P2P_MODE:
+				// set radio button value
+				setRadioButtonValue("support-mode", message.content);
+			
+				// change support mode
+				setSupportMode(message.content);
+				
 				break;
 			
 			default:
@@ -1263,29 +1261,90 @@ $(document).ready(function() {
 	/**
 		Inits all special radio buttons on the page.
 	*/
-	var initRadioButtons = function(eventHandlers) {
-		$(".radio-button-choice").on("click", function() {
-			// value of choice button
-			var value = $(this).attr("data-value");
-			
-			// get parent
-			var parent = $(this).parent(".radio-button");
-			
-			// clear all active classes
-			parent.children().removeClass("radio-button-active");
-			
-			// set active class on clicked element
-			$(this).addClass("radio-button-active");
-			
-			// call radio button event handler
-			if (eventHandlers !== undefined && eventHandlers[parent.attr("id")] !== undefined
-											&& eventHandlers[parent.attr("id")][value] !== undefined
-											&& typeof eventHandlers[parent.attr("id")][value] === 'function') {
-				eventHandlers[parent.attr("id")][value]();	
+	var initRadioButtons = function() {
+		// top-level string key is the id of the radio button
+		// value is the function to be called when a different option is selected
+		var eventHandlers = {
+			"support-mode": function(value) {
+				// notify peer of mode change
+				sendSupportModeMessage(value);
+					
+				// set new mode	
 			}
+		};
+		
+		$(".radio-button-choice").on("click", function() {
+			// check if choice was already selected
+			if (!$(this).hasClass("radio-button-active")) {
+				// value of choice button
+				var value = $(this).attr("data-value");
 				
+				// get parent
+				var parent = $(this).parent(".radio-button");
+				
+				// clear all active classes
+				parent.children().removeClass("radio-button-active");
+				
+				// set active class on clicked element
+				$(this).addClass("radio-button-active");
+				
+				// call radio button event handler
+				if (eventHandlers !== undefined && eventHandlers[parent.attr("id")] !== undefined
+												&& typeof eventHandlers[parent.attr("id")] === 'function') {
+					eventHandlers[parent.attr("id")](value);
+				}
+			}	
 		});
-	}
+	};
+	
+	/**
+		Programmatically sets the active state of the radio button.
+		No change event handlers are called.
+	*/
+	var setRadioButtonValue = function(id, value) {
+		// parent radio button element
+		var elem = $("#" + id);
+		
+		// clear all active classes
+		elem.children().removeClass("radio-button-active");
+		
+		// set active class on this element
+		elem.children(".radio-button-choice[data-value=" + value + "]").addClass("radio-button-active");
+	};
+	
+	/**
+		Sends info about the newly selected support mode to the connected peer.
+	*/
+	var sendSupportModeMessage = function(mode) {
+		var message = new Message();
+			
+		message.sender = user;
+		message.recipient = webrtc.collocutorId;
+		message.content = mode;
+		message.type = message.types.P2P;
+		message.topic = message.topics.P2P_MODE;
+		
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+	};
+	
+	/**
+		Sets the support mode.
+		Currently are two modes implemented: chat and support.
+	*/
+	var setSupportMode = function(mode) {
+		switch (mode) {
+			case "chat":
+				
+				break;
+				
+			case "support":
+			
+				break;
+				
+			default:
+				break;
+		}
+	};
 	
 	// call init screen on page load
 	initScreen();

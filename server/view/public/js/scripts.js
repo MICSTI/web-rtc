@@ -1265,8 +1265,30 @@ $(document).ready(function() {
 		Inits all special state buttons on the page.
 	*/
 	var initStateButtons = function() {
+		// string keys are the ids of the state buttons
+		// value is the function to be called when the state of the button changes
+		var eventHandlers = {
+			"control-back-office": function(active) {
+				console.log("BACK OFFICE: " + active);
+			},
+			"control-draw": function(active) {
+				console.log("DRAW: " + active);
+			},
+			"control-clear": function(active) {
+				console.log("CLEAR: " + active);
+			}
+		};
+		
 		$(".state-button").on("click", function() {
+			// toggle active class
 			$(this).toggleClass("state-button-active");
+			
+			// call change event handler
+			var active = $(this).hasClass("state-button-active");
+			
+			if (eventHandlers !== undefined && eventHandlers[$(this).attr("id")] !== undefined
+											&& typeof eventHandlers[$(this).attr("id")] === 'function')
+				eventHandlers[$(this).attr("id")](active);
 		});
 	};
 	

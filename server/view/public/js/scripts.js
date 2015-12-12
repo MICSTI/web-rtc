@@ -66,6 +66,9 @@ $(document).ready(function() {
 		
 		// init radio buttons
 		initRadioButtons();
+		
+		// init state buttons
+		initStateButtons();
 	};
 	
 	/**
@@ -1256,6 +1259,15 @@ $(document).ready(function() {
 	*/
 	var clearChat = function() {
 		$(".message").remove();
+	};
+	
+	/**
+		Inits all special state buttons on the page.
+	*/
+	var initStateButtons = function() {
+		$(".state-button").on("click", function() {
+			$(this).toggleClass("state-button-active");
+		});
 	};
 	
 	/**

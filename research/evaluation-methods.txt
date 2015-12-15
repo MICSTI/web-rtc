@@ -1,0 +1,34 @@
+---
+PAPER-1
+
+static code analysis
+developers had to implement the API
+feedback questionnaire
+---
+PAPER-6
+
+setup description: OS, CPU, RAM / file sizes
+metrics: download speed in KBps, ratio of file data fetched via different modes (time spent / speed)
+---
+PAPER-7
+
+setup description: LAN, upload/download speed
+metrics: # of bytes sent
+---
+PAPER-10
+
+setup description: file size, number of nodes used
+metrics: total packets sent (average bytes/second), control packets received, redundant packets received, time until all packets were delivered
+---
+PAPER-13
+
+setup description: Browser version, OS
+---
+PAPER-14
+
+metrics: throughput (kbps), delay (round-trip time, ms), loss (# of packets that did not arrive)
+---
+Possibilities:
+
+ - bits received per second with alternating video quality
+ - network quality?

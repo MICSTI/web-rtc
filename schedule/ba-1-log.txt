@@ -55,3 +55,4 @@
 11.12.2015		03:00	responsive frontend, GUI redesign (control container, chat bottom up, chat only enabled when peer connection is active)
 				01:00	radio buttons
 12.12.2015		01:30	support mode logic, state buttons
+15.12.2015		01:00	overview of evaluation methods

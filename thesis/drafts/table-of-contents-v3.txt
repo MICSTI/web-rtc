@@ -1,0 +1,64 @@
+Abstract
+
+Introduction, Problem, Idea
+  - assistive technology in factories (description of example situation)
+  - problem: proprietary applications expensive, unsure what happens with data, network latency when streaming over server
+  - idea: WebRTC (short overview of advantages)
+  - expert can assist from anywhere with an internet connection and any (WebRTC compatible) web browser, assist user with drawings and text
+  - method
+  - structure of thesis
+  
+Concept
+  - what features does a remote support application need? (audio/video stream, text chat, freeze screen, draw indications on other user's screen)
+  - examples of similar applications
+  - alternatives to WebRTC
+  - WebRTC runs in browsers via JavaScript API --> application logic runs on web page, no need for external plugins
+  - connections are peer-to-peer, but for user discovery and session initiation a management/signalling server is necessary
+  - possibilities for server (Node.js, Java, ...) --> Node.js, brings advantage of same programming language on backend and frontend, everything easily extendable and configurable to one's needs, lightweight application
+  
+WebRTC
+  - Overview
+	  - what is it
+	  - history
+	  - previous work, research
+	  - advantages (no external software or plugins, mandatory encryption of all components, OS independence, flexible in terms of audio/video codec, developer does not need to worry about audio/video streams)
+	  - limitations (still in development, API might change, currently about 60% of browser market share support it)
+	  - current status
+  - Components
+	  - camera access (navigator.getUserMedia, constraints mandatory/optional)
+	  - RTCPeerConnection (for audio and video streaming)
+	  - RTCDataChannel (for arbitrary data, optional)
+  - Connection setup
+	  - WebRTC trapezoid
+	  - PeerConnection session description offers and answers
+	  - ICE candidates
+	  - STUN/TURN servers (NAT problem)
+  
+Prototype
+  - Management server
+	  - serves web page and related static files
+	  - manages WebSockets for duplex connection between server and browser
+	  - tasks (assign user ids, available user broadcast, initiate calls between users)
+	  - HTTPS (necessary because of Chrome + navigator.getUserMedia)
+  - Web Interface
+	  - HTML5 elements
+	  - responsive design
+	  - page interaction triggers JavaScript functions that implement WebRTC functionality
+	  - libraries used? (jQuery, adapter.js to deal with browser prefixes of WebRTC API calls)
+  - Remote support feature
+	  - drawing on HTML5 canvas
+	  - mouse events
+	  - touch events for handheld devices
+	  - P2P DataChannel messages to add drawing paths to peer's canvas
+	  - text chat
+  
+Evaluation
+  - bits received per second with alternating video quality?
+  - different levels of network quality?
+  
+Conclusion, possible extensions
+  - user authentication
+  - develop a cross-platform application (Cordova?)
+  - e-mail notifications with invitation to session
+  - enable sessions with more than two users at a time (MCU necessary)
+  - take screenshots (save and send per mail?)

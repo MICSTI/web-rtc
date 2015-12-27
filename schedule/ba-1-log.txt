@@ -57,3 +57,5 @@
 12.12.2015		01:30	support mode logic, state buttons
 15.12.2015		01:00	overview of evaluation methods
 16.12.2015		02:30	table of contents draft
+17.12.2015		00:15	meeting with Mr Feiner (discussion about table of contents draft)
+18.12.2015		00:15	update table of contents with discussed points from meeting yesterday

@@ -62,3 +62,5 @@
 				02:00	preparation and setup for thesis file
 30.12.2015		02:00	thesis (WebRTC API components, connection setup)
 				00:35	thesis (possible extensions)
+
+02.01.2016		03:30	thesis (connection setup, management server)

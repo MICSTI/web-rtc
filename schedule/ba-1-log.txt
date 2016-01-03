@@ -64,3 +64,4 @@
 				00:35	thesis (possible extensions)
 
 02.01.2016		03:30	thesis (connection setup, management server)
+03.01.2016		02:00	thesis (management sever, web interface, remote support feature)

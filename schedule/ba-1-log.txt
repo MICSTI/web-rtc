@@ -68,3 +68,4 @@
 04.01.2016		02:30	thesis (remote support feature, WebRTC overview - advantages)
 05.01.2016		00:45	thesis (audio and video codecs)
 				02:30	thesis (WebRTC architecture, functionality, limitations)
+06.01.2016		00:40	thesis (current status, functionality and features, Microsoft Edge)

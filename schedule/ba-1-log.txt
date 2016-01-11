@@ -69,3 +69,6 @@
 05.01.2016		00:45	thesis (audio and video codecs)
 				02:30	thesis (WebRTC architecture, functionality, limitations)
 06.01.2016		00:40	thesis (current status, functionality and features, Microsoft Edge)
+11.01.2016		02:00	thesis (concept, research about remote support applications)
+				00:10	meeting with Mr Feiner (discussion about evaluation methods) (16:00 - 16:10)
+				00:30	thesis (correction of citations and bibliography)

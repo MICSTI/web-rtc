@@ -264,6 +264,16 @@ PAPER-19
 A Study of WebRTC Security
 http://webrtc-security.github.io/
 
+PAPER-20
+SEMarbeta: Mobile Sketch-Gesture-Video Remote Support for Car Drivers
+Chen S., Chen M., Kunz A., Yantac A. E., Bergmark M., Sundin A., Fjeld M.
+2013
+
+PAPER-21
+Supporting Tele-Assistance and Tele-Monitoring in Safety-Critical Environments
+Huang W., Alem L., Nepal S., Thilakanathan D.
+2013
+
 Possible:
 
 -----

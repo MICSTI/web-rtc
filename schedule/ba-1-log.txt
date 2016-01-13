@@ -72,3 +72,4 @@
 11.01.2016		02:00	thesis (concept, research about remote support applications)
 				00:10	meeting with Mr Feiner (discussion about evaluation methods) (16:00 - 16:10)
 				00:30	thesis (correction of citations and bibliography)
+13.01.2016		04:30	thesis (remote support applications, technologies, handheld devices, wearable devices)

@@ -1,4 +1,5 @@
 18.08.2015		01:00	initial meeting with Mr Feiner (topic, outline of prototype, implementation possibilities)
+
 21.09.2015		00:20	git repository setup
 22.09.2015		01:00	research (VIDEO-6)
 24.09.2015		01:30	research (VIDEO-1, VIDEO-3, available books)
@@ -73,3 +74,4 @@
 				00:10	meeting with Mr Feiner (discussion about evaluation methods) (16:00 - 16:10)
 				00:30	thesis (correction of citations and bibliography)
 13.01.2016		04:30	thesis (remote support applications, technologies, handheld devices, wearable devices)
+14.01.2016		02:00	thesis (remote support applications, features)

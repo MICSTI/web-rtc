@@ -76,3 +76,5 @@
 13.01.2016		04:30	thesis (remote support applications, technologies, handheld devices, wearable devices)
 14.01.2016		02:00	thesis (remote support applications, features)
 15.01.2016		00:30	thesis (client-server network)
+				01:30	thesis (peer-to-peer, software)
+				01:30	thesis (desktop applications, mobile applications, web-based applications)

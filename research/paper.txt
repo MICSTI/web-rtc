@@ -274,6 +274,16 @@ Supporting Tele-Assistance and Tele-Monitoring in Safety-Critical Environments
 Huang W., Alem L., Nepal S., Thilakanathan D.
 2013
 
+PAPER-22
+Cross-Platform Mobile Development: A Study on Apps with Animations
+Ciman M., Gaggi O., Gonzo N.
+2014
+
+PAPER-23
+CSS Browser Selector Plus: A JavaScript Library to Support Cross-browser Responsive Design
+Johansen R. D., Pagani Britto T. C., Cusin C. A.
+2013
+
 Possible:
 
 -----

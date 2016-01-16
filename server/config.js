@@ -14,7 +14,7 @@ var appConfig = {
 		remoteVideo: "remote-video",
 		remoteCanvas: "remote-canvas-video",
 		remoteDrawingCanvas: "remote-canvas-drawing",
-		remoteVideoContainer: "remote-video-container",
+		remoteVideoContainer: "remote-video-container"
 	},
 	
 	logging: true,

@@ -105,6 +105,9 @@ var WebRTCController = function() {
 	*/
 	this.onPeerConnectionClosed = null;
 	
+	// is video stream paused?
+	this.videoPaused = false;
+	
 	/**
 		Initiates a call between to users.
 	*/

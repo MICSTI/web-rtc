@@ -341,6 +341,15 @@ $(document).ready(function() {
 				clearDrawingCanvas();
 			
 				break;
+				
+			case message.topics.P2P_DRAW_STATE:
+				// set state button
+				setStateButtonValue("control-draw", message.content);
+				
+				// set video pause
+				webrtc.videoPaused = message.content;
+			
+				break;
 			
 			default:
 				break;
@@ -986,6 +995,11 @@ $(document).ready(function() {
 		Updates the canvas with the current image from the video element.
 	*/
 	var updateCanvas = function(canvasId, videoId) {
+		// do not update if video has been paused
+		if (webrtc.videoPaused) {
+			return;
+		}
+		
 		var canvas = document.getElementById(canvasId);
 		var ctx = canvas.getContext('2d');
 		var video = document.getElementById(videoId);
@@ -1301,7 +1315,11 @@ $(document).ready(function() {
 				sendBackOfficeMessage(!active);
 			},
 			"control-draw": function(active) {
-				console.log("DRAW: " + active);
+				// inform collocutor about draw setting (pauses video)
+				sendDrawStateMessage(active);
+				
+				// set pause mode (equals active flag)
+				webrtc.videoPaused = active;
 			},
 			"control-clear": function(active) {
 				// clear drawing canvas
@@ -1419,7 +1437,7 @@ $(document).ready(function() {
 	};
 	
 	/**
-		Sends info about the newly selected back officemode to the connected peer.
+		Sends info about the newly selected back office mode to the connected peer.
 	*/
 	var sendBackOfficeMessage = function(on) {
 		var message = new Message();
@@ -1429,6 +1447,21 @@ $(document).ready(function() {
 		message.content = on;
 		message.type = message.types.P2P;
 		message.topic = message.topics.P2P_BACK_OFFICE;
+		
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+	};
+	
+	/**
+		Sends info about the newly selected draw state to the connected peer.
+	*/
+	var sendDrawStateMessage = function(on) {
+		var message = new Message();
+			
+		message.sender = user;
+		message.recipient = webrtc.collocutorId;
+		message.content = on;
+		message.type = message.types.P2P;
+		message.topic = message.topics.P2P_DRAW_STATE;
 		
 		webrtc.sendDataChannelMessage(JSON.stringify(message));
 	};

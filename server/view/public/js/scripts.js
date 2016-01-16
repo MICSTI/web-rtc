@@ -989,7 +989,7 @@ $(document).ready(function() {
 		var canvas = document.getElementById(canvasId);
 		var ctx = canvas.getContext('2d');
 		var video = document.getElementById(videoId);
-		ctx.drawImage(video, 0, 0, 320, 240);
+		ctx.drawImage(video, 0, 0, 373, 280);
 	};
 	
 	/**

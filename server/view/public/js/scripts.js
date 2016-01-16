@@ -335,6 +335,12 @@ $(document).ready(function() {
 				setBackOffice(message.content);
 				
 				break;
+				
+			case message.topics.P2P_CLEAR_CANVAS:
+				// clear drawing canvas
+				clearDrawingCanvas();
+			
+				break;
 			
 			default:
 				break;
@@ -929,8 +935,7 @@ $(document).ready(function() {
 			showCallSpans();
 			
 			// clear canvas
-			clearCanvas(appConfig.frontend.localDrawingCanvas);
-			clearCanvas(appConfig.frontend.remoteDrawingCanvas);
+			clearDrawingCanvas();
 		},
 		
 		// peer connection created
@@ -1299,7 +1304,11 @@ $(document).ready(function() {
 				console.log("DRAW: " + active);
 			},
 			"control-clear": function(active) {
-				console.log("CLEAR: " + active);
+				// clear drawing canvas
+				clearDrawingCanvas();
+				
+				// send clear message to peer
+				sendClearCanvasMessage();
 			}
 		};
 		
@@ -1425,6 +1434,20 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Sends info about the newly selected back officemode to the connected peer.
+	*/
+	var sendClearCanvasMessage = function() {
+		var message = new Message();
+			
+		message.sender = user;
+		message.recipient = webrtc.collocutorId;
+		message.type = message.types.P2P;
+		message.topic = message.topics.P2P_CLEAR_CANVAS;
+		
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+	};
+	
+	/**
 		Sets the support mode.
 		Currently are two modes implemented: chat and support.
 	*/
@@ -1468,7 +1491,13 @@ $(document).ready(function() {
 			hideRemoteVideo();
 			showLocalVideo();
 		}
-	}
+	};
+	
+	// clears the drawing canvases
+	var clearDrawingCanvas = function() {
+		clearCanvas(appConfig.frontend.localDrawingCanvas);
+		clearCanvas(appConfig.frontend.remoteDrawingCanvas);
+	};
 	
 	// call init screen on page load
 	initScreen();

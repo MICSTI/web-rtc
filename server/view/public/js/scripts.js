@@ -480,6 +480,10 @@ $(document).ready(function() {
 			case message.topics.BYE:
 				webrtc.handleRemoteHangup();
 				
+				// video display
+				hideRemoteVideo();
+				showLocalVideo();
+				
 				showCallEndedNotification();
 				
 				break;
@@ -575,7 +579,9 @@ $(document).ready(function() {
 		$(".user-myself .user-avatar").off("click");
 		
 		$(".user-myself .user-avatar").on("click", function() {
-			requestNewColor();
+			// request new color is only possible if user is currently not connected
+			if (!webrtc.isConnected())
+				requestNewColor();
 		});
 		
 		// attach hangup function
@@ -583,6 +589,10 @@ $(document).ready(function() {
 		
 		$(".user-hangup").on("click", function() {
 			webrtc.hangup();
+			
+			// video display
+			hideRemoteVideo();
+			showLocalVideo();
 			
 			showCallEndedNotification();
 		});
@@ -905,6 +915,8 @@ $(document).ready(function() {
 			hideCallSpans();
 			showHangupSpans();
 			
+			// at the start we are in chat mode, so we display only the remote video
+			hideLocalVideo();
 			showRemoteVideo();
 		},
 		
@@ -1423,16 +1435,14 @@ $(document).ready(function() {
 				controlSupportOptions.hide();
 				
 				// show only the other person's screen
-				
+				hideLocalVideo();
+				showRemoteVideo();
 				
 				break;
 				
 			case "support":
 				// show second control line
 				controlSupportOptions.show();
-				
-				// show own screen at first (then according to setting of backoffice)
-			
 			
 				break;
 				

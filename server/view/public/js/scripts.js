@@ -13,6 +13,8 @@ $(document).ready(function() {
 	var availableUsers = $("#available-users");
 	var sendMessage = $("#send-message");
 	
+	var controlSupportOptions = $("#control-support-options");
+	
 	// video elements
 	var localVideo = $("#" + appConfig.frontend.localVideo);
 	var remoteVideo = $("#" + appConfig.frontend.remoteVideo);
@@ -322,6 +324,15 @@ $(document).ready(function() {
 			
 				// change support mode
 				setSupportMode(message.content);
+				
+				break;
+				
+			case message.topics.P2P_BACK_OFFICE:
+				// set state button value
+				setStateButtonValue("control-back-office", message.content);
+				
+				// set back office mode
+				setBackOffice(message.content);
 				
 				break;
 			
@@ -1269,7 +1280,8 @@ $(document).ready(function() {
 		// value is the function to be called when the state of the button changes
 		var eventHandlers = {
 			"control-back-office": function(active) {
-				console.log("BACK OFFICE: " + active);
+				// inform collocutor about back office setting
+				sendBackOfficeMessage(!active);
 			},
 			"control-draw": function(active) {
 				console.log("DRAW: " + active);
@@ -1280,8 +1292,11 @@ $(document).ready(function() {
 		};
 		
 		$(".state-button").on("click", function() {
-			// toggle active class
-			$(this).toggleClass("state-button-active");
+			// "state-button-not-persistent" class is for state buttons which states should not be persisted (e.g. they are "normal" click buttons
+			if (!$(this).hasClass("state-button-not-persistent")) {
+				// toggle active class
+				$(this).toggleClass("state-button-active");
+			}
 			
 			// call change event handler
 			var active = $(this).hasClass("state-button-active");
@@ -1303,7 +1318,16 @@ $(document).ready(function() {
 				// notify peer of mode change
 				sendSupportModeMessage(value);
 					
-				// set new mode	
+				// change support mode
+				setSupportMode(value);
+				
+				// person setting support mode gets the back office functionality by default
+				if (value === "support") {
+					setBackOffice(true);
+					
+					// inform collocutor of back office setting
+					sendBackOfficeMessage(false);
+				}
 			}
 		};
 		
@@ -1347,6 +1371,18 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Programmatically sets the value of the state button.
+		No change event handlers are called.
+	*/
+	var setStateButtonValue = function(id, value) {
+		if (value === true) {
+			$("#" + id).addClass("state-button-active");
+		} else {
+			$("#" + id).removeClass("state-button-active");
+		}
+	};
+	
+	/**
 		Sends info about the newly selected support mode to the connected peer.
 	*/
 	var sendSupportModeMessage = function(mode) {
@@ -1362,16 +1398,41 @@ $(document).ready(function() {
 	};
 	
 	/**
+		Sends info about the newly selected back officemode to the connected peer.
+	*/
+	var sendBackOfficeMessage = function(on) {
+		var message = new Message();
+			
+		message.sender = user;
+		message.recipient = webrtc.collocutorId;
+		message.content = on;
+		message.type = message.types.P2P;
+		message.topic = message.topics.P2P_BACK_OFFICE;
+		
+		webrtc.sendDataChannelMessage(JSON.stringify(message));
+	};
+	
+	/**
 		Sets the support mode.
 		Currently are two modes implemented: chat and support.
 	*/
 	var setSupportMode = function(mode) {
 		switch (mode) {
 			case "chat":
+				// do not show second control line
+				controlSupportOptions.hide();
+				
+				// show only the other person's screen
+				
 				
 				break;
 				
 			case "support":
+				// show second control line
+				controlSupportOptions.show();
+				
+				// show own screen at first (then according to setting of backoffice)
+			
 			
 				break;
 				
@@ -1379,6 +1440,25 @@ $(document).ready(function() {
 				break;
 		}
 	};
+	
+	/**
+		Sets the back office mode
+	*/
+	var setBackOffice = function(on) {
+		// set state button
+		setStateButtonValue("control-back-office", on);
+		
+		// set screen display
+		if (on == true) {
+			// show only collocutor screen
+			hideLocalVideo();
+			showRemoteVideo();
+		} else {
+			// show only own screen
+			hideRemoteVideo();
+			showLocalVideo();
+		}
+	}
 	
 	// call init screen on page load
 	initScreen();

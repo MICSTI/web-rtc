@@ -252,6 +252,7 @@ button:hover {
 #control-support-options {
 	margin-top: 12px;
 	padding: 8px 0px;
+	display: none;
 }
 
 .radio-button-choice {

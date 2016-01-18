@@ -122,28 +122,28 @@ var UserMedia = function() {
 		// instead, an empty array will be returned if the browser does not support it
 		try {
 			MediaStreamTrack.getSources(function(sources) {
-			sources.forEach(function(item, idx) {
-				switch (item.kind) {
-					case "audio":
-						audioSources.push(item);
-						break;
-					
-					case "video":
-						videoSources.push(item);
-						break;
+				sources.forEach(function(item, idx) {
+					switch (item.kind) {
+						case "audio":
+							audioSources.push(item);
+							break;
 						
-					default:
-						break;
-				}
+						case "video":
+							videoSources.push(item);
+							break;
+							
+						default:
+							break;
+					}
+				});
+				
+				// set got sources flag to true
+				self.gotSources = true;
+				
+				// call onSuccess handler
+				if (onSuccess !== undefined && typeof onSuccess === 'function')
+					onSuccess(self.getMediaSources);
 			});
-			
-			// set got sources flag to true
-			self.gotSources = true;
-			
-			// call onSuccess handler
-			if (onSuccess !== undefined && typeof onSuccess === 'function')
-				onSuccess(self.getMediaSources);
-		});
 		} catch (ex) {
 			if (onSuccess !== undefined && typeof onSuccess === 'function')
 				onSuccess([]);

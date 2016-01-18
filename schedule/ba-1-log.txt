@@ -81,3 +81,4 @@
 				00:30	thesis (restructuring, list of abbreviations)
 				00:20	thesis (small improvements)
 16.01.2016		02:00	improvements for prototype (gui flow)
+18.01.2016		02:00	thesis (re-ordering of remote support applications part, conclusions of research)

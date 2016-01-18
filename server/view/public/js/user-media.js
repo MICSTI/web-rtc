@@ -145,6 +145,8 @@ var UserMedia = function() {
 					onSuccess(self.getMediaSources);
 			});
 		} catch (ex) {
+			console.log(ex);
+			
 			if (onSuccess !== undefined && typeof onSuccess === 'function')
 				onSuccess([]);
 		}

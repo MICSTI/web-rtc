@@ -985,8 +985,6 @@ $(document).ready(function() {
 		Positions local and remote canvas and video elements.
 	*/
 	var videoAndCanvasSetup = function() {
-		console.log("canvas setup");
-		
 		// set size of drawing canvasses
 		localCanvasDrawing.attr("height", localCanvas.attr("height"));
 		localCanvasDrawing.attr("width", localCanvas.attr("width"));

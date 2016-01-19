@@ -1387,6 +1387,8 @@ $(document).ready(function() {
 					
 					// inform collocutor of back office setting
 					sendBackOfficeMessage(false);
+				} else if (value === "chat") {
+					resetSupportGui();
 				}
 			}
 		};
@@ -1513,6 +1515,9 @@ $(document).ready(function() {
 				// do not show second control line
 				controlSupportOptions.hide();
 				
+				// reset support GUI
+				resetSupportGui();
+				
 				// show only the other person's screen
 				hideLocalVideo();
 				showRemoteVideo();
@@ -1552,10 +1557,25 @@ $(document).ready(function() {
 		}
 	};
 	
-	// clears the drawing canvases
+	/**
+		Clears the drawing canvases
+	*/
 	var clearDrawingCanvas = function() {
 		clearCanvas(appConfig.frontend.localDrawingCanvas);
 		clearCanvas(appConfig.frontend.remoteDrawingCanvas);
+	};
+	
+	/**
+		Initializes the support GUI.
+		Necessary when mode is changed from support to chat.
+	*/
+	var resetSupportGui = function() {
+		// reset state buttons
+		setStateButtonValue("control-back-office", false);
+		setStateButtonValue("control-draw", false);
+		
+		// make sure video is unpaused
+		webrtc.videoPaused = false;
 	};
 	
 	// call init screen on page load

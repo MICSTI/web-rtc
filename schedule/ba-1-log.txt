@@ -83,3 +83,4 @@
 16.01.2016		02:00	improvements for prototype (gui flow)
 18.01.2016		02:00	thesis (re-ordering of remote support applications part, conclusions of research)
 				01:00	thesis (do-over, small corrections for fluency and typos)
+19.01.2016		02:00	prototype (gui flow, fixing of wrong canvas positioning, browser window unload handler)

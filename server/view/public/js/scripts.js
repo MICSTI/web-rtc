@@ -508,6 +508,20 @@ $(document).ready(function() {
 				// make sure video is unpaused
 				webrtc.videoPaused = false;
 				
+				// do not show second control line
+				controlSupportOptions.hide();
+				
+				// reset support GUI
+				resetSupportGui();
+				
+				// show only the other person's screen
+				showLocalVideo();
+				hideRemoteVideo();
+				
+				supportMode = "chat";
+				
+				setRadioButtonValue("support-mode", "chat");
+				
 				showCallEndedNotification();
 				
 				break;
@@ -620,6 +634,20 @@ $(document).ready(function() {
 			
 			// make sure video is unpaused
 			webrtc.videoPaused = false;
+			
+			// do not show second control line
+			controlSupportOptions.hide();
+			
+			// reset support GUI
+			resetSupportGui();
+			
+			// show only the other person's screen
+			showLocalVideo();
+			hideRemoteVideo();
+			
+			supportMode = "chat";
+			
+			setRadioButtonValue("support-mode", "chat");
 			
 			showCallEndedNotification();
 		});

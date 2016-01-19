@@ -55,6 +55,9 @@ $(document).ready(function() {
         return;
     }
 	
+	// support mode
+	var supportMode = "chat";
+	
 	/**
 		Screen initialization.
 	*/
@@ -333,6 +336,9 @@ $(document).ready(function() {
 				
 				// set back office mode
 				setBackOffice(message.content);
+				
+				// re-position canvases
+				videoAndCanvasSetup();
 				
 				break;
 				
@@ -979,6 +985,8 @@ $(document).ready(function() {
 		Positions local and remote canvas and video elements.
 	*/
 	var videoAndCanvasSetup = function() {
+		console.log("canvas setup");
+		
 		// set size of drawing canvasses
 		localCanvasDrawing.attr("height", localCanvas.attr("height"));
 		localCanvasDrawing.attr("width", localCanvas.attr("width"));
@@ -1128,7 +1136,11 @@ $(document).ready(function() {
 		}, false);
 		
 		// track the path on the canvas
-		var trackPath = function(action, event) {			
+		var trackPath = function(action, event) {
+			// path is only tracked in support mode
+			if (supportMode !== "support")
+				return;
+		
 			switch (action) {
 				case "down":
 					prevX = curX;
@@ -1367,7 +1379,7 @@ $(document).ready(function() {
 			"support-mode": function(value) {
 				// notify peer of mode change
 				sendSupportModeMessage(value);
-					
+				
 				// change support mode
 				setSupportMode(value);
 				
@@ -1496,6 +1508,8 @@ $(document).ready(function() {
 		Currently are two modes implemented: chat and support.
 	*/
 	var setSupportMode = function(mode) {
+		supportMode = mode;
+		
 		switch (mode) {
 			case "chat":
 				// do not show second control line
@@ -1516,6 +1530,9 @@ $(document).ready(function() {
 			default:
 				break;
 		}
+		
+		// re-position drawing canvases
+		videoAndCanvasSetup();
 	};
 	
 	/**

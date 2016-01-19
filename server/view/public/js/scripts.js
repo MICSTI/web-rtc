@@ -803,6 +803,9 @@ $(document).ready(function() {
 			// start video display on canvas
 			videoAndCanvasSetup();
 			
+			// add update intervals to video canvases
+			addUpdateIntervalToCanvas();
+			
 			// show local video
 			showLocalVideo();
 			
@@ -957,6 +960,9 @@ $(document).ready(function() {
 			
 			// display chat message textarea
 			showChatTextarea();
+			
+			// re-position canvases
+			videoAndCanvasSetup();
 		},
 		
 		// peer connection closed
@@ -983,7 +989,12 @@ $(document).ready(function() {
 		// position drawing canvasses
 		localCanvasDrawing.css(localCanvas.offset());
 		remoteCanvasDrawing.css(remoteCanvas.offset());
-		
+	};
+	
+	/**
+		Adds an interval to update the video canvases
+	*/
+	var addUpdateIntervalToCanvas = function() {
 		// set local canvas
 		var localCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.localCanvas, appConfig.frontend.localVideo); }, 24);
 		

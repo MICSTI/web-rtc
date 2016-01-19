@@ -505,6 +505,9 @@ $(document).ready(function() {
 				hideRemoteVideo();
 				showLocalVideo();
 				
+				// make sure video is unpaused
+				webrtc.videoPaused = false;
+				
 				showCallEndedNotification();
 				
 				break;
@@ -614,6 +617,9 @@ $(document).ready(function() {
 			// video display
 			hideRemoteVideo();
 			showLocalVideo();
+			
+			// make sure video is unpaused
+			webrtc.videoPaused = false;
 			
 			showCallEndedNotification();
 		});

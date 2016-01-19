@@ -1135,8 +1135,8 @@ $(document).ready(function() {
 		
 		// track the path on the canvas
 		var trackPath = function(action, event) {
-			// path is only tracked in support mode
-			if (supportMode !== "support")
+			// path is only tracked in support mode and when video is paused
+			if (supportMode !== "support" || !webrtc.videoPaused)
 				return;
 		
 			switch (action) {

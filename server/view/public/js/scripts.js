@@ -337,9 +337,6 @@ $(document).ready(function() {
 				// set back office mode
 				setBackOffice(message.content);
 				
-				// re-position canvases
-				videoAndCanvasSetup();
-				
 				break;
 				
 			case message.topics.P2P_CLEAR_CANVAS:
@@ -1366,6 +1363,9 @@ $(document).ready(function() {
 		// value is the function to be called when the state of the button changes
 		var eventHandlers = {
 			"control-back-office": function(active) {
+				// set own backoffice setting
+				setBackOffice(active);
+				
 				// inform collocutor about back office setting
 				sendBackOfficeMessage(!active);
 			},
@@ -1589,6 +1589,9 @@ $(document).ready(function() {
 			hideRemoteVideo();
 			showLocalVideo();
 		}
+		
+		// re-position drawing canvases
+		videoAndCanvasSetup();
 	};
 	
 	/**

@@ -1580,4 +1580,11 @@ $(document).ready(function() {
 	
 	// call init screen on page load
 	initScreen();
+	
+	// add window.unonload listener for detecting when window is closed or reloaded (closes peer to peer connections)
+	window.onunload = function() {
+		if (webrtc.isConnected()) {
+			webrtc.hangup();
+		}
+	}
 });

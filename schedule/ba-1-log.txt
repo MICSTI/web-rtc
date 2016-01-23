@@ -85,3 +85,5 @@
 				01:00	thesis (do-over, small corrections for fluency and typos)
 19.01.2016		02:00	prototype (gui flow, fixing of wrong canvas positioning, browser window unload handler)
 23.01.2016		01:30	work in Mr Feiner's feedback, extending WebRTC architecture part
+				01:30	preparation for final presentation
+				00:40	preparation for final presentation

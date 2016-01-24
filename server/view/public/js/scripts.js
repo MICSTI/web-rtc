@@ -1624,4 +1624,9 @@ $(document).ready(function() {
 			webrtc.hangup();
 		}
 	}
+	
+	// add no-touch class for hover problem on touch devices
+	if (!("ontouchstart" in document.documentElement)) {
+		document.documentElement.className += " no-touch";
+	}
 });

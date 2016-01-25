@@ -90,3 +90,4 @@
 24.01.2016		00:45	readme.md instructions + no-touch class for mobile devices
 25.01.2016		01:40	work in Ms Kletzenbauer's feedback
 				02:00	preparation for final presentation
+				00:25	change software references to in-page footnotes

@@ -16,7 +16,7 @@ If you don't know too much about WebRTC, [this is a fantastic tutorial](http://w
 - it is recommended to use Google Chrome or Mozilla Firefox for the application.
 
 # Dependencies
-The node.js application's only dependency is the **websocket** package, which is automatically included in the */node_modules* folder for convenience.
+The server application is running on node.js. The version used during development is v4.1.1. The application's only dependency is the **websocket** package, which is included in the */node_modules* folder for convenience.
 
 For the web page itself, [jQuery](http://jquery.com/) is used as well as [adapter.js](https://github.com/webrtc/adapter/blob/master/adapter.js), which takes care of browser prefixes regarding the WebRTC API and is maintained by some folks at Google. Both are included in the repository.
 

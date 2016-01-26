@@ -289,6 +289,11 @@ From Sockets and RMI to Web Services
 Holliday M. A., Houston J. T., Jones E. M.
 2008
 
+PAPER-25
+CSCW Tools: Concepts and Architectures
+Reinhard W., Schweitzer J., Völksen G., Weber M.
+1994
+
 Possible:
 
 -----

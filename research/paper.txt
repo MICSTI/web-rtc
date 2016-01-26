@@ -284,6 +284,11 @@ CSS Browser Selector Plus: A JavaScript Library to Support Cross-browser Respons
 Johansen R. D., Pagani Britto T. C., Cusin C. A.
 2013
 
+PAPER-24
+From Sockets and RMI to Web Services
+Holliday M. A., Houston J. T., Jones E. M.
+2008
+
 Possible:
 
 -----

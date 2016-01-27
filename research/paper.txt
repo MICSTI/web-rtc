@@ -294,6 +294,11 @@ CSCW Tools: Concepts and Architectures
 Reinhard W., Schweitzer J., Völksen G., Weber M.
 1994
 
+PAPER-26
+Client-Server Computing
+Sinha A.
+1992
+
 Possible:
 
 -----

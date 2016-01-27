@@ -94,3 +94,4 @@
 26.01.2016		01:30	add research result matrix to thesis
 				00:30	extend desktop applications part with Java sockets
 				00:45	DOI references, research for other CSCW papers
+27.01.2016		03:00	small changes (code listings, additional images), new part about cscw, result matrix

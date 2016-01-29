@@ -97,3 +97,4 @@
 27.01.2016		03:00	small changes (code listings, additional images), new part about cscw, result matrix
 28.01.2016		00:20	meeting with Mr Feiner (final improvements, organisational points, evaluation part) (12:40 - 13:00)
 29.01.2016		03:00	abstract (english & german), bibliography styling, small additions (personal opinion)
+				01:00	small improvements to thesis

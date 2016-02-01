@@ -102,4 +102,6 @@
 30.01.2016		02:00	prototype evaluation
 31.01.2016		02:00	evaluation part
 				01:00	result matrix
-				02:15	last changes
+				02:15	last changes + submission
+				
+01.02.2016		00:30	meeting notes

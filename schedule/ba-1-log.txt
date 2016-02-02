@@ -105,5 +105,5 @@
 				02:15	last changes + submission
 				
 01.02.2016		00:30	meeting notes
-02.02.2016		00:45	changed deprecated MediaStream.getSources to navigator.mediaDevices.enumerateDevices
+02.02.2016		00:45	changed deprecated MediaStreamTrack.getSources to navigator.mediaDevices.enumerateDevices
 						v1.1

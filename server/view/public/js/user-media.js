@@ -93,65 +93,92 @@ var UserMedia = function() {
 	*/
 	
 	this.init = function(options) {
-		this.constraints = options.constraints || null;
-		this.onSuccess = options.onSuccess || null;
-		this.onError = options.onError || null;
+		self.constraints = options.constraints || null;
+		self.onSuccess = options.onSuccess || null;
+		self.onError = options.onError || null;
 		
-		if (this.constraints === null) {
+		if (self.constraints === null) {
 			throw "navigator.getUserMedia constraints not set";
 		}
 		
-		if (this.onSuccess === null) {
+		if (self.onSuccess === null) {
 			throw "navigator.getUserMedia success handler not set";
 		}
 		
-		if (this.onError === null) {
+		if (self.onError === null) {
 			throw "navigator.getUserMedia error handler not set";
 		}
 		
-		// try to get user media
-		navigator.getUserMedia(this.constraints, this.onSuccess, this.onError);
+		// determine all video sources
+		getSources(function() {
+			// use back facing when possible option
+			if (appConfig.camera.useBackFacingWhenPossible) {
+				var bestSuitableSource = tryToFindEnvironmentCamera();
+				
+				self.constraints.video = { optional: [{ sourceId: bestSuitableSource["deviceId"] }] };
+			}
+			
+			// try to get user media
+			navigator.getUserMedia(self.constraints, self.onSuccess, self.onError);
+		});
+	}
+	
+	var tryToFindEnvironmentCamera = function() {
+		var count = videoSources.length;
+		
+		if (count == 0) {
+			throw "No video sources found!";
+		}
+		
+		for (var i = 0; i < count; i++) {
+			var source = videoSources[i];
+			
+			if (source.facing !== undefined && source.facing === "environment")
+				return source;
+		}
+		
+		// if none is found, the first camera in the array is returned
+		return videoSources[0];
 	}
 	
 	/**
 		Gets all sources that are present on the device.
 	*/
 	var getSources = function(onSuccess) {
-		// TEMPORARY FALLBACK SOLUTION
-		// Firefox does not support MediaStreamTrack.getSources
-		// instead, an empty array will be returned if the browser does not support it
-		try {
-			MediaStreamTrack.getSources(function(sources) {
-				sources.forEach(function(item, idx) {
-					switch (item.kind) {
-						case "audio":
-							audioSources.push(item);
-							break;
-						
-						case "video":
-							videoSources.push(item);
-							break;
-							
-						default:
-							break;
-					}
-				});
-				
-				// set got sources flag to true
-				self.gotSources = true;
-				
-				// call onSuccess handler
-				if (onSuccess !== undefined && typeof onSuccess === 'function')
-					onSuccess(self.getMediaSources);
-			});
-		} catch (ex) {
-			console.log(ex);
-			
-			if (onSuccess !== undefined && typeof onSuccess === 'function')
-				onSuccess([]);
+		if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+			console.log("enumerateDevices() not supported");
+			return;
 		}
+		
+		// enumerate all cameras and microphones
+		navigator.mediaDevices
+				 .enumerateDevices()
+				 .then(function(devices) {
+					  devices.forEach(function(device) {
+						  switch (device.kind) {
+							case "audioinput":
+								audioSources.push(device);
+								break;
+							
+							case "videoinput":
+								videoSources.push(device);
+								
+								break;
+								
+							default:
+								break;
+						}
+					  });
+					  
+					  // set got sources flag to true
+					  self.gotSources = true;
+					
+					  // call onSuccess handler
+					  if (onSuccess !== undefined && typeof onSuccess === 'function')
+						  onSuccess(self.getMediaSources);
+				  })
+				  .catch(function(err) {
+					  console.log(err.name + ":" + err.message);
+				  });
 	};
-	
-	// determine all video sources
-	getSources();
 }

@@ -5,6 +5,10 @@ var appConfig = {
 		author: "Michael Stifter"
 	},
 	
+	camera: {
+		useBackFacingWhenPossible: true
+	},
+	
 	frontend: {
 		localVideo: "local-video",
 		localCanvas: "local-canvas-video",
@@ -20,7 +24,7 @@ var appConfig = {
 	logging: true,
 	
 	misc: {
-		addOwnTimestampToMessage: true
+		addOwnTimestampToMessage: false
 	},
 	
 	peerConnection: {

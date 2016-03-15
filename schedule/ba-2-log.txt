@@ -1,0 +1,5 @@
+17.02.2016		02:00	writing down of first idea
+
+09.03.2016		03:00	expose
+12.03.2016		03:30	Apache Cordova + Crosswalk app (setup, Monaca, communication with WebSocket server, basic WebRTC logic)
+14.03.2016		01:30	Apache Cordova + Crosswalk app (WebRTC logic, video/canvas sizing)

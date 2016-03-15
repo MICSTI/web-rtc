@@ -139,7 +139,7 @@ $(document).ready(function() {
 	*/
 	var openWebSocketConnection = function() {
 		// open connection
-		connection = new WebSocket('wss://' + appConfig.server.ip + ':' + appConfig.server.port);
+		connection = new WebSocket('ws://' + appConfig.server.ip + ':' + appConfig.server.port);
 
 		connection.onopen = function() {
 		   logger.log(logger.WS, "WebSocket connection opened");

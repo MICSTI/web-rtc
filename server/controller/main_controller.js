@@ -1,6 +1,6 @@
 var MainController = function() {
 	// node modules
-	var https = require('https');
+	var http = require('http');
 	var webSocketServer = require('websocket').server;
 	var fs = require('fs');
 	
@@ -59,7 +59,7 @@ var MainController = function() {
 	var colors = ["cadetblue", "coral", "cornflowerblue", "crimson", "darkgoldenrod", "darkkhaki", "darkseagreen", "dodgerblue", "firebrick", "forestgreen", "gold", "indianred", "lightcyan", "lightsteelblue", "limegreen", "moccasin", "olivedrab", "orange", "orangered", "rosybrown", "saddlebrown", "salmon", "whitesmoke"];
 
 	// server startup
-	var server = https.createServer(credentials, function(request, response) {
+	var server = http.createServer(function(request, response) {
 		logger.log(logger.SERVER, "Incoming request: " + request.url);
 		
 		// handle according to request method

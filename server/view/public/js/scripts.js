@@ -26,6 +26,29 @@ $(document).ready(function() {
 	var localCanvasDrawing = $("#" + appConfig.frontend.localDrawingCanvas);
 	var remoteCanvasDrawing = $("#" + appConfig.frontend.remoteDrawingCanvas);
 	
+	// add event listener to remote video in order to set correct size and ratio for canvases
+	var remoteVideoSize = {
+		width: null,
+		height: null,
+		ratio: 4 / 3
+	};
+	
+	var defaultCanvasWidth = 373;
+	
+	document.getElementById(appConfig.frontend.remoteVideo)
+		    .addEventListener("loadedmetadata", function() {
+				console.log("got video size", this.videoWidth + "/" + this.videoHeight);
+				
+				remoteVideoSize.width = this.videoWidth;
+				remoteVideoSize.height = this.videoHeight;
+				remoteVideoSize.ratio = this.videoWidth / this.videoHeight;
+				
+				remoteCanvas.attr("width", this.videoWidth)
+						    .attr("height", this.videoHeight);
+						   
+				videoAndCanvasSetup();
+			});
+	
 	// logger
 	var logger = new Logger();
 	logger.enabled = appConfig.logging;
@@ -339,6 +362,21 @@ $(document).ready(function() {
 				
 				break;
 				
+			case message.topics.P2P_REQUEST_BACK_OFFICE:
+				// set radio button value
+				setRadioButtonValue("support-mode", "support");
+			
+				// change support mode
+				setSupportMode("support");
+				
+				// set state button value
+				setStateButtonValue("control-back-office", true);
+				
+				// set back office mode
+				setBackOffice(true);
+				
+				break;
+				
 			case message.topics.P2P_CLEAR_CANVAS:
 				// clear drawing canvas
 				clearDrawingCanvas();
@@ -564,7 +602,7 @@ $(document).ready(function() {
 	};
 	
 	/**
-		Clears the canvas from all drawed lines.
+		Clears the canvas from all drawn lines.
 	*/
 	var clearCanvas = function(canvasId) {
 		var canvas = document.getElementById(canvasId);
@@ -1033,25 +1071,34 @@ $(document).ready(function() {
 	*/
 	var addUpdateIntervalToCanvas = function() {
 		// set local canvas
-		var localCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.localCanvas, appConfig.frontend.localVideo); }, 24);
+		var localCanvasSetup = setInterval(function() { return updateCanvas("local", appConfig.frontend.localCanvas, appConfig.frontend.localVideo); }, 24);
 		
 		// set remote canvas
-		var remoteCanvasSetup = setInterval(function() { return updateCanvas(appConfig.frontend.remoteCanvas, appConfig.frontend.remoteVideo); }, 24);
+		var remoteCanvasSetup = setInterval(function() { return updateCanvas("remote", appConfig.frontend.remoteCanvas, appConfig.frontend.remoteVideo); }, 24);
 	};
 	
 	/**
 		Updates the canvas with the current image from the video element.
 	*/
-	var updateCanvas = function(canvasId, videoId) {
+	var updateCanvas = function(type, canvasId, videoId) {
 		// do not update if video has been paused
 		if (webrtc.videoPaused) {
 			return;
 		}
 		
+		var width = defaultCanvasWidth;
+		var height;
+		
+		if (type === "remote") {
+			height = width * remoteVideoSize.ratio;
+		} else {
+			height = width / remoteVideoSize.ratio;
+		}
+		
 		var canvas = document.getElementById(canvasId);
 		var ctx = canvas.getContext('2d');
 		var video = document.getElementById(videoId);
-		ctx.drawImage(video, 0, 0, 373, 280);
+		ctx.drawImage(video, 0, 0, width, height);
 	};
 	
 	/**

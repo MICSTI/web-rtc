@@ -198,6 +198,9 @@ var WebRTCController = function() {
 		Handler that is called when the ready state of the send channel changes.
 	*/
 	this.handleSendChannelStateChange = function() {
+		if (self.sendChannel === null)
+			return;
+		
 		var readyState = self.sendChannel.readyState;
 		self.logger.log(self.logger.WEBRTC, "Send channel state is: " + readyState);
 		
@@ -212,6 +215,9 @@ var WebRTCController = function() {
 		Handler that is called when the ready state of the receive channel changes.
 	*/
 	this.handleReceiveChannelStateChange = function() {
+		if (self.receiveChannel === null)
+			return;
+		
 		var readyState = self.receiveChannel.readyState;
 		self.logger.log(self.logger.WEBRTC, "Receive channel state is: " + readyState);
 		
@@ -330,10 +336,12 @@ var WebRTCController = function() {
 		
 		if (self.sendChannel !== null) {
 			self.sendChannel.close();
+			self.sendChannel = null;
 		}
 		
 		if (self.receiveChannel !== null) {
 			self.receiveChannel.close();
+			self.receiveChannel = null;
 		}
 		
 		if (self.peerConnection !== null) {
@@ -352,11 +360,11 @@ var WebRTCController = function() {
 		Sends a peer-to-peer message via DataChannel.
 	*/
 	this.sendDataChannelMessage = function(messageString) {
-		if (self.sendChannel !== null)
+		if (self.sendChannel !== null) {
 			self.sendChannel.send(messageString);
-		else if (self.receiveChannel !== null)
+		} else if (self.receiveChannel !== null) {
 			self.receiveChannel.send(messageString);
-		else {
+		} else {
 			self.logger.log(self.logger.WEBRTC, "No data channel open");
 			return;
 		}

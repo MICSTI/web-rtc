@@ -41,7 +41,7 @@ var appConfig = {
 	},
 
 	server: {
-		ip: '192.168.0.104',
+		ip: '10.0.0.2',
 		port: 1337,
 		defaultResponseFormat: "json"
 	},

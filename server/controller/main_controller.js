@@ -205,7 +205,8 @@ var MainController = function() {
 				
 			case message.types.RELAY:
 				// relay message to appropriate client
-				clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
+				if (clients[message.recipient.id] !== undefined && clients[message.recipient.id].webSocketConnection !== undefined)
+					clients[message.recipient.id].webSocketConnection.sendUTF(JSON.stringify(message));
 				
 				break;
 				

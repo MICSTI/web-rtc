@@ -45,7 +45,8 @@ Message.prototype.topics = {
 	P2P_MODE: "P2PMode",
 	P2P_BACK_OFFICE: "P2PBackOffice",
 	P2P_CLEAR_CANVAS: "P2PClearCanvas",
-	P2P_DRAW_STATE: "P2PDrawState"
+	P2P_DRAW_STATE: "P2PDrawState",
+	P2P_REQUEST_BACK_OFFICE: "P2PRequestBackOffice"
 };
 
 // possible type values
